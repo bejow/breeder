@@ -33,3 +33,7 @@ export type RootTabScreenProps<Screen extends keyof RootTabParamList> = Composit
   BottomTabScreenProps<RootTabParamList, Screen>,
   NativeStackScreenProps<RootStackParamList>
 >;
+
+export type plantState = {title: string, startDate: string, flowerDate: string, harvestDate:string, note:string, strain:string, uuid:string}
+export type plantsReducer = [plantState]
+export interface rootState {plants: plantsReducer}
