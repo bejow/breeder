@@ -28,10 +28,10 @@ const connector = connect(mapStateToProps, mapDispatch);
 // {isOn: boolean, toggleOn: () => void}
 type PropsFromRedux = ConnectedProps<typeof connector>;
 interface Props extends PropsFromRedux {
-  navigation: RootTabScreenProps<"TabOne">;
+  navigation: RootTabScreenProps<"Plants">;
 }
 
-function TabOneScreen({ navigation, plants, seeds, addPlant }: Props) {
+function PlantScreen({ navigation, plants, seeds, addPlant }: Props) {
   console.log(plants);
   return (
     <View style={styles.container}>
@@ -87,4 +87,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connector(TabOneScreen);
+export default connector(PlantScreen);
