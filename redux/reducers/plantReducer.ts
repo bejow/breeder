@@ -11,7 +11,10 @@ const initialState =
     harvestDate: "2021-10-29T08:08:34.674Z",
     note: "(Beispiel Eintrag kann gelöscht werden)",
     strain: "Test Sorte",
-    uuid: "11edc52b-2918-4d71-9058-f7285e29d894"
+    uuid: "11edc52b-2918-4d71-9058-f7285e29d894",
+    father: "",
+    mother: "",
+    properties: [""],
   }
 ]
 ;
@@ -22,7 +25,8 @@ const plantSlice = createSlice({
   initialState: initialState,
   reducers: {
     addPlant(state, action: PayloadAction<plantState>) {
-      state =[...state, {...action.payload, uuid: uuid.v4().toString()}]
+      console.log([...state, {...action.payload, uuid: uuid.v4().toString()}])
+      state.push({...action.payload, uuid: uuid.v4().toString()})
     }
   }
 })
