@@ -44,7 +44,7 @@ function PlantScreen({ navigation, plants, seeds, addPlant }: Props) {
       {plants.map((plant: plantState) => (
         <Text key={plant.uuid}>{plant.title}</Text>
       ))}
-            {seeds.map((seed: seedState) => (
+      {seeds.map((seed: seedState) => (
         <Text key={seed.uuid}>{seed.title}</Text>
       ))}
       <Button
@@ -52,9 +52,9 @@ function PlantScreen({ navigation, plants, seeds, addPlant }: Props) {
         onPress={() =>
           addPlant({
             title: "Test",
-            startDate: "2021-08-17T08:08:19.750Z",
-            flowerDate: "2021-09-01T08:08:34.674Z",
-            harvestDate: "2021-10-29T08:08:34.674Z",
+            startDate: new Date(Date.parse("2021-09-01T08:08:34.674Z")),
+            flowerDate: new Date(Date.parse("2021-09-01T08:08:34.674Z")),
+            harvestDate: new Date(Date.parse("2021-10-29T08:08:34.674Z")),
             note: "(Beispiel Eintrag kann gelöscht werden)",
             strain: "Test Sorte",
             uuid: "",

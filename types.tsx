@@ -38,9 +38,9 @@ export type RootTabScreenProps<Screen extends keyof RootTabParamList> =
 
 export type plantState = {
   title: string;
-  startDate: string;
-  flowerDate: string;
-  harvestDate: string;
+  startDate: Date | undefined;
+  flowerDate: Date | undefined;
+  harvestDate: Date | undefined;
   note: string;
   strain: string;
   uuid: string;
@@ -51,7 +51,7 @@ export type plantState = {
 export type seedState = {
   title: string;
   amount: number;
-  harvestDate: string;
+  harvestDate: Date;
   note: string;
   strain: string;
   uuid: string;

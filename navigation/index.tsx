@@ -12,7 +12,7 @@ import { ColorSchemeName, Pressable } from 'react-native';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
-import AddPlantModal from '../screens/AddPlantModal';
+import AddPlantModal from '../screens/AddPlantModal/AddPlantModal';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import TabOneScreen from '../screens/PlantScreen';
 import TabTwoScreen from '../screens/SeedScreen';
