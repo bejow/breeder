@@ -6,82 +6,131 @@ import { Text, View } from '../../components/Themed';
 import { Button, Input } from 'react-native-elements';
 import DateTimePicker, { Event } from '@react-native-community/datetimepicker';
 import { useRef, useState } from 'react';
-import { plantState } from '../../types';
+import { plantProperty, plantState, rootState } from '../../types';
+import { addPlant } from "../../redux/reducers/plantReducer";
+import { connect, ConnectedProps } from "react-redux";
+import PlantPropertyPicker from '../../components/PlantPropertyPicker/PlantPropertyPicker';
+import { PlantPropertyEdit } from '../../components/PlantPropertyEdit/PlantPropertyEdit';
 
-export default function AddPlantModal() {
-  const [plantData, setPlantData] = useState<plantState>(  {
-    title: "",
-    startDate: new Date(),
-    flowerDate: new Date(),
-    harvestDate: new Date(),
-    note: "",
-    strain: "",
-    uuid: "",
-    father: "",
-    mother: "",
-    properties: [""],
-  })
+const defaultState = {
+  title: "",
+  startDate: new Date(),
+  flowerDate: new Date(),
+  harvestDate: new Date(),
+  note: "",
+  strain: "",
+  uuid: "",
+  father: "",
+  mother: "",
+  properties: new Array<plantProperty>(),
+}
+
+const selectableProperties = [{ id: "1", title: "Huge" }, { id: "2", title: "Small" }, { id: "3", title: "Green" }, { id: "4", title: "Tall" }]
+
+const mapStateToProps = (state: rootState) => ({
+  plants: state.plants,
+  seeds: state.seeds
+});
+
+const mapDispatch = {
+  addPlant,
+};
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+
+const connector = connect(mapStateToProps, mapDispatch);
+
+function AddPlantModal({ plants, seeds, addPlant }: PropsFromRedux) {
+  const [plantData, setPlantData] = useState<plantState>(defaultState)
 
   const strainRef = useRef<TextInput>(null);
   const noteRef = useRef<TextInput>(null)
-  
+  const propertyRef = useRef<TextInput>(null);
+
   const [displayDatepicker, setDisplayDatepicker] = useState({
     startDate: false,
     flowerDate: false,
   })
 
-  const {title, strain, startDate, flowerDate, note, uuid, father, mother, properties} = plantData;
+  const { title, strain, startDate, flowerDate, note, uuid, father, mother, properties } = plantData;
+
+  const onStartDateChange = (event: Event, date: Date | undefined) => {
+    setDisplayDatepicker({ ...displayDatepicker, startDate: false })
+    setPlantData({ ...plantData, startDate: date })
+  }
+
+  const onFlowerDateChange = (event: Event, date: Date | undefined) => {
+    setDisplayDatepicker({ ...displayDatepicker, flowerDate: false })
+    setPlantData({ ...plantData, flowerDate: date })
+  }
+
+  const onTextInputChange = (name: string, value: string) => {
+    setPlantData({ ...plantData, [name]: value })
+  }
+
+  const onSubmit = () => {
+    addPlant(plantData)
+  }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Add new plant</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+    <View style={styles.container as any}>
+      <Text style={styles.title as any}>Add new plant</Text>
+      {plants.map((plant: plantState) => (
+        <Text key={plant.uuid}>{plant.title}</Text>
+      ))}
+      <View style={styles.separator as any} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
       <Input
-        style={styles.input}
+        style={styles.input as any}
         onSubmitEditing={() => strainRef.current?.focus()}
         placeholder='title'
         blurOnSubmit={false}
         value={title}
+        onChangeText={(text) => onTextInputChange("title", text)}
         label="Plant Title"
       />
       <Input
         ref={strainRef}
         onSubmitEditing={() => noteRef.current?.focus()}
-        style={styles.input}
+        style={styles.input as any}
+        value={strain}
         placeholder='strain'
+
         blurOnSubmit={false}
+        onChangeText={(text) => onTextInputChange("strain", text)}
         label="Strain"
       />
-            <Input
-        ref={strainRef}
-        style={styles.input}
+      <Input
+        ref={noteRef}
+        style={styles.input as any}
         placeholder='note'
         blurOnSubmit={true}
+        onChangeText={(text) => onTextInputChange("note", text)}
         label="Note"
       />
+      <PlantPropertyPicker setPlantProperties={(properties: plantProperty[]) => setPlantData({ ...plantData, properties: properties })} addProperty={(property: plantProperty) => setPlantData({ ...plantData, properties: [...plantData.properties, property] })} inputRef={propertyRef} label="Pick Plant Properties" properties={properties} selectableProperties={selectableProperties} />
+      <PlantPropertyEdit setPlantProperties={(properties: plantProperty[]) => setPlantData({ ...plantData, properties: properties })} properties={properties}/>
       <>
-      <Button title="Start date" onPress={() => setDisplayDatepicker({...displayDatepicker, startDate: true})}/>
-            {displayDatepicker.startDate && (
-        <DateTimePicker 
-          testID="dateTimePicker"
-          value={startDate ? startDate : new Date()}
-          onChange={(event:Event, date: Date|undefined) => {
-            setDisplayDatepicker({...displayDatepicker, startDate: false})
-            setPlantData({...plantData, startDate:date})
-          }}
-          mode="date"
-          is24Hour={true}
-        />
-      )}
+        <Button title="Start date" onPress={() => setDisplayDatepicker({ ...displayDatepicker, startDate: true })} />
+        {displayDatepicker.startDate && (
+          <DateTimePicker
+            value={startDate ? startDate : new Date()}
+            onChange={onStartDateChange}
+            mode="date"
+          />
+        )}
       </>
-            {displayDatepicker.flowerDate && (
-        <DateTimePicker
-          testID="dateTimePicker"
-          value={flowerDate ? flowerDate : new Date()}
-          mode="date"
-          is24Hour={true}
-        />
-      )}
+      <>
+        <Button title="Flower date" onPress={() => setDisplayDatepicker({ ...displayDatepicker, flowerDate: true })} />
+        {displayDatepicker.flowerDate && (
+          <DateTimePicker
+            value={flowerDate ? flowerDate : new Date()}
+            onChange={onFlowerDateChange}
+            mode="date"
+          />
+        )}
+      </>
+      <Button title="Add" onPress={onSubmit} />
 
       {/* Use a light status bar on iOS to account for the black space above the modal */}
       <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
@@ -89,3 +138,4 @@ export default function AddPlantModal() {
   );
 }
 
+export default connector(AddPlantModal)

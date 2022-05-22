@@ -14,8 +14,8 @@ import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import AddPlantModal from '../screens/AddPlantModal/AddPlantModal';
 import NotFoundScreen from '../screens/NotFoundScreen';
-import TabOneScreen from '../screens/PlantScreen';
-import TabTwoScreen from '../screens/SeedScreen';
+import PlantScreen from '../screens/PlantScreen/PlantScreen';
+import SeedScreen from '../screens/SeedScreen/SeedScreen';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
 
@@ -64,7 +64,7 @@ function BottomTabNavigator() {
       }}>
       <BottomTab.Screen
         name="Plants"
-        component={TabOneScreen}
+        component={PlantScreen}
         options={({ navigation }: RootTabScreenProps<'Plants'>) => ({
           title: 'Plants',
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
@@ -75,8 +75,8 @@ function BottomTabNavigator() {
                 opacity: pressed ? 0.5 : 1,
               })}>
               <FontAwesome
-                name="info-circle"
-                size={25}
+                name="plus-circle"
+                size={32}
                 color={Colors[colorScheme].text}
                 style={{ marginRight: 15 }}
               />
@@ -84,9 +84,10 @@ function BottomTabNavigator() {
           ),
         })}
       />
+
       <BottomTab.Screen
         name="Seeds"
-        component={TabTwoScreen}
+        component={SeedScreen}
         options={{
           title: 'Seeds',
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,

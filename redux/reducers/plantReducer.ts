@@ -1,4 +1,5 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { GestureResponderEvent } from "react-native";
 import uuid from 'react-native-uuid';
 import { plantState } from "../../types";
 
@@ -14,7 +15,7 @@ const initialState: [plantState] =
     uuid: "11edc52b-2918-4d71-9058-f7285e29d894",
     father: "",
     mother: "",
-    properties: [""],
+    properties: [{title: "Harz", note:"Anzahl der Harzdrüsen", weight: 8, inheritance:undefined, uuid: "113dc52b-2618-4d71-9058-f7285e29d894"}],
   }
 ]
 ;
@@ -31,7 +32,31 @@ const plantSlice = createSlice({
   }
 })
 
+type RawProperty = {
+  id: string;
+  title: string;
+}
+type RawProperties = RawProperty[]
 
+const getAllPlantProperties = createSelector(
+  (state: any) => state.plants,
+  // selector logic
+  (plants) => {
+    var properties: RawProperties= []
+    // iterating through all plants and all properties to make a list of distinct plant properties
+    for (var plantIndex in plants){
+      for (var propertyIndex in plants[plantIndex].properties)
+        var currentProperty = plants[plantIndex].properties[propertyIndex]
+        if (!properties.some(property => property.id === currentProperty.uuid)){
+          properties.push({id: currentProperty.uuid, title: currentProperty.title })
+        }
+    }
+    return properties
+  }
+)
+
+
+export {getAllPlantProperties}
 export const { addPlant } = plantSlice.actions
 export default plantSlice.reducer
 

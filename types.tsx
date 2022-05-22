@@ -36,6 +36,16 @@ export type RootTabScreenProps<Screen extends keyof RootTabParamList> =
     NativeStackScreenProps<RootStackParamList>
   >;
 
+export type plantPropertyWeight = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10
+
+export type plantProperty = {
+  title: string;
+  note: string;
+  weight: plantPropertyWeight;
+  inheritance: "dominant" | "recessive" | undefined;
+  uuid: string;
+}
+
 export type plantState = {
   title: string;
   startDate: Date | undefined;
@@ -46,7 +56,7 @@ export type plantState = {
   uuid: string;
   father: string;
   mother: string;
-  properties: [string];
+  properties: plantProperty[];
 };
 export type seedState = {
   title: string;
@@ -59,6 +69,7 @@ export type seedState = {
   mother: string;
   properties: [string];
 };
+
 export type plantsReducer = [plantState];
 export type seedsReducer = [seedState];
 export interface rootState {
