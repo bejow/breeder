@@ -1,6 +1,7 @@
 import React, { RefObject, useState } from 'react'
 import { FlatList, GestureResponderEvent, TextInput, View } from 'react-native'
 import { Input } from 'react-native-elements'
+import { Button } from 'react-native-elements/dist/buttons/Button'
 import { DropdownItem } from './DropdownItem'
 import styles from './SearchDropdown.module.scss'
 
@@ -13,6 +14,7 @@ export const SearchDropdown = ({ label, data, selected, setSelected, inputRef }:
     }
     console.log(data);
     const filteredData = data.filter((item: { id: String, title: String }) => (item.title.toLowerCase().includes(search.toLowerCase())))
+    const propertyExists = data.some(property => property.title === search)
     console.log(filteredData);
     return (
         <View>
@@ -25,6 +27,7 @@ export const SearchDropdown = ({ label, data, selected, setSelected, inputRef }:
                 label={label}
                 value={search}
             />
+            {!propertyExists && <Button style={styles.propertyButton as any} title="Create New Property" onPress={() => console.log("BTN")}/> }
             <FlatList
                 style={styles.list as any}
                 data={filteredData}

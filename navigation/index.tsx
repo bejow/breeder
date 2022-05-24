@@ -15,6 +15,7 @@ import useColorScheme from '../hooks/useColorScheme';
 import AddPlantModal from '../screens/AddPlantModal/AddPlantModal';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import PlantScreen from '../screens/PlantScreen/PlantScreen';
+import PropertyModal from '../screens/PropertyModal/PropertyModal';
 import SeedScreen from '../screens/SeedScreen/SeedScreen';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
