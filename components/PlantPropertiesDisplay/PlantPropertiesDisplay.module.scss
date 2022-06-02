@@ -1,0 +1,23 @@
+.propertyContainer {
+  justify-content: space-between;
+  max-width: 100%;
+  height: 80px;
+  flex-direction: row;
+}
+
+.propertiesContainer {
+  width: 120px;
+}
+
+.propertyTitle {
+  width: 80%;
+}
+
+.propertyWeight {
+  width: 20%;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: bold;
+}
