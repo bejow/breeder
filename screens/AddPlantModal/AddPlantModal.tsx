@@ -1,7 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import { Platform, ScrollView, StyleSheet, TextInput, SafeAreaView } from 'react-native';
+import { Platform, TextInput } from 'react-native';
 import styles from './AddPlantModal.module.scss';
-import EditScreenInfo from '../../components/EditScreenInfo';
 import { Text, View } from '../../components/Themed';
 import { Button, Input } from 'react-native-elements';
 import DateTimePicker, { Event } from '@react-native-community/datetimepicker';
@@ -9,10 +8,9 @@ import { useRef, useState } from 'react';
 import { plantProperty, plantState, rootState, RootTabScreenProps } from '../../types';
 import { addPlant } from '../../redux/reducers/plantReducer';
 import { connect, ConnectedProps } from 'react-redux';
-import PlantPropertyPicker from '../../components/PlantPropertyPicker/PlantPropertyPicker';
-import { PlantPropertyEdit } from '../../components/PlantPropertyEdit/PlantPropertyEdit';
 import PropertyModal from '../PropertyModal/PropertyModal';
 import { PlantPropertiesDisplay } from '../../components/PlantPropertiesDisplay/PlantPropertiesDisplay';
+import { AncestorModal } from '../AncestorModal/AncestorModal';
 
 const defaultState = {
   title: '',
@@ -54,8 +52,7 @@ const connector = connect(mapStateToProps, mapDispatch);
 function AddPlantModal({ plants, seeds, addPlant, navigation }: Props) {
   const [plantData, setPlantData] = useState<plantState>(defaultState);
   const [showPropertyModal, setShowPropertyModal] = useState<boolean>(false);
-  const [showParentModal, setShowParentModal] = useState<boolean>(false);
-  console.log('Plant Data: ', plantData);
+  const [showAncestorModal, setShowAncestorModal] = useState<boolean>(false);
   const strainRef = useRef<TextInput>(null);
   const noteRef = useRef<TextInput>(null);
   const propertyRef = useRef<TextInput>(null);
@@ -120,6 +117,7 @@ function AddPlantModal({ plants, seeds, addPlant, navigation }: Props) {
       {showPropertyModal && (
         <PropertyModal
           setShowPropertyModal={setShowPropertyModal}
+          showPropertyModal={showPropertyModal}
           setPlantData={setPlantData}
           plantData={plantData}
           propertyRef={propertyRef}
@@ -127,8 +125,11 @@ function AddPlantModal({ plants, seeds, addPlant, navigation }: Props) {
         />
       )}
       <PlantPropertiesDisplay properties={properties} />
-      <Button title="Pick Plant Parents" onPress={() => setShowParentModal(true)} />
+      <Button title="Pick Plant Parents" onPress={() => setShowAncestorModal(true)} />
       <>
+      {showAncestorModal && (
+        <AncestorModal setShowAncestorModal={setShowAncestorModal} showAncestorModal={showAncestorModal}/>
+      )}
         <Button title="Start date" onPress={() => setDisplayDatepicker({ ...displayDatepicker, startDate: true })} />
         {displayDatepicker.startDate && (
           <DateTimePicker value={startDate ? startDate : new Date()} onChange={onStartDateChange} mode="date" />

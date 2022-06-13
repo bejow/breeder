@@ -24,7 +24,6 @@ const seedSlice = createSlice({
   initialState: initialState,
   reducers: {
     addSeed(state, action: PayloadAction<seedState>) {
-      console.log([...state, {...action.payload, uuid: uuid.v4().toString()}])
       state.push({...action.payload, uuid: uuid.v4().toString()})
     }
   }

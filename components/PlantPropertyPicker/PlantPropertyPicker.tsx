@@ -1,30 +1,14 @@
-import React, { RefObject, useState } from 'react';
+import React, { ReactElement, RefObject, useState } from 'react';
 import { GestureResponderEvent, TextInput, View } from 'react-native';
-import { Input } from 'react-native-elements';
 import { connect, ConnectedProps, useSelector } from 'react-redux';
 import { getAllPlantProperties } from '../../redux/reducers/plantReducer';
 import { plantProperty, rootState } from '../../types';
 import { SearchDropdown } from '../SearchDropdown/SearchDropdown';
 import styles from './PlantPropertyPicker.module.scss';
 import uuid from 'react-native-uuid';
+import { TabBarIcon } from '../../navigation';
 
-const DATA = [
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'First Item',
-    onPress: () => console.log('FirstItem'),
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    title: 'Second Item',
-    onPress: () => console.log('Second Item'),
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    title: 'Third Item',
-    onPress: () => console.log('Third Item'),
-  },
-];
+export type DropdownItem = { id: String; title: String }
 
 const mapStateToProps = (state: rootState) => ({
   plants: state.plants,
@@ -45,10 +29,10 @@ const PlantPropertyPicker = ({
   properties: plantProperty[];
   label: String;
   inputRef: RefObject<TextInput>;
-  addProperty: Function;
+  addProperty: (property: plantProperty) => void;
 }) => {
+
   var previousUsedProperties = useSelector((state: rootState) => getAllPlantProperties(state, properties));
-  console.log(previousUsedProperties);
   var previousUsedPropertiesForFlatlist: Array<{
     id: string;
     title: string;
@@ -66,15 +50,41 @@ const PlantPropertyPicker = ({
   });
   const [selected, setSelected] = useState([]);
 
+  const filterData = (data: DropdownItem[], search: string) => ( data.filter((item: DropdownItem) =>
+  item.title.toLowerCase().includes(search.toLowerCase())
+)
+  )
+
+  const renderAddPropertyButton: (search: string) => ReactElement | undefined = (search) => {
+    // If property does not exists already: render a button to add this property
+    const filteredData = filterData(previousUsedPropertiesForFlatlist, search)
+    
+    const propertyExists = filteredData.some(
+    (property) => property.title.toLowerCase() === search.toLowerCase())
+    if (propertyExists){
+      return undefined
+    } else {
+      return <TabBarIcon
+      color="black"
+      name="plus"
+      onPress={() =>
+        addProperty({ title: search, note: '', weight: 5, uuid: uuid.v4().toString(), inheritance: undefined })
+      }
+    />
+    }
+  }
+
   return (
     <View style={styles.container as any}>
       <SearchDropdown
         label={label}
+        placeholder="Search or Create Property"
         data={previousUsedPropertiesForFlatlist}
         selected={selected}
         setSelected={setSelected}
         inputRef={inputRef}
-        addProperty={addProperty}
+        onSubmit={addProperty}
+        renderSubmitButton={renderAddPropertyButton}
       />
     </View>
   );

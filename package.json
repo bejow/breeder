@@ -8,6 +8,7 @@
   },
   "scripts": {
     "start": "expo start",
+    "prod": "expo start --no-dev --minify",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
@@ -59,6 +60,7 @@
     "@typescript-eslint/parser": "^5.25.0",
     "babel-plugin-react-native-classname-to-style": "^1.2.2",
     "babel-plugin-react-native-platform-specific-extensions": "^1.1.1",
+    "babel-plugin-transform-remove-console": "^6.9.4",
     "eslint": "^8.16.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.5.0",

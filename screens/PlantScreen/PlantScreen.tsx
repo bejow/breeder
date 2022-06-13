@@ -31,7 +31,6 @@ interface Props extends PropsFromRedux {
 }
 
 function PlantScreen({ navigation, plants, seeds, addPlant }: Props) {
-  console.log(plants);
   return (
     <View style={styles.container as any}>
       <ScrollView style={styles.listView as any}>

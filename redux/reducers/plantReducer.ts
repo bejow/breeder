@@ -30,7 +30,6 @@ const plantSlice = createSlice({
   initialState: initialState,
   reducers: {
     addPlant(state, action: PayloadAction<plantState>) {
-      console.log([...state, { ...action.payload, uuid: uuid.v4().toString() }]);
       state.push({ ...action.payload, uuid: uuid.v4().toString() });
     },
   },
@@ -53,7 +52,6 @@ const getAllPlantProperties = createSelector(
     for (var plantIndex in plants) {
       for (var propertyIndex in plants[plantIndex].properties) {
         var currentProperty = plants[plantIndex].properties[propertyIndex];
-        console.log();
         if (
           !properties.some((property) => property.id === currentProperty.uuid) &&
           !selectedProperties.some((selectedProperty) => currentProperty.uuid === selectedProperty.uuid)

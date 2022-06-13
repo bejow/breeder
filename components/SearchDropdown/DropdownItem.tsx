@@ -10,7 +10,7 @@ export const DropdownItem = ({
   return (
     <Pressable onPress={item.onPress}>
       <View style={styles.item as any}>
-        <Text style={styles.itemText}>{item.title}</Text>
+        <Text style={styles.itemText as any}>{item.title}</Text>
       </View>
     </Pressable>
   );

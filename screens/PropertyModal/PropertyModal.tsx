@@ -1,19 +1,15 @@
-import { StatusBar } from 'expo-status-bar';
-import { Platform, ScrollView, StyleSheet, TextInput, SafeAreaView } from 'react-native';
+import { TextInput } from 'react-native';
 import styles from './PropertyModal.module.scss';
-import EditScreenInfo from '../../components/EditScreenInfo';
+
 import { Text, View } from '../../components/Themed';
-import { Button, Image, Input } from 'react-native-elements';
-import DateTimePicker, { Event } from '@react-native-community/datetimepicker';
-import { RefObject, useEffect, useRef, useState } from 'react';
-import { plantProperty, plantState, rootState, RootTabScreenProps } from '../../types';
-import { addPlant } from '../../redux/reducers/plantReducer';
-import { connect, ConnectedProps } from 'react-redux';
+
+import { RefObject, useEffect } from 'react';
+import { plantProperty, plantState } from '../../types';
+
 import PlantPropertyPicker from '../../components/PlantPropertyPicker/PlantPropertyPicker';
 import { PlantPropertyEdit } from '../../components/PlantPropertyEdit/PlantPropertyEdit';
 import { useNavigation } from '@react-navigation/native';
 import { TabBarIcon } from '../../navigation';
-import { ScreenStackHeaderBackButtonImage } from 'react-native-screens';
 import { HeaderBackButton } from '@react-navigation/elements';
 
 function PropertyModal({
@@ -21,6 +17,7 @@ function PropertyModal({
   plantData,
   properties,
   propertyRef,
+  showPropertyModal,
   setShowPropertyModal,
 }: {
   setPlantData: (plant: plantState) => void;
@@ -28,6 +25,7 @@ function PropertyModal({
   properties: Array<plantProperty>;
   propertyRef: RefObject<TextInput>;
   setShowPropertyModal: (shouldShow: boolean) => void;
+  showPropertyModal: Boolean;
 }) {
   const navigation = useNavigation();
   useEffect(() => {
@@ -43,7 +41,7 @@ function PropertyModal({
         headerRight: () => undefined,
       });
     };
-  }, []);
+  }, [showPropertyModal]);
 
   return (
     <View style={styles.modalContainer}>
