@@ -32,7 +32,7 @@ const PlantPropertyPicker = ({
   addProperty: (property: plantProperty) => void;
 }) => {
 
-  var previousUsedProperties = useSelector((state: rootState) => getAllPlantProperties(state, properties));
+  var previousUsedProperties = useSelector((state: rootState) => getAllPlantProperties(state));
   var previousUsedPropertiesForFlatlist: Array<{
     id: string;
     title: string;

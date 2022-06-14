@@ -6,17 +6,17 @@ import { Button, Input } from 'react-native-elements';
 import DateTimePicker, { Event } from '@react-native-community/datetimepicker';
 import { useRef, useState } from 'react';
 import { plantProperty, plantState, rootState, RootTabScreenProps } from '../../types';
-import { addPlant } from '../../redux/reducers/plantReducer';
-import { connect, ConnectedProps } from 'react-redux';
+import { addPlant, selectPlantById } from '../../redux/reducers/plantReducer';
+import { connect, ConnectedProps, useSelector } from 'react-redux';
 import PropertyModal from '../PropertyModal/PropertyModal';
 import { PlantPropertiesDisplay } from '../../components/PlantPropertiesDisplay/PlantPropertiesDisplay';
 import { AncestorModal } from '../AncestorModal/AncestorModal';
 
 const defaultState = {
   title: '',
-  startDate: new Date(),
-  flowerDate: new Date(),
-  harvestDate: new Date(),
+  startDate: undefined,
+  flowerDate: undefined,
+  harvestDate: undefined,
   note: '',
   strain: '',
   uuid: '',
@@ -56,14 +56,19 @@ function AddPlantModal({ plants, seeds, addPlant, navigation }: Props) {
   const strainRef = useRef<TextInput>(null);
   const noteRef = useRef<TextInput>(null);
   const propertyRef = useRef<TextInput>(null);
-
+  const parentRef = useRef<TextInput>(null);
+  
   const [displayDatepicker, setDisplayDatepicker] = useState({
     startDate: false,
     flowerDate: false,
   });
-
+  
   const { title, strain, startDate, flowerDate, note, uuid, father, mother, properties } = plantData;
 
+  const motherPlant = useSelector(state => selectPlantById(state as rootState, mother ))
+  const fatherPlant = useSelector(state => selectPlantById(state as rootState, father ))
+console.log("mother", motherPlant);
+console.log("father", fatherPlant);
   const onStartDateChange = (event: Event, date: Date | undefined) => {
     setDisplayDatepicker({ ...displayDatepicker, startDate: false });
     setPlantData({ ...plantData, startDate: date });
@@ -127,9 +132,20 @@ function AddPlantModal({ plants, seeds, addPlant, navigation }: Props) {
       <PlantPropertiesDisplay properties={properties} />
       <Button title="Pick Plant Parents" onPress={() => setShowAncestorModal(true)} />
       <>
-      {showAncestorModal && (
-        <AncestorModal setShowAncestorModal={setShowAncestorModal} showAncestorModal={showAncestorModal}/>
-      )}
+        {showAncestorModal && (
+          <AncestorModal
+            label="Pick Plant Parents"
+            placeholder="Search or Add Plant"
+            setShowAncestorModal={setShowAncestorModal}
+            showAncestorModal={showAncestorModal}
+            parentRef={parentRef}
+            onSubmit={(search) => addPlant({...defaultState, title:search})}
+            setMother={(plantId: string) => setPlantData({...plantData, mother: plantId})}
+            setFather={(plantId: string) => setPlantData({...plantData, father: plantId})}
+            mother={motherPlant}
+            father={fatherPlant}
+          />
+        )}
         <Button title="Start date" onPress={() => setDisplayDatepicker({ ...displayDatepicker, startDate: true })} />
         {displayDatepicker.startDate && (
           <DateTimePicker value={startDate ? startDate : new Date()} onChange={onStartDateChange} mode="date" />

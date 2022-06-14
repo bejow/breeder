@@ -20,8 +20,6 @@ export const SearchDropdown = ({
   label: String;
   data: { id: String; title: String; onPress: (event: GestureResponderEvent) => void }[];
   inputRef: RefObject<TextInput>;
-  selected: { id: String; title: String }[];
-  setSelected: Function;
   onSubmit: (item: any) => void;
   renderSubmitButton: (search: string) => ReactElement | undefined
   placeholder: string;

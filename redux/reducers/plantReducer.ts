@@ -41,12 +41,45 @@ type RawProperty = {
 };
 type RawProperties = RawProperty[];
 
-const getAllPlantProperties = createSelector(
-  (state: rootState) => state.plants,
-  (_: any, selectedProperties: plantProperty[]) => selectedProperties,
+type RawPlantTitle = {
+  id: string;
+  title: string;
+}
+type RawTitles = RawPlantTitle[];
 
+const selectPlants = (state: rootState) => state.plants
+
+const selectPlantById = createSelector([selectPlants, 
+  (state: rootState, id:string) => id],
+  (plants, id) => {
+    if (id === "") return undefined
+    const index = plants.findIndex((plant: plantState) => {
+      return plant.uuid === id;
+    });
+    if (index >= 0){
+      return plants[index]
+    }
+  }
+  )
+
+const getAllPlantTitles = createSelector(
+  selectPlants,
+  (plants: plantsReducer) => {
+    var uniquePlantTitles : RawPlantTitle[] = []
+    for (var plantIndex in plants) {
+      if (!uniquePlantTitles.some((uniquePlant) => uniquePlant.title === plants[plantIndex].title)){
+        uniquePlantTitles.push({title: plants[plantIndex].title, id: plants[plantIndex].uuid})
+      }
+    }
+    return uniquePlantTitles
+  }
+)
+
+const getAllPlantProperties = createSelector(
+  selectPlants,
   // selector logic
-  (plants: plantsReducer, selectedProperties: plantProperty[]) => {
+  (plants: plantsReducer) => {
+    var selectedProperties: plantProperty[] = []
     var properties: RawProperties = [];
     // iterating through all plants and all properties to make a list of distinct plant properties
     for (var plantIndex in plants) {
@@ -64,6 +97,6 @@ const getAllPlantProperties = createSelector(
   }
 );
 
-export { getAllPlantProperties };
+export { getAllPlantProperties, getAllPlantTitles, selectPlantById };
 export const { addPlant } = plantSlice.actions;
 export default plantSlice.reducer;
