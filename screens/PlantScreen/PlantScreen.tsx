@@ -12,7 +12,9 @@ import {
 } from "../../types";
 import { addPlant } from "../../redux/reducers/plantReducer";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import  PlantList  from "../../components/PlantList/PlantList";
+import PlantList  from "../../components/PlantList/PlantList";
+import ExportButton from "../../components/ExportButton/ExportButton";
+import ImportButton from "../../components/ImportButton/ImportButton";
 
 const mapStateToProps = (state: rootState) => ({
   plants: state.plants,
@@ -33,6 +35,8 @@ interface Props extends PropsFromRedux {
 function PlantScreen({ navigation, plants, seeds, addPlant }: Props) {
   return (
     <View style={styles.container as any}>
+      <ExportButton/>
+      <ImportButton/>
       <ScrollView style={styles.listView as any}>
       <PlantList plants={plants}/>
       </ScrollView>

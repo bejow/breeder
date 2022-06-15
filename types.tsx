@@ -66,7 +66,7 @@ export type plantState = {
 export type seedState = {
   title: string;
   amount: number;
-  harvestDate: Date;
+  harvestDate: Date | undefined;
   note: string;
   strain: string;
   uuid: string;
@@ -75,8 +75,9 @@ export type seedState = {
   properties: [string];
 };
 
-export type plantsReducer = [plantState];
-export type seedsReducer = [seedState];
+export type plantsReducer = plantState[];
+
+export type seedsReducer = seedState[];
 export interface rootState {
   plants: plantsReducer;
   seeds: seedsReducer;
