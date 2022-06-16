@@ -14,6 +14,7 @@ import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import AddPlantModal from '../screens/AddPlantModal/AddPlantModal';
 import NotFoundScreen from '../screens/NotFoundScreen';
+import { PlantDetailScreen } from '../screens/PlantDetailScreen/PlantDetailScreen';
 import PlantScreen from '../screens/PlantScreen/PlantScreen';
 import PropertyModal from '../screens/PropertyModal/PropertyModal';
 import SeedScreen from '../screens/SeedScreen/SeedScreen';
@@ -39,6 +40,7 @@ function RootNavigator() {
     <Stack.Navigator>
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
+      <Stack.Screen name="PlantDetailScreen" component={PlantDetailScreen} initialParams={{ id: '0' }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen name="AddPlantModal" component={AddPlantModal} />
       </Stack.Group>

@@ -7,6 +7,7 @@ import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import {
   CompositeScreenProps,
   NavigatorScreenParams,
+  ParamListBase,
 } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
@@ -25,7 +26,12 @@ export type RootStackParamList = {
   AddPlantModal: undefined;
   NotFound: undefined;
   PropertyModal: NavigatorScreenParams<PlantPropertyModalParams>;
+  PlantDetailScreen: {id: string};
 };
+
+export interface ParamList extends ParamListBase {
+  DetailScreenParams: {id : string }
+}
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> =
   NativeStackScreenProps<RootStackParamList, Screen>;
@@ -33,6 +39,8 @@ export type RootStackScreenProps<Screen extends keyof RootStackParamList> =
 export type RootTabParamList = {
   Plants: undefined;
   Seeds: undefined;
+  PlantDetailScreen: {id: string};
+  PlantListItem: undefined;
 };
 
 export type RootTabScreenProps<Screen extends keyof RootTabParamList> =

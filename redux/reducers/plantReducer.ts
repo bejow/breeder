@@ -32,6 +32,9 @@ const plantSlice = createSlice({
     addPlant(state, action: PayloadAction<plantState>) {
       state.push({ ...action.payload, uuid: uuid.v4().toString() });
     },
+    deletePlant(state, action: PayloadAction<plantState>){
+      state.filter((plant) => (plant.uuid !== action.payload.uuid))
+    },
     importOverride(state, action: PayloadAction<rootState>) {
       const newPlants: plantsReducer = action.payload.plants.map((plant) => ({
         ...plant,
@@ -67,7 +70,7 @@ type RawTitles = RawPlantTitle[];
 
 const selectPlants = (state: rootState) => state.plants;
 
-const selectPlantById = createSelector([selectPlants, (state: rootState, id: string) => id], (plants, id) => {
+const selectPlantById = createSelector([selectPlants, (state: rootState, id: string| undefined) => id], (plants, id) => {
   if (id === '') return undefined;
   const index = plants.findIndex((plant: plantState) => {
     return plant.uuid === id;
@@ -110,5 +113,5 @@ const getAllPlantProperties = createSelector(
 );
 
 export { getAllPlantProperties, getAllPlantTitles, selectPlantById };
-export const { addPlant, importAppend, importOverride } = plantSlice.actions;
+export const { addPlant, deletePlant, importAppend, importOverride } = plantSlice.actions;
 export default plantSlice.reducer;
