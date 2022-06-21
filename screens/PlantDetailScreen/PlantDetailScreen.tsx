@@ -1,11 +1,14 @@
 import { ParamListBase, Route, RouteProp, useNavigation, useRoute } from '@react-navigation/native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
+import { ScreenStackHeaderBackButtonImage } from 'react-native-screens';
 import { connect, ConnectedProps, useSelector } from 'react-redux';
 import PlantListItem from '../../components/PlantListItem/PlantListItem';
 import { PlantPropertiesDisplay } from '../../components/PlantPropertiesDisplay/PlantPropertiesDisplay';
+import { TabBarIcon } from '../../navigation';
 import { deletePlant, selectPlantById } from '../../redux/reducers/plantReducer';
 import { ParamList, plantState, RootStackParamList, rootState, RootTabScreenProps } from '../../types';
+import AddPlantModal from '../AddPlantModal/AddPlantModal';
 
 const mapStateToProps = (state: rootState) => ({
   state: state,
@@ -24,17 +27,30 @@ const connector = connect(mapStateToProps, mapDispatch);
 export const PlantDetailScreen = ({ state }: Props) => {
   const route = useRoute<RouteProp<ParamList, 'DetailScreenParams'>>();
   const navigation = useNavigation();
-  console.log(navigation.getState());
 
-  // const navigation = useNavigation()
+  const [showEditModal, setShowEditModal]= useState(false)
+  
   const plantId = route.params.id;
   const plant = useSelector((state) => selectPlantById(state as rootState, plantId));
-
+  
   var motherPlant: plantState;
   var fatherPlant: plantState;
-
+  
   motherPlant = useSelector((state) => selectPlantById(state as rootState, plant?.mother)) as plantState;
   fatherPlant = useSelector((state) => selectPlantById(state as rootState, plant?.father)) as plantState;
+  
+  useEffect(() => {
+    navigation.setOptions({
+      title: plant?.title,
+      headerRight: () => <TabBarIcon name="save" color="black" onPress={() => navigation.navigate("EditPlantModal", plant)} />,
+    });
+    return () => {
+      navigation.setOptions({
+        title: undefined,
+        headerRight: () => undefined,
+      });
+    };
+  }, [plant]);
 
   const renderParents = () => {
     return (

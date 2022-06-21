@@ -24,6 +24,7 @@ export type PlantPropertyModalParams = {
 export type RootStackParamList = {
   Root: NavigatorScreenParams<RootTabParamList> | undefined;
   AddPlantModal: undefined;
+  EditPlantModal: plantState | undefined;
   NotFound: undefined;
   PropertyModal: NavigatorScreenParams<PlantPropertyModalParams>;
   PlantDetailScreen: {id: string};
@@ -40,6 +41,9 @@ export type RootTabParamList = {
   Plants: undefined;
   Seeds: undefined;
   PlantDetailScreen: {id: string};
+  EditPlantModal: plantState | undefined;
+
+
   PlantListItem: undefined;
 };
 

@@ -32,6 +32,12 @@ const plantSlice = createSlice({
     addPlant(state, action: PayloadAction<plantState>) {
       state.push({ ...action.payload, uuid: uuid.v4().toString() });
     },
+    setPlant(state, action: PayloadAction<plantState>){
+      const plantIndex = state.findIndex(plant => plant.uuid === action.payload.uuid)
+      const newState = [...state]
+      newState[plantIndex] = action.payload
+      return newState
+    },
     deletePlant(state, action: PayloadAction<plantState>){
       state.filter((plant) => (plant.uuid !== action.payload.uuid))
     },
@@ -113,5 +119,5 @@ const getAllPlantProperties = createSelector(
 );
 
 export { getAllPlantProperties, getAllPlantTitles, selectPlantById };
-export const { addPlant, deletePlant, importAppend, importOverride } = plantSlice.actions;
+export const { addPlant, deletePlant, setPlant, importAppend, importOverride } = plantSlice.actions;
 export default plantSlice.reducer;

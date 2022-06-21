@@ -7,6 +7,7 @@ import { rootState, RootTabScreenProps } from '../../types';
 import { connect, ConnectedProps } from 'react-redux';
 import * as DocumentPicker from 'expo-document-picker';
 import { importAppend } from '../../redux/reducers/plantReducer';
+import { CustomIcon } from '../CustomIcon/CustomIcon';
 
 const mapStateToProps = (state: rootState) => ({
   state: state,
@@ -19,12 +20,12 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 
 const connector = connect(mapStateToProps, mapDispatch);
 
-const ExportButton = ({ state, plants, importAppend }: PropsFromRedux) => {
+const ImportButton = ({ state, plants, importAppend }: PropsFromRedux) => {
   DocumentPicker;
 
   const timestamp = new Date(Date.now()).toISOString();
   const filename = `breeder-export-${timestamp}.json`;
-  const exportData = async () => {
+  const importData = async () => {
     // Requests permissions for external directory
     const document = await DocumentPicker.getDocumentAsync();
     if (document.type === 'success') {
@@ -38,10 +39,8 @@ const ExportButton = ({ state, plants, importAppend }: PropsFromRedux) => {
     }
   };
   return (
-    <Pressable onPress={exportData}>
-      <Text>ImportButton</Text>
-    </Pressable>
+    <CustomIcon name="database-import" color="black" onPress={importData}/>
   );
 };
 
-export default connector(ExportButton);
+export default connector(ImportButton);

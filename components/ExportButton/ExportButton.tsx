@@ -1,10 +1,13 @@
 import React from 'react';
 
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Pressable } from 'react-native';
 import { StorageAccessFramework } from 'expo-file-system';
 import { Text } from 'react-native-elements';
 import { rootState, RootTabScreenProps } from '../../types';
 import { connect, ConnectedProps } from 'react-redux';
+import { TabBarIcon } from '../../navigation';
+import { CustomIcon } from '../CustomIcon/CustomIcon';
 
 const mapStateToProps = (state: rootState) => ({
   state: state,
@@ -38,9 +41,7 @@ const ExportButton = ({ state, plants }: PropsFromRedux) => {
     }
   };
   return (
-    <Pressable onPress={exportData}>
-      <Text>ExportButton</Text>
-    </Pressable>
+    <CustomIcon name="export-variant" color="black" onPress={exportData}/>
   );
 };
 

@@ -7,7 +7,7 @@ import styles from './PlantList.module.scss'
 export default ({plants}: {plants: plantsReducer}) => {
   return (
     <View style={styles.list as any}>
-        {plants.map((plant) => <PlantListItem key={"plantKey-" + plant.uuid} plant={plant}/>)}
+        {plants.map((plant, index) => <PlantListItem key={"plantKey-" + plant.uuid + "-" + index} plant={plant}/>)}
     </View>
   )
 }

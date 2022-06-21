@@ -8,11 +8,16 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
+import { View } from 'react-native';
 import { ColorSchemeName, Pressable } from 'react-native';
+import ExportButton from '../components/ExportButton/ExportButton';
+import ImportButton from '../components/ImportButton/ImportButton';
+import styles from './navigation.module.scss'
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import AddPlantModal from '../screens/AddPlantModal/AddPlantModal';
+import EditPlantModal from '../screens/EditPlantModal/EditPlantModal';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import { PlantDetailScreen } from '../screens/PlantDetailScreen/PlantDetailScreen';
 import PlantScreen from '../screens/PlantScreen/PlantScreen';
@@ -20,6 +25,7 @@ import PropertyModal from '../screens/PropertyModal/PropertyModal';
 import SeedScreen from '../screens/SeedScreen/SeedScreen';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
+import { CustomIcon } from '../components/CustomIcon/CustomIcon';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -43,6 +49,7 @@ function RootNavigator() {
       <Stack.Screen name="PlantDetailScreen" component={PlantDetailScreen} initialParams={{ id: '0' }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen name="AddPlantModal" component={AddPlantModal} />
+        <Stack.Screen name="EditPlantModal" component={EditPlantModal}/>
       </Stack.Group>
     </Stack.Navigator>
   );
@@ -71,14 +78,14 @@ function BottomTabNavigator() {
           title: 'Plants',
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
           headerRight: () => (
-            <Pressable
-              onPress={() => navigation.navigate('AddPlantModal')}
-              style={({ pressed }) => ({
-                opacity: pressed ? 0.5 : 1,
-              })}
-            >
-              <FontAwesome name="plus-circle" size={32} color={Colors[colorScheme].text} style={{ marginRight: 15 }} />
-            </Pressable>
+            <View style={styles.navigationHeaderContainer}>
+            <ExportButton/>
+              <ImportButton/>
+
+              
+              <CustomIcon onPress={() => navigation.navigate('AddPlantModal')}  name="plus-circle" marginRight={15}/>
+
+            </View>
           ),
         })}
       />
@@ -98,6 +105,6 @@ function BottomTabNavigator() {
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
  */
-export function TabBarIcon(props: { name: React.ComponentProps<typeof FontAwesome>['name']; color: string }) {
+export function TabBarIcon(props: { name: React.ComponentProps<typeof FontAwesome>['name']; color: string; onPress: (() => void) | undefined}) {
   return <FontAwesome size={30} style={{ marginBottom: -3 }} {...props} />;
 }

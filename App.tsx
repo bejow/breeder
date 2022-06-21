@@ -10,10 +10,14 @@ import { Provider } from 'react-redux'
 
 // Modify to add persistor
 import { store, persistor } from './redux/store';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
+
+  // AsyncStorage.clear()
 
   if (!isLoadingComplete) {
     return null;

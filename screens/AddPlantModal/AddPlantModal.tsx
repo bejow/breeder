@@ -11,6 +11,7 @@ import { connect, ConnectedProps, useSelector } from 'react-redux';
 import PropertyModal from '../PropertyModal/PropertyModal';
 import { PlantPropertiesDisplay } from '../../components/PlantPropertiesDisplay/PlantPropertiesDisplay';
 import { AncestorModal } from '../AncestorModal/AncestorModal';
+import { useRoute } from '@react-navigation/native';
 
 const defaultState = {
   title: '',
@@ -44,12 +45,13 @@ const mapDispatch = {
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
 interface Props extends PropsFromRedux {
-  navigation: RootTabScreenProps<'Plants'>;
+  plant: plantState;
 }
 
 const connector = connect(mapStateToProps, mapDispatch);
 
-function AddPlantModal({ plants, seeds, addPlant, navigation }: Props) {
+function AddPlantModal({ plants, seeds, addPlant }: Props) {
+
   const [plantData, setPlantData] = useState<plantState>(defaultState);
   const [showPropertyModal, setShowPropertyModal] = useState<boolean>(false);
   const [showAncestorModal, setShowAncestorModal] = useState<boolean>(false);
@@ -67,8 +69,6 @@ function AddPlantModal({ plants, seeds, addPlant, navigation }: Props) {
 
   const motherPlant = useSelector(state => selectPlantById(state as rootState, mother ))
   const fatherPlant = useSelector(state => selectPlantById(state as rootState, father ))
-console.log("mother", motherPlant);
-console.log("father", fatherPlant);
   const onStartDateChange = (event: Event, date: Date | undefined) => {
     setDisplayDatepicker({ ...displayDatepicker, startDate: false });
     setPlantData({ ...plantData, startDate: date });
@@ -114,6 +114,8 @@ console.log("father", fatherPlant);
         ref={noteRef}
         style={styles.input as any}
         placeholder="note"
+        value={note}
+
         blurOnSubmit={true}
         onChangeText={(text) => onTextInputChange('note', text)}
         label="Note"
