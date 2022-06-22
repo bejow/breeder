@@ -3,12 +3,16 @@ import React, { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 import { ScreenStackHeaderBackButtonImage } from 'react-native-screens';
 import { connect, ConnectedProps, useSelector } from 'react-redux';
+import { KeyValuePair } from '../../components/KeyValuePair/KeyValuePair';
+import { ParentDisplay } from '../../components/ParentDisplay/ParentDisplay';
 import PlantListItem from '../../components/PlantListItem/PlantListItem';
 import { PlantPropertiesDisplay } from '../../components/PlantPropertiesDisplay/PlantPropertiesDisplay';
 import { TabBarIcon } from '../../navigation';
 import { deletePlant, selectPlantById } from '../../redux/reducers/plantReducer';
 import { ParamList, plantState, RootStackParamList, rootState, RootTabScreenProps } from '../../types';
 import AddPlantModal from '../AddPlantModal/AddPlantModal';
+import styles from './PlantDetailScreen.module.scss';
+
 
 const mapStateToProps = (state: rootState) => ({
   state: state,
@@ -64,16 +68,14 @@ export const PlantDetailScreen = ({ state }: Props) => {
   if (plant) {
     return (
       <View>
-        <Text>Title: {plant.title}</Text>
-        <Text>Strain: {plant.strain}</Text>
-        <Text>Info: {plant.note}</Text>
-        <Text>Start Date: {plant.startDate?.toDateString()}</Text>
-        <Text>Flower Date: {plant.flowerDate?.toDateString()}</Text>
-        <Text>Harvest Date: {plant.harvestDate?.toDateString()}</Text>
-        <Text>Properties: </Text>
+        <KeyValuePair title="Title" value={plant.title}/>
+        <KeyValuePair title="Strain" value={plant.strain}/>
+        <KeyValuePair title="Info" value={plant.note}/>
+        <KeyValuePair title="Start Date" value={plant.startDate?.toDateString()}/>
+        <KeyValuePair title="Flower Date" value={plant.flowerDate?.toDateString()}/>
+        <KeyValuePair title="Harvest Date" value={plant.harvestDate?.toDateString()}/>
         <PlantPropertiesDisplay properties={plant.properties} />
-        {renderParents()}
-        <Text>Title: {plant.title}</Text>
+        <ParentDisplay fatherPlant={fatherPlant} motherPlant={motherPlant}/>
       </View>
     );
   } else {

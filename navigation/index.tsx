@@ -48,7 +48,7 @@ function RootNavigator() {
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Screen name="PlantDetailScreen" component={PlantDetailScreen} initialParams={{ id: '0' }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
-        <Stack.Screen name="AddPlantModal" component={AddPlantModal} />
+        <Stack.Screen name="AddPlantModal" component={AddPlantModal} options={{title: "Add a new Plant"}}/>
         <Stack.Screen name="EditPlantModal" component={EditPlantModal}/>
       </Stack.Group>
     </Stack.Navigator>

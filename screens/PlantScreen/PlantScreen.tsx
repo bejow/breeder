@@ -35,11 +35,9 @@ interface Props extends PropsFromRedux {
 function PlantScreen({ navigation, plants, seeds, addPlant }: Props) {
   return (
     <View style={styles.container as any}>
-
       <ScrollView style={styles.listView as any}>
       <PlantList plants={plants}/>
       </ScrollView>
-      <Button title="Clear Storage" onPress={() => AsyncStorage.clear()}/>
     </View>
   );
 }
