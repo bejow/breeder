@@ -39,7 +39,8 @@ const plantSlice = createSlice({
       return newState
     },
     deletePlant(state, action: PayloadAction<plantState>){
-      state.filter((plant) => (plant.uuid !== action.payload.uuid))
+      return state.filter((plant) => (plant.uuid !== action.payload.uuid))
+
     },
     importOverride(state, action: PayloadAction<rootState>) {
       const newPlants: plantsReducer = action.payload.plants.map((plant) => ({

@@ -84,7 +84,7 @@ function AddPlantModal({ plants, seeds, addPlant }: Props) {
         headerRight: () => undefined,
       });
     };
-  }, [showAncestorModal, showPropertyModal]);
+  }, [showAncestorModal, showPropertyModal, plantData]);
 
   const onStartDateChange = (event: Event, date: Date | undefined) => {
     setDisplayDatepicker({ ...displayDatepicker, startDate: false });
@@ -106,9 +106,11 @@ function AddPlantModal({ plants, seeds, addPlant }: Props) {
   };
 
   const onSubmit = () => {
+    console.log("final", plantData);
     addPlant(plantData);
     navigation.goBack();
   };
+  console.log(plantData)
 
   return (
     <ScrollView contentContainerStyle={styles.container as any}>
@@ -168,22 +170,7 @@ function AddPlantModal({ plants, seeds, addPlant }: Props) {
         )}
         <PlantPropertiesDisplay properties={properties} />
         <ParentDisplay motherPlant={motherPlant} fatherPlant={fatherPlant}/>
-        <>
-          {showAncestorModal && (
-            <AncestorModal
-              label="Pick Plant Parents"
-              placeholder="Search or Add Plant"
-              setShowAncestorModal={setShowAncestorModal}
-              showAncestorModal={showAncestorModal}
-              parentRef={parentRef}
-              onSubmit={(search) => addPlant({ ...defaultState, title: search })}
-              setMother={(plantId: string) => setPlantData({ ...plantData, mother: plantId })}
-              setFather={(plantId: string) => setPlantData({ ...plantData, father: plantId })}
-              mother={motherPlant}
-              father={fatherPlant}
-            />
-          )}
-        </>
+         
         <>
           {displayDatepicker.startDate && (
             <DateTimePicker value={startDate ? startDate : new Date()} onChange={onStartDateChange} mode="date" />
@@ -198,6 +185,22 @@ function AddPlantModal({ plants, seeds, addPlant }: Props) {
         </View>
         <Button title="Add" onPress={onSubmit} />
       </View>
+      {showAncestorModal && (
+        <View style={styles.modal}>
+            <AncestorModal
+              label="Pick Plant Parents"
+              placeholder="Search or Add Plant"
+              setShowAncestorModal={setShowAncestorModal}
+              showAncestorModal={showAncestorModal}
+              parentRef={parentRef}
+              onSubmit={(search) => addPlant({ ...defaultState, title: search })}
+              setMother={(plantId: string) => setPlantData({ ...plantData, mother: plantId })}
+              setFather={(plantId: string) => setPlantData({ ...plantData, father: plantId })}
+              mother={motherPlant}
+              father={fatherPlant}
+            />
+        </View>
+          )}
     </ScrollView>
   );
 }

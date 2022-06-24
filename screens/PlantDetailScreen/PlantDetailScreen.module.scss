@@ -3,3 +3,22 @@
     font-weight: bold;
     margin: 8px
   }
+
+  .iconContainer{
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .icon{
+    margin: 12px;
+    width: 30px;
+    height:30px
+  }
+
+  .dangerText{
+    color: red;
+  }
+
+  .dangerTooltip{
+    border: 1px solid yellow;
+  }

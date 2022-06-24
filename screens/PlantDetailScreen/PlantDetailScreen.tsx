@@ -1,8 +1,11 @@
 import { ParamListBase, Route, RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
+import { Dialog } from 'react-native-elements/dist/dialog/Dialog';
+import { Tooltip } from 'react-native-elements/dist/tooltip/Tooltip';
 import { ScreenStackHeaderBackButtonImage } from 'react-native-screens';
 import { connect, ConnectedProps, useSelector } from 'react-redux';
+import { CustomIcon } from '../../components/CustomIcon/CustomIcon';
 import { KeyValuePair } from '../../components/KeyValuePair/KeyValuePair';
 import { ParentDisplay } from '../../components/ParentDisplay/ParentDisplay';
 import PlantListItem from '../../components/PlantListItem/PlantListItem';
@@ -12,7 +15,6 @@ import { deletePlant, selectPlantById } from '../../redux/reducers/plantReducer'
 import { ParamList, plantState, RootStackParamList, rootState, RootTabScreenProps } from '../../types';
 import AddPlantModal from '../AddPlantModal/AddPlantModal';
 import styles from './PlantDetailScreen.module.scss';
-
 
 const mapStateToProps = (state: rootState) => ({
   state: state,
@@ -28,25 +30,57 @@ interface Props extends PropsFromRedux {}
 
 const connector = connect(mapStateToProps, mapDispatch);
 
-export const PlantDetailScreen = ({ state }: Props) => {
+const PlantDetailScreen = ({ state, deletePlant }: Props) => {
   const route = useRoute<RouteProp<ParamList, 'DetailScreenParams'>>();
   const navigation = useNavigation();
 
-  const [showEditModal, setShowEditModal]= useState(false)
-  
+  const [showEditModal, setShowEditModal] = useState(false);
+
   const plantId = route.params.id;
   const plant = useSelector((state) => selectPlantById(state as rootState, plantId));
-  
+
+  console.log(plant);
+
   var motherPlant: plantState;
   var fatherPlant: plantState;
-  
+
   motherPlant = useSelector((state) => selectPlantById(state as rootState, plant?.mother)) as plantState;
   fatherPlant = useSelector((state) => selectPlantById(state as rootState, plant?.father)) as plantState;
-  
+
+  const onDelete = (plant: plantState | undefined) => {
+    if (plant) {
+      deletePlant(plant);
+      navigation.goBack();
+    } else {
+      navigation.goBack();
+    }
+  };
+
   useEffect(() => {
     navigation.setOptions({
       title: plant?.title,
-      headerRight: () => <TabBarIcon name="save" color="black" onPress={() => navigation.navigate("EditPlantModal", plant)} />,
+      headerRight: () => (
+        <View style={styles.iconContainer}>
+          <Tooltip
+            width={250}
+            containerStyle={styles.dangerTooltip}
+            popover={
+              <Pressable style={styles.dangerPressable} onPress={() => onDelete(plant)}>
+                <Text style={styles.dangerText}>Press here to confirm DELETION</Text>
+              </Pressable>
+            }
+          >
+            <CustomIcon name="trash-can-outline" size={30} style={styles.icon} color="red" />
+          </Tooltip>
+          <TabBarIcon
+            style={{marginLeft:12}}
+            name="save"
+            size={30}
+            color="black"
+            onPress={() => navigation.navigate('EditPlantModal', plant)}
+          />
+        </View>
+      ),
     });
     return () => {
       navigation.setOptions({
@@ -56,26 +90,17 @@ export const PlantDetailScreen = ({ state }: Props) => {
     };
   }, [plant]);
 
-  const renderParents = () => {
-    return (
-      <View>
-        {motherPlant ? <PlantListItem plant={motherPlant} /> : null}
-        {fatherPlant ? <PlantListItem plant={fatherPlant} /> : null}
-      </View>
-    );
-  };
-
   if (plant) {
     return (
       <View>
-        <KeyValuePair title="Title" value={plant.title}/>
-        <KeyValuePair title="Strain" value={plant.strain}/>
-        <KeyValuePair title="Info" value={plant.note}/>
-        <KeyValuePair title="Start Date" value={plant.startDate?.toDateString()}/>
-        <KeyValuePair title="Flower Date" value={plant.flowerDate?.toDateString()}/>
-        <KeyValuePair title="Harvest Date" value={plant.harvestDate?.toDateString()}/>
+        <KeyValuePair title="Title" value={plant.title} />
+        <KeyValuePair title="Strain" value={plant.strain} />
+        <KeyValuePair title="Info" value={plant.note} />
+        <KeyValuePair title="Start Date" value={plant.startDate?.toDateString()} />
+        <KeyValuePair title="Flower Date" value={plant.flowerDate?.toDateString()} />
+        <KeyValuePair title="Harvest Date" value={plant.harvestDate?.toDateString()} />
         <PlantPropertiesDisplay properties={plant.properties} />
-        <ParentDisplay fatherPlant={fatherPlant} motherPlant={motherPlant}/>
+        <ParentDisplay fatherPlant={fatherPlant} motherPlant={motherPlant} />
       </View>
     );
   } else {
@@ -86,3 +111,5 @@ export const PlantDetailScreen = ({ state }: Props) => {
     );
   }
 };
+
+export default connector(PlantDetailScreen);

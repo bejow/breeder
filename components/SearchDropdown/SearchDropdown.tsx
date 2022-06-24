@@ -1,5 +1,5 @@
 import React, { ReactElement, RefObject, useState } from 'react';
-import { FlatList, GestureResponderEvent, TextInput, View } from 'react-native';
+import { FlatList, GestureResponderEvent, Text, TextInput, View } from 'react-native';
 import { Input } from 'react-native-elements';
 import { Button } from 'react-native-elements/dist/buttons/Button';
 import { IconNode } from 'react-native-elements/dist/icons/Icon';
@@ -37,7 +37,7 @@ export const SearchDropdown = ({
 
 
   return (
-    <View>
+    <View style={styles.container}>
       <Input
         ref={inputRef}
         style={styles.input as any}
@@ -48,6 +48,7 @@ export const SearchDropdown = ({
         value={search}
         rightIcon={renderSubmitButton(search)}
       />
+      <Text style={styles.infoText}>{filteredData.length} Search Results:</Text>
       <FlatList
         style={styles.list as any}
         data={filteredData}

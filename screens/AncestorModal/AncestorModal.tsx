@@ -8,6 +8,9 @@ import { SearchDropdown } from '../../components/SearchDropdown/SearchDropdown';
 import { plantState, rootState } from '../../types';
 import { connect, ConnectedProps, useSelector } from 'react-redux';
 import { getAllPlantTitles } from '../../redux/reducers/plantReducer';
+import { ParentDisplay } from '../../components/ParentDisplay/ParentDisplay';
+import { CustomIcon } from '../../components/CustomIcon/CustomIcon';
+import { Foundation } from '@expo/vector-icons';
 
 export const AncestorModal = ({
   setShowAncestorModal,
@@ -19,7 +22,7 @@ export const AncestorModal = ({
   mother,
   father,
   setFather,
-  setMother
+  setMother,
 }: {
   setShowAncestorModal: (shouldShow: boolean) => void;
   showAncestorModal: Boolean;
@@ -27,14 +30,14 @@ export const AncestorModal = ({
   placeholder: string;
   parentRef: RefObject<TextInput>;
   onSubmit: (search: string) => void;
-  setFather: (plantId: string) => void
-  setMother: (plantId: string) => void
-  mother: plantState | undefined,
-  father: plantState | undefined,
+  setFather: (plantId: string) => void;
+  setMother: (plantId: string) => void;
+  mother: plantState | undefined;
+  father: plantState | undefined;
 }) => {
   const navigation = useNavigation();
   var previousUsedTitles = useSelector((state: rootState) => getAllPlantTitles(state));
-  const [selectMother, setSelectMother] = useState(true)
+  const [selectMother, setSelectMother] = useState(true);
 
   const renderAddAncestorButton: (search: string) => ReactElement | undefined = (search) => {
     // If property does not exists already: render a button to add this property
@@ -50,11 +53,10 @@ export const AncestorModal = ({
       title: plantTitle.title,
       id: plantTitle.id,
       onPress: (event: GestureResponderEvent) => {
-        if (selectMother){
-          setMother(plantTitle.id)
-        }
-        else if (!selectMother){
-          setFather(plantTitle.id)
+        if (selectMother) {
+          setMother(plantTitle.id);
+        } else if (!selectMother) {
+          setFather(plantTitle.id);
         }
       },
     };
@@ -62,7 +64,7 @@ export const AncestorModal = ({
 
   useEffect(() => {
     navigation.setOptions({
-      title: 'Parents',
+      title: 'Select Parents',
       headerLeft: () => <HeaderBackButton onPress={() => setShowAncestorModal(false)} />,
       headerRight: () => <TabBarIcon name="save" color="black" onPress={() => setShowAncestorModal(false)} />,
     });
@@ -77,20 +79,24 @@ export const AncestorModal = ({
 
   return (
     <View style={styles.modalContainer as any}>
-      <Text>Ancestor Modal</Text>
-      <Pressable onPress={() => setSelectMother(false)}><Text>Select Male</Text></Pressable>
-      <Pressable onPress={() => setSelectMother(true)}><Text>Select Female</Text></Pressable>
-      <Text>Currently selecting: {selectMother ? "female" : "male"}</Text>
+      <View style={styles.iconContainer}>
+        <Pressable style={styles.pressable} onPress={() => setSelectMother(true)}>
+          <Foundation name="female-symbol" size={32} color={selectMother ? 'pink' : 'grey'} />
+        </Pressable>
+        <Pressable style={styles.pressable} onPress={() => setSelectMother(false)}>
+          <Foundation name="male-symbol" size={32} color={selectMother ? 'grey' : 'blue'} />
+        </Pressable>
+      </View>
+    
       <SearchDropdown
         data={previousUsedTitlesForFlatlist}
-        label={label}
+        label={`Pick ${selectMother ? "Mother Plant" : "Father Plant"}`}
         placeholder={placeholder}
         inputRef={parentRef}
         onSubmit={onSubmit}
         renderSubmitButton={renderAddAncestorButton}
       />
-      <Text>Father: {father&&father.title}</Text>
-      <Text> Mother: {mother&&mother.title}</Text>
+      <ParentDisplay motherPlant={mother} fatherPlant={father} />
     </View>
   );
 };
