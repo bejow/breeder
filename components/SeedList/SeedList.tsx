@@ -7,7 +7,7 @@ import styles from './SeedList.module.scss'
 export default ({seeds}: {seeds: seedsReducer}) => {
   return (
     <View style={styles.list}>
-        {seeds.map((seed) => <SeedListItem key={"seedKey-" + seed.uuid} seed={seed}/>)}
+        {seeds.map((seed, index) => <SeedListItem key={"seedKey-" + seed.uuid + "-" + index} seed={seed}/>)}
     </View>
   )
 }

@@ -26,6 +26,7 @@ import SeedScreen from '../screens/SeedScreen/SeedScreen';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
 import { CustomIcon } from '../components/CustomIcon/CustomIcon';
+import { AddSeedModal } from '../screens/AddSeedModal/AddSeedModal';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -46,8 +47,10 @@ function RootNavigator() {
     <Stack.Navigator>
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
+      <Stack.Screen name="SeedScreen" component={SeedScreen} options={{ title: 'Seeds' }} />
       <Stack.Screen name="PlantDetailScreen" component={PlantDetailScreen} initialParams={{ id: '0' }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
+      <Stack.Screen name="AddSeedModal" component={AddSeedModal} options={{ title: 'Oops!' }} />
         <Stack.Screen name="AddPlantModal" component={AddPlantModal} options={{ title: 'Add a new Plant' }} />
         <Stack.Screen name="EditPlantModal" component={EditPlantModal} />
       </Stack.Group>
@@ -91,10 +94,18 @@ function BottomTabNavigator() {
       <BottomTab.Screen
         name="Seeds"
         component={SeedScreen}
-        options={{
+        options={({ navigation }: RootTabScreenProps<'Seeds'>) => ({
           title: 'Seeds',
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-        }}
+          headerRight: () => (
+            <View style={styles.navigationHeaderContainer}>
+              <ExportButton />
+              <ImportButton />
+
+              <CustomIcon onPress={() => navigation.navigate('AddSeedModal')} name="plus-circle" marginRight={15} />
+            </View>
+          ),
+        })}
       />
     </BottomTab.Navigator>
   );

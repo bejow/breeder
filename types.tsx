@@ -28,6 +28,8 @@ export type RootStackParamList = {
   NotFound: undefined;
   PropertyModal: NavigatorScreenParams<PlantPropertyModalParams>;
   PlantDetailScreen: {id: string};
+  SeedScreen: undefined;
+  AddSeedModal: undefined;
 };
 
 export interface ParamList extends ParamListBase {
@@ -42,9 +44,9 @@ export type RootTabParamList = {
   Seeds: undefined;
   PlantDetailScreen: {id: string};
   EditPlantModal: plantState | undefined;
-
-
   PlantListItem: undefined;
+  SeedScreen: undefined;
+  AddSeedModal: undefined;
 };
 
 export type RootTabScreenProps<Screen extends keyof RootTabParamList> =
@@ -81,11 +83,14 @@ export type seedState = {
   harvestDate: Date | undefined;
   note: string;
   strain: string;
+  breeder: string;
   uuid: string;
   father: string;
   mother: string;
-  properties: [string];
+  type: SeedType
 };
+
+export type SeedType = "feminized" | "regular" | "autoflowering"
 
 export type plantsReducer = plantState[];
 

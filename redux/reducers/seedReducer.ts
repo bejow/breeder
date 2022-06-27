@@ -12,7 +12,8 @@ const initialState: seedsReducer = [
     uuid: '11edc52b-2918-4d71-9058-f7285e29d844',
     father: '',
     mother: '',
-    properties: [''],
+    type: "regular",
+    breeder: "Rare"
   },
 ];
 const seedSlice = createSlice({

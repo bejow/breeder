@@ -20,13 +20,15 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 interface Props extends PropsFromRedux {
   navigation: RootTabScreenProps<"Plants">;
 }
-export default function SeedScreen({seeds, navigation} : Props) {
+function SeedScreen({seeds, navigation} : Props) {
   return (
     <View style={styles.container}>
       <SeedList seeds={seeds}/>
     </View>
   );
 }
+
+export default connector(SeedScreen)
 
 const styles = StyleSheet.create({
   container: {
