@@ -1,13 +1,16 @@
 .input {
 }
 
+.wrapper {
+  flex: 1;
+}
+
 .container {
   flex: 1;
 }
 
-.viewContainer{
+.viewContainer {
   padding: 16px;
-  height: 100%;
   justify-content: space-between;
 }
 
@@ -21,8 +24,12 @@
   width: 80%;
 }
 
-.button{
+.button {
   width: 200px;
+}
+
+.addButton {
+  margin: 8px;
 }
 
 .horizontalContainer {

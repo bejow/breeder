@@ -9,21 +9,19 @@ import { plantProperty, plantState } from '../../types';
 import PlantPropertyPicker from '../../components/PlantPropertyPicker/PlantPropertyPicker';
 import { PlantPropertyEdit } from '../../components/PlantPropertyEdit/PlantPropertyEdit';
 import { useNavigation } from '@react-navigation/native';
-import { TabBarIcon } from '../../navigation';
+import { TabBarIcon } from '../../navigation/TabBarIcon';
 import { HeaderBackButton } from '@react-navigation/elements';
 
 function PropertyModal({
   setPlantData,
   plantData,
   properties,
-  propertyRef,
   showPropertyModal,
   setShowPropertyModal,
 }: {
   setPlantData: (plant: plantState) => void;
   plantData: plantState;
   properties: Array<plantProperty>;
-  propertyRef: RefObject<TextInput>;
   setShowPropertyModal: (shouldShow: boolean) => void;
   showPropertyModal: Boolean;
 }) {
@@ -41,7 +39,7 @@ function PropertyModal({
         headerRight: () => undefined,
       });
     };
-  }, [showPropertyModal]);
+  }, [showPropertyModal, plantData]);
 
   return (
     <View style={styles.modalContainer}>
@@ -54,7 +52,6 @@ function PropertyModal({
             properties: [...plantData.properties, property],
           })
         }
-        inputRef={propertyRef}
         label="Pick Plant Properties"
         properties={properties}
       />

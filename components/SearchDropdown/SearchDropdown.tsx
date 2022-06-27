@@ -8,20 +8,18 @@ import { plantProperty } from '../../types';
 import { DropdownItem } from './DropdownItem';
 import styles from './SearchDropdown.module.scss';
 import uuid from 'react-native-uuid';
-import { DropdownItem as DropdownItemType} from '../PlantPropertyPicker/PlantPropertyPicker';
+import { DropdownItem as DropdownItemType } from '../PlantPropertyPicker/PlantPropertyPicker';
 
 export const SearchDropdown = ({
   label,
   data,
-  inputRef,
   renderSubmitButton,
   placeholder,
 }: {
   label: String;
   data: { id: String; title: String; onPress: (event: GestureResponderEvent) => void }[];
-  inputRef: RefObject<TextInput>;
   onSubmit: (item: any) => void;
-  renderSubmitButton: (search: string) => ReactElement | undefined
+  renderSubmitButton: (search: string) => ReactElement | undefined;
   placeholder: string;
 }) => {
   const [search, setSearch] = useState('');
@@ -34,12 +32,9 @@ export const SearchDropdown = ({
     item.title.toLowerCase().includes(search.toLowerCase())
   );
 
-
-
   return (
     <View style={styles.container}>
       <Input
-        ref={inputRef}
         style={styles.input as any}
         placeholder={placeholder}
         blurOnSubmit={true}

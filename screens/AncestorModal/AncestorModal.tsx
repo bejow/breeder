@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { ReactElement, RefObject, useEffect, useState } from 'react';
 import { GestureResponderEvent, Text, TextInput, Pressable, View } from 'react-native';
-import { TabBarIcon } from '../../navigation';
+import { TabBarIcon } from '../../navigation/TabBarIcon';
 import styles from './AncestorModal.module.scss';
 import { HeaderBackButton } from '@react-navigation/elements';
 import { SearchDropdown } from '../../components/SearchDropdown/SearchDropdown';
@@ -17,7 +17,6 @@ export const AncestorModal = ({
   showAncestorModal,
   label,
   placeholder,
-  parentRef,
   onSubmit,
   mother,
   father,
@@ -28,7 +27,6 @@ export const AncestorModal = ({
   showAncestorModal: Boolean;
   label: string;
   placeholder: string;
-  parentRef: RefObject<TextInput>;
   onSubmit: (search: string) => void;
   setFather: (plantId: string) => void;
   setMother: (plantId: string) => void;
@@ -75,7 +73,7 @@ export const AncestorModal = ({
         headerRight: () => undefined,
       });
     };
-  }, [showAncestorModal]);
+  }, [showAncestorModal, mother, father]);
 
   return (
     <View style={styles.modalContainer as any}>
@@ -87,12 +85,11 @@ export const AncestorModal = ({
           <Foundation name="male-symbol" size={32} color={selectMother ? 'grey' : 'blue'} />
         </Pressable>
       </View>
-    
+
       <SearchDropdown
         data={previousUsedTitlesForFlatlist}
-        label={`Pick ${selectMother ? "Mother Plant" : "Father Plant"}`}
+        label={`Pick ${selectMother ? 'Mother Plant' : 'Father Plant'}`}
         placeholder={placeholder}
-        inputRef={parentRef}
         onSubmit={onSubmit}
         renderSubmitButton={renderAddAncestorButton}
       />

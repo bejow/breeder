@@ -5,7 +5,7 @@ import { Slider } from '@miblanchard/react-native-slider';
 import { useState } from 'react';
 import { Text } from 'react-native-elements';
 import styles from './PlantPropertyEdit.module.scss';
-import { TabBarIcon } from '../../navigation';
+import { TabBarIcon } from '../../navigation/TabBarIcon';
 export const PlantPropertyWeightEdit = ({
   property,
   setPlantProperty,

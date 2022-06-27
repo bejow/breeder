@@ -3,13 +3,9 @@
  * https://reactnavigation.org/docs/typescript/
  */
 
-import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
-import {
-  CompositeScreenProps,
-  NavigatorScreenParams,
-  ParamListBase,
-} from "@react-navigation/native";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import { CompositeScreenProps, NavigatorScreenParams, ParamListBase } from '@react-navigation/native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 declare global {
   namespace ReactNavigation {
@@ -18,8 +14,8 @@ declare global {
 }
 
 export type PlantPropertyModalParams = {
-  setPlantProperties: (properties: plantProperty[]) => void
-}
+  setPlantProperties: (properties: plantProperty[]) => void;
+};
 
 export type RootStackParamList = {
   Root: NavigatorScreenParams<RootTabParamList> | undefined;
@@ -27,43 +23,44 @@ export type RootStackParamList = {
   EditPlantModal: plantState | undefined;
   NotFound: undefined;
   PropertyModal: NavigatorScreenParams<PlantPropertyModalParams>;
-  PlantDetailScreen: {id: string};
+  PlantDetailScreen: { id: string };
   SeedScreen: undefined;
   AddSeedModal: undefined;
 };
 
 export interface ParamList extends ParamListBase {
-  DetailScreenParams: {id : string }
+  DetailScreenParams: { id: string };
 }
 
-export type RootStackScreenProps<Screen extends keyof RootStackParamList> =
-  NativeStackScreenProps<RootStackParamList, Screen>;
+export type RootStackScreenProps<Screen extends keyof RootStackParamList> = NativeStackScreenProps<
+  RootStackParamList,
+  Screen
+>;
 
 export type RootTabParamList = {
   Plants: undefined;
   Seeds: undefined;
-  PlantDetailScreen: {id: string};
+  PlantDetailScreen: { id: string };
   EditPlantModal: plantState | undefined;
   PlantListItem: undefined;
   SeedScreen: undefined;
   AddSeedModal: undefined;
 };
 
-export type RootTabScreenProps<Screen extends keyof RootTabParamList> =
-  CompositeScreenProps<
-    BottomTabScreenProps<RootTabParamList, Screen>,
-    NativeStackScreenProps<RootStackParamList>
-  >;
+export type RootTabScreenProps<Screen extends keyof RootTabParamList> = CompositeScreenProps<
+  BottomTabScreenProps<RootTabParamList, Screen>,
+  NativeStackScreenProps<RootStackParamList>
+>;
 
-export type plantPropertyWeight = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10
+export type plantPropertyWeight = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
 
 export type plantProperty = {
   title: string;
   note: string;
   weight: plantPropertyWeight;
-  inheritance: "dominant" | "recessive" | undefined;
+  inheritance: 'dominant' | 'recessive' | undefined;
   uuid: string;
-}
+};
 
 export type plantState = {
   title: string;
@@ -87,10 +84,10 @@ export type seedState = {
   uuid: string;
   father: string;
   mother: string;
-  type: SeedType
+  type: SeedType;
 };
 
-export type SeedType = "feminized" | "regular" | "autoflowering"
+export type SeedType = 'feminized' | 'regular' | 'autoflowering' | undefined;
 
 export type plantsReducer = plantState[];
 

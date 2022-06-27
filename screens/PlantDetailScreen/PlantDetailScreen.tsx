@@ -1,19 +1,15 @@
-import { ParamListBase, Route, RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
-import { Dialog } from 'react-native-elements/dist/dialog/Dialog';
 import { Tooltip } from 'react-native-elements/dist/tooltip/Tooltip';
-import { ScreenStackHeaderBackButtonImage } from 'react-native-screens';
 import { connect, ConnectedProps, useSelector } from 'react-redux';
 import { CustomIcon } from '../../components/CustomIcon/CustomIcon';
 import { KeyValuePair } from '../../components/KeyValuePair/KeyValuePair';
 import { ParentDisplay } from '../../components/ParentDisplay/ParentDisplay';
-import PlantListItem from '../../components/PlantListItem/PlantListItem';
 import { PlantPropertiesDisplay } from '../../components/PlantPropertiesDisplay/PlantPropertiesDisplay';
-import { TabBarIcon } from '../../navigation';
+import { TabBarIcon } from '../../navigation/TabBarIcon';
 import { deletePlant, selectPlantById } from '../../redux/reducers/plantReducer';
-import { ParamList, plantState, RootStackParamList, rootState, RootTabScreenProps } from '../../types';
-import AddPlantModal from '../AddPlantModal/AddPlantModal';
+import { ParamList, plantState, rootState } from '../../types';
 import styles from './PlantDetailScreen.module.scss';
 
 const mapStateToProps = (state: rootState) => ({
@@ -73,7 +69,7 @@ const PlantDetailScreen = ({ state, deletePlant }: Props) => {
             <CustomIcon name="trash-can-outline" size={30} style={styles.icon} color="red" />
           </Tooltip>
           <TabBarIcon
-            style={{marginLeft:12}}
+            style={{ marginLeft: 12 }}
             name="save"
             size={30}
             color="black"

@@ -9,7 +9,7 @@ import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
 import { View } from 'react-native';
-import { ColorSchemeName, Pressable } from 'react-native';
+import { ColorSchemeName } from 'react-native';
 import ExportButton from '../components/ExportButton/ExportButton';
 import ImportButton from '../components/ImportButton/ImportButton';
 import styles from './navigation.module.scss';
@@ -21,12 +21,12 @@ import EditPlantModal from '../screens/EditPlantModal/EditPlantModal';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import PlantDetailScreen from '../screens/PlantDetailScreen/PlantDetailScreen';
 import PlantScreen from '../screens/PlantScreen/PlantScreen';
-import PropertyModal from '../screens/PropertyModal/PropertyModal';
 import SeedScreen from '../screens/SeedScreen/SeedScreen';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
 import { CustomIcon } from '../components/CustomIcon/CustomIcon';
-import { AddSeedModal } from '../screens/AddSeedModal/AddSeedModal';
+import AddSeedModal from '../screens/AddSeedModal/AddSeedModal';
+import { TabBarIcon } from './TabBarIcon';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -50,7 +50,7 @@ function RootNavigator() {
       <Stack.Screen name="SeedScreen" component={SeedScreen} options={{ title: 'Seeds' }} />
       <Stack.Screen name="PlantDetailScreen" component={PlantDetailScreen} initialParams={{ id: '0' }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
-      <Stack.Screen name="AddSeedModal" component={AddSeedModal} options={{ title: 'Oops!' }} />
+        <Stack.Screen name="AddSeedModal" component={AddSeedModal} options={{ title: 'Add Seeds' }} />
         <Stack.Screen name="AddPlantModal" component={AddPlantModal} options={{ title: 'Add a new Plant' }} />
         <Stack.Screen name="EditPlantModal" component={EditPlantModal} />
       </Stack.Group>
@@ -69,7 +69,7 @@ function BottomTabNavigator() {
 
   return (
     <BottomTab.Navigator
-      initialRouteName="Plants"
+      initialRouteName="Seeds"
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme].tint,
       }}
@@ -114,10 +114,3 @@ function BottomTabNavigator() {
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
  */
-export function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
-  color: string;
-  onPress: (() => void) | undefined;
-}) {
-  return <FontAwesome size={30} style={{ marginBottom: -3 }} {...props} />;
-}
