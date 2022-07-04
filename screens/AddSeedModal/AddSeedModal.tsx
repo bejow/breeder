@@ -1,12 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ScrollView, Text, TextInput, View } from 'react-native';
-import { connect, ConnectedProps } from 'react-redux';
+import { connect, ConnectedProps, useSelector } from 'react-redux';
 import { rootState, seedState } from '../../types';
 import { addSeed } from '../../redux/reducers/seedReducer';
 import { useNavigation } from '@react-navigation/native';
 import { TabBarIcon } from '../../navigation/TabBarIcon';
 import styles from './AddSeedModal.module.scss';
 import { Button, Input } from 'react-native-elements';
+import { AncestorModal } from '../AncestorModal/AncestorModal';
+import { addPlant, selectPlantById } from '../../redux/reducers/plantReducer';
 
 const defaultState = {
   title: '',
@@ -21,6 +23,19 @@ const defaultState = {
   type: undefined,
 };
 
+const defaultPlantState = {
+  title: '',
+  startDate: undefined,
+  flowerDate: undefined,
+  harvestDate: undefined,
+  note: '',
+  strain: '',
+  uuid: '',
+  father: '',
+  mother: '',
+  properties: new Array<plantProperty>(),
+};
+
 const mapStateToProps = (state: rootState) => ({
   plants: state.plants,
   seeds: state.seeds,
@@ -28,6 +43,7 @@ const mapStateToProps = (state: rootState) => ({
 
 const mapDispatch = {
   addSeed,
+  addPlant,
 };
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
@@ -38,7 +54,7 @@ interface Props extends PropsFromRedux {
 
 const connector = connect(mapStateToProps, mapDispatch);
 
-const AddSeedModal = ({ addSeed, plants, seeds }: Props) => {
+const AddSeedModal = ({ addSeed, plants, seeds, addPlant }: Props) => {
   const [seedData, setSeedData] = useState<seedState>(defaultState);
   const { title, strain, breeder, note, harvestDate, uuid, father, mother, type } = seedData;
   const [displayDatePicker, setDisplayDatepicker] = useState(false);
@@ -48,6 +64,9 @@ const AddSeedModal = ({ addSeed, plants, seeds }: Props) => {
   const noteRef = useRef<TextInput>(null);
   const breederRef = useRef<TextInput>(null);
   const [showAncestorModal, setShowAncestorModal] = useState<boolean>(false);
+
+  const motherPlant = useSelector((state) => selectPlantById(state as rootState, mother));
+  const fatherPlant = useSelector((state) => selectPlantById(state as rootState, father));
 
   useEffect(() => {
     if (showAncestorModal === false)
@@ -118,8 +137,27 @@ const AddSeedModal = ({ addSeed, plants, seeds }: Props) => {
             onChangeText={(text) => onTextInputChange('note', text)}
             label="Note"
           />
+
+          <View style={styles.horizontalContainer}>
+            <Button style={styles.button} title="Parents" onPress={() => setShowAncestorModal(true)} />
+          </View>
         </View>
       </ScrollView>
+      {showAncestorModal && (
+        <View style={styles.modal}>
+          <AncestorModal
+            label="Pick Seed Parents"
+            placeholder="Search or Add Plant"
+            setShowAncestorModal={setShowAncestorModal}
+            showAncestorModal={showAncestorModal}
+            onSubmit={(search) => addPlant({ ...defaultPlantState, title: search })}
+            setMother={(plantId: string) => setSeedData({ ...seedData, mother: plantId })}
+            setFather={(plantId: string) => setSeedData({ ...seedData, father: plantId })}
+            mother={motherPlant}
+            father={fatherPlant}
+          />
+        </View>
+      )}
       <Button buttonStyle={styles.addButton} title="Add" onPress={onSubmit} />
     </View>
   );

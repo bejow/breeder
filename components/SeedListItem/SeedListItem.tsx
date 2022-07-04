@@ -3,10 +3,14 @@ import { ListItem, Avatar } from 'react-native-elements';
 import React from 'react';
 import { seedState } from '../../types';
 import { hashStringToColor } from '../../helper/colorHash';
+import { StackActions, useNavigation } from '@react-navigation/native';
 
 export default ({ seed }: { seed: seedState }) => {
+  const navigation = useNavigation();
+  const pushOnNavigationStack = StackActions.push('SeedDetailScreen', { id: seed.uuid });
+
   return (
-    <ListItem bottomDivider>
+    <ListItem onPress={() => navigation.dispatch(pushOnNavigationStack)} bottomDivider>
       <Avatar
         size={32}
         rounded

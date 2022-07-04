@@ -104,78 +104,69 @@ function AddPlantModal({ plants, seeds, addPlant }: Props) {
     <View style={styles.wrapper}>
       <ScrollView style={styles.container as any}>
         <View style={styles.viewContainer as any}>
-          <View>
-            <Input
-              style={styles.input as any}
-              onSubmitEditing={() => strainRef.current?.focus()}
-              placeholder="title"
-              blurOnSubmit={false}
-              value={title}
-              onChangeText={(text) => onTextInputChange('title', text)}
-              label="Plant Title"
-            />
-            <Input
-              ref={strainRef}
-              onSubmitEditing={() => noteRef.current?.focus()}
-              style={styles.input as any}
-              value={strain}
-              placeholder="strain"
-              blurOnSubmit={false}
-              onChangeText={(text) => onTextInputChange('strain', text)}
-              label="Strain"
-            />
-            <Input
-              ref={noteRef}
-              style={styles.input as any}
-              placeholder="note"
-              value={note}
-              blurOnSubmit={true}
-              onChangeText={(text) => onTextInputChange('note', text)}
-              label="Note"
-            />
-            <View style={styles.horizontalContainer}>
-              <Button style={styles.button} title="Parents" onPress={() => setShowAncestorModal(true)} />
-              <Button style={styles.button} title="Properties" onPress={() => setShowPropertyModal(true)} />
-              <Button title="Start" onPress={() => setDisplayDatepicker({ ...displayDatepicker, startDate: true })} />
-              <Button title="Flower" onPress={() => setDisplayDatepicker({ ...displayDatepicker, flowerDate: true })} />
-              <Button
-                title="Harvest"
-                onPress={() => setDisplayDatepicker({ ...displayDatepicker, harvestDate: true })}
-              />
-            </View>
+          <Input
+            style={styles.input as any}
+            onSubmitEditing={() => strainRef.current?.focus()}
+            placeholder="title"
+            blurOnSubmit={false}
+            value={title}
+            onChangeText={(text) => onTextInputChange('title', text)}
+            label="Plant Title"
+          />
+          <Input
+            ref={strainRef}
+            onSubmitEditing={() => noteRef.current?.focus()}
+            style={styles.input as any}
+            value={strain}
+            placeholder="strain"
+            blurOnSubmit={false}
+            onChangeText={(text) => onTextInputChange('strain', text)}
+            label="Strain"
+          />
+          <Input
+            ref={noteRef}
+            style={styles.input as any}
+            placeholder="note"
+            value={note}
+            blurOnSubmit={true}
+            onChangeText={(text) => onTextInputChange('note', text)}
+            label="Note"
+          />
+          <View style={styles.horizontalContainer}>
+            <Button style={styles.button} title="Parents" onPress={() => setShowAncestorModal(true)} />
+            <Button style={styles.button} title="Properties" onPress={() => setShowPropertyModal(true)} />
+            <Button title="Start" onPress={() => setDisplayDatepicker({ ...displayDatepicker, startDate: true })} />
+            <Button title="Flower" onPress={() => setDisplayDatepicker({ ...displayDatepicker, flowerDate: true })} />
+            <Button title="Harvest" onPress={() => setDisplayDatepicker({ ...displayDatepicker, harvestDate: true })} />
+          </View>
 
-            {showPropertyModal && (
-              <PropertyModal
-                setShowPropertyModal={setShowPropertyModal}
-                showPropertyModal={showPropertyModal}
-                setPlantData={setPlantData}
-                plantData={plantData}
-                properties={properties}
+          {showPropertyModal && (
+            <PropertyModal
+              setShowPropertyModal={setShowPropertyModal}
+              showPropertyModal={showPropertyModal}
+              setPlantData={setPlantData}
+              plantData={plantData}
+              properties={properties}
+            />
+          )}
+          <PlantPropertiesDisplay properties={properties} />
+          <ParentDisplay motherPlant={motherPlant} fatherPlant={fatherPlant} />
+
+          <>
+            {displayDatepicker.startDate && (
+              <DateTimePicker value={startDate ? startDate : new Date()} onChange={onStartDateChange} mode="date" />
+            )}
+            {displayDatepicker.flowerDate && (
+              <DateTimePicker value={flowerDate ? flowerDate : new Date()} onChange={onFlowerDateChange} mode="date" />
+            )}
+            {displayDatepicker.harvestDate && (
+              <DateTimePicker
+                value={harvestDate ? harvestDate : new Date()}
+                onChange={onHarvestDateChange}
+                mode="date"
               />
             )}
-            <PlantPropertiesDisplay properties={properties} />
-            <ParentDisplay motherPlant={motherPlant} fatherPlant={fatherPlant} />
-
-            <>
-              {displayDatepicker.startDate && (
-                <DateTimePicker value={startDate ? startDate : new Date()} onChange={onStartDateChange} mode="date" />
-              )}
-              {displayDatepicker.flowerDate && (
-                <DateTimePicker
-                  value={flowerDate ? flowerDate : new Date()}
-                  onChange={onFlowerDateChange}
-                  mode="date"
-                />
-              )}
-              {displayDatepicker.harvestDate && (
-                <DateTimePicker
-                  value={harvestDate ? harvestDate : new Date()}
-                  onChange={onHarvestDateChange}
-                  mode="date"
-                />
-              )}
-            </>
-          </View>
+          </>
         </View>
         {showAncestorModal && (
           <View style={styles.modal}>

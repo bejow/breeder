@@ -21,9 +21,11 @@ export type RootStackParamList = {
   Root: NavigatorScreenParams<RootTabParamList> | undefined;
   AddPlantModal: undefined;
   EditPlantModal: plantState | undefined;
+  EditSeedModal: seedState | undefined;
   NotFound: undefined;
   PropertyModal: NavigatorScreenParams<PlantPropertyModalParams>;
   PlantDetailScreen: { id: string };
+  SeedDetailScreen: { id: string };
   SeedScreen: undefined;
   AddSeedModal: undefined;
 };
@@ -41,6 +43,8 @@ export type RootTabParamList = {
   Plants: undefined;
   Seeds: undefined;
   PlantDetailScreen: { id: string };
+  SeedDetailScreen: { id: string };
+  EditSeedModal: seedState | undefined;
   EditPlantModal: plantState | undefined;
   PlantListItem: undefined;
   SeedScreen: undefined;

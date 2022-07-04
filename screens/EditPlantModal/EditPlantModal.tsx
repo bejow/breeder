@@ -4,7 +4,7 @@ import styles from './EditPlantModal.module.scss';
 import { Text, View } from '../../components/Themed';
 import { Button, Input } from 'react-native-elements';
 import DateTimePicker, { Event } from '@react-native-community/datetimepicker';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { plantProperty, plantState, rootState, RootTabScreenProps } from '../../types';
 import { setPlant, addPlant, selectPlantById } from '../../redux/reducers/plantReducer';
 import { connect, ConnectedProps, useSelector } from 'react-redux';
@@ -12,6 +12,7 @@ import PropertyModal from '../PropertyModal/PropertyModal';
 import { PlantPropertiesDisplay } from '../../components/PlantPropertiesDisplay/PlantPropertiesDisplay';
 import { AncestorModal } from '../AncestorModal/AncestorModal';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import { TabBarIcon } from '../../navigation/TabBarIcon';
 
 const defaultState = {
   title: '',
@@ -40,7 +41,7 @@ const mapStateToProps = (state: rootState) => ({
 
 const mapDispatch = {
   setPlant,
-  addPlant
+  addPlant,
 };
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
@@ -52,11 +53,9 @@ interface Props extends PropsFromRedux {
 const connector = connect(mapStateToProps, mapDispatch);
 
 function AddPlantModal({ plants, seeds, setPlant, addPlant }: Props) {
-    const route = useRoute()
-    const navigation = useNavigation()
-  const [plantData, setPlantData] = useState<plantState>(route.params ? route.params as plantState : defaultState);
-
-
+  const route = useRoute();
+  const navigation = useNavigation();
+  const [plantData, setPlantData] = useState<plantState>(route.params ? (route.params as plantState) : defaultState);
 
   const [showPropertyModal, setShowPropertyModal] = useState<boolean>(false);
   const [showAncestorModal, setShowAncestorModal] = useState<boolean>(false);
@@ -64,16 +63,33 @@ function AddPlantModal({ plants, seeds, setPlant, addPlant }: Props) {
   const noteRef = useRef<TextInput>(null);
   const propertyRef = useRef<TextInput>(null);
   const parentRef = useRef<TextInput>(null);
-  
+
   const [displayDatepicker, setDisplayDatepicker] = useState({
     startDate: false,
     flowerDate: false,
   });
-  
+
   const { title, strain, startDate, flowerDate, note, uuid, father, mother, properties } = plantData;
 
-  const motherPlant = useSelector(state => selectPlantById(state as rootState, mother ))
-  const fatherPlant = useSelector(state => selectPlantById(state as rootState, father ))
+  useEffect(() => {
+    navigation.setOptions({
+      title: 'Edit',
+      headerRight: () => (
+        <View style={styles.iconContainer}>
+          <TabBarIcon style={{ marginLeft: 12 }} name="save" size={30} color="black" onPress={onSubmit} />
+        </View>
+      ),
+    });
+    return () => {
+      navigation.setOptions({
+        title: undefined,
+        headerRight: () => undefined,
+      });
+    };
+  }, [plantData]);
+
+  const motherPlant = useSelector((state) => selectPlantById(state as rootState, mother));
+  const fatherPlant = useSelector((state) => selectPlantById(state as rootState, father));
   const onStartDateChange = (event: Event, date: Date | undefined) => {
     setDisplayDatepicker({ ...displayDatepicker, startDate: false });
     setPlantData({ ...plantData, startDate: date });
@@ -90,7 +106,7 @@ function AddPlantModal({ plants, seeds, setPlant, addPlant }: Props) {
 
   const onSubmit = () => {
     setPlant(plantData);
-    navigation.goBack()
+    navigation.goBack();
   };
 
   return (
@@ -146,9 +162,9 @@ function AddPlantModal({ plants, seeds, setPlant, addPlant }: Props) {
             setShowAncestorModal={setShowAncestorModal}
             showAncestorModal={showAncestorModal}
             parentRef={parentRef}
-            onSubmit={(search) => addPlant({...defaultState, title:search})}
-            setMother={(plantId: string) => setPlantData({...plantData, mother: plantId})}
-            setFather={(plantId: string) => setPlantData({...plantData, father: plantId})}
+            onSubmit={(search) => addPlant({ ...defaultState, title: search })}
+            setMother={(plantId: string) => setPlantData({ ...plantData, mother: plantId })}
+            setFather={(plantId: string) => setPlantData({ ...plantData, father: plantId })}
             mother={motherPlant}
             father={fatherPlant}
           />

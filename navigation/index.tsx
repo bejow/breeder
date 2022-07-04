@@ -27,6 +27,8 @@ import LinkingConfiguration from './LinkingConfiguration';
 import { CustomIcon } from '../components/CustomIcon/CustomIcon';
 import AddSeedModal from '../screens/AddSeedModal/AddSeedModal';
 import { TabBarIcon } from './TabBarIcon';
+import SeedDetailScreen from '../screens/SeedDetailScreen/SeedDetailScreen';
+import { EditSeedModal } from '../screens/EditSeedModal/EditSeedModal';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -49,10 +51,12 @@ function RootNavigator() {
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Screen name="SeedScreen" component={SeedScreen} options={{ title: 'Seeds' }} />
       <Stack.Screen name="PlantDetailScreen" component={PlantDetailScreen} initialParams={{ id: '0' }} />
+      <Stack.Screen name="SeedDetailScreen" component={SeedDetailScreen} initialParams={{ id: '0' }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen name="AddSeedModal" component={AddSeedModal} options={{ title: 'Add Seeds' }} />
         <Stack.Screen name="AddPlantModal" component={AddPlantModal} options={{ title: 'Add a new Plant' }} />
         <Stack.Screen name="EditPlantModal" component={EditPlantModal} />
+        <Stack.Screen name="EditSeedModal" component={EditSeedModal} />
       </Stack.Group>
     </Stack.Navigator>
   );

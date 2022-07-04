@@ -70,7 +70,7 @@ const PlantDetailScreen = ({ state, deletePlant }: Props) => {
           </Tooltip>
           <TabBarIcon
             style={{ marginLeft: 12 }}
-            name="save"
+            name="edit"
             size={30}
             color="black"
             onPress={() => navigation.navigate('EditPlantModal', plant)}
