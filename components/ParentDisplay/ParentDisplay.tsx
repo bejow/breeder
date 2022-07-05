@@ -3,7 +3,14 @@ import { Text, View } from 'react-native';
 import { plantState } from '../../types';
 import PlantListItem from '../PlantListItem/PlantListItem';
 import styles from './ParentDisplay.module.scss';
-export const ParentDisplay = ({ motherPlant, fatherPlant }: { motherPlant: plantState| undefined; fatherPlant: plantState| undefined }) => {
+export const ParentDisplay = ({
+  motherPlant,
+  fatherPlant,
+}: {
+  motherPlant: plantState | undefined;
+  fatherPlant: plantState | undefined;
+}) => {
+  console.log('father', fatherPlant);
   return (
     <View style={styles.container}>
       {motherPlant ? (
@@ -12,7 +19,12 @@ export const ParentDisplay = ({ motherPlant, fatherPlant }: { motherPlant: plant
           <PlantListItem plant={motherPlant} />
         </>
       ) : null}
-      {fatherPlant ? <><Text style={styles.title}>Father:</Text><PlantListItem plant={fatherPlant} /></> : null}
+      {fatherPlant ? (
+        <>
+          <Text style={styles.title}>Father:</Text>
+          <PlantListItem plant={fatherPlant} />
+        </>
+      ) : null}
     </View>
   );
 };

@@ -33,6 +33,12 @@ const seedSlice = createSlice({
       }));
       return newSeeds;
     },
+    setSeed(state, action: PayloadAction<seedState>) {
+      const seedIndex = state.findIndex((seed) => seed.uuid === action.payload.uuid);
+      const newState = [...state];
+      newState[seedIndex] = action.payload;
+      return newState;
+    },
     importAppend(state, action: PayloadAction<rootState>) {
       const newSeeds: seedsReducer = action.payload.seeds.map((seed) => ({
         ...seed,
@@ -56,5 +62,5 @@ const selectSeedById = createSelector([selectSeeds, (state: rootState, id: strin
 });
 
 export { selectSeedById };
-export const { addSeed, importAppend, importOverride, deleteSeed } = seedSlice.actions;
+export const { addSeed, importAppend, importOverride, deleteSeed, setSeed } = seedSlice.actions;
 export default seedSlice.reducer;

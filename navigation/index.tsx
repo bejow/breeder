@@ -28,7 +28,7 @@ import { CustomIcon } from '../components/CustomIcon/CustomIcon';
 import AddSeedModal from '../screens/AddSeedModal/AddSeedModal';
 import { TabBarIcon } from './TabBarIcon';
 import SeedDetailScreen from '../screens/SeedDetailScreen/SeedDetailScreen';
-import { EditSeedModal } from '../screens/EditSeedModal/EditSeedModal';
+import EditSeedModal from '../screens/EditSeedModal/EditSeedModal';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (

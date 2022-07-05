@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ScrollView, Text, TextInput, View } from 'react-native';
 import { connect, ConnectedProps, useSelector } from 'react-redux';
-import { rootState, seedState } from '../../types';
+import { plantPropertyWeight, rootState, seedState } from '../../types';
 import { addSeed } from '../../redux/reducers/seedReducer';
 import { useNavigation } from '@react-navigation/native';
 import { TabBarIcon } from '../../navigation/TabBarIcon';
@@ -33,7 +33,7 @@ const defaultPlantState = {
   uuid: '',
   father: '',
   mother: '',
-  properties: new Array<plantProperty>(),
+  properties: new Array<plantPropertyWeight>(),
 };
 
 const mapStateToProps = (state: rootState) => ({
