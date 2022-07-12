@@ -12,6 +12,7 @@ import { CustomIcon } from '../CustomIcon/CustomIcon';
 const mapStateToProps = (state: rootState) => ({
   state: state,
   plants: state.plants,
+  seeds: state.seeds,
 });
 
 const mapDispatch = {};
@@ -22,7 +23,7 @@ const connector = connect(mapStateToProps, mapDispatch);
 
 const ExportButton = ({ state, plants }: PropsFromRedux) => {
   const timestamp = new Date(Date.now()).toISOString();
-  const filename = `breeder-export-${timestamp}.json`;
+  const filename = `${timestamp}-breeder-export.json`;
   const exportData = async () => {
     // Requests permissions for external directory
     const permissions = await StorageAccessFramework.requestDirectoryPermissionsAsync();

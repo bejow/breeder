@@ -39,7 +39,7 @@ const seedSlice = createSlice({
       newState[seedIndex] = action.payload;
       return newState;
     },
-    importAppend(state, action: PayloadAction<rootState>) {
+    importAppendSeeds(state, action: PayloadAction<rootState>) {
       const newSeeds: seedsReducer = action.payload.seeds.map((seed) => ({
         ...seed,
         harvestDate: typeof seed.harvestDate === 'string' ? new Date(Date.parse(seed.harvestDate)) : undefined,
@@ -62,5 +62,5 @@ const selectSeedById = createSelector([selectSeeds, (state: rootState, id: strin
 });
 
 export { selectSeedById };
-export const { addSeed, importAppend, importOverride, deleteSeed, setSeed } = seedSlice.actions;
+export const { addSeed, importAppendSeeds, importOverride, deleteSeed, setSeed } = seedSlice.actions;
 export default seedSlice.reducer;

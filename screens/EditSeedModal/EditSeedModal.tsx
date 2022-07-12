@@ -14,6 +14,7 @@ import { PlantPropertiesDisplay } from '../../components/PlantPropertiesDisplay/
 import { AncestorModal } from '../AncestorModal/AncestorModal';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { TabBarIcon } from '../../navigation/TabBarIcon';
+import { ParentDisplay } from '../../components/ParentDisplay/ParentDisplay';
 
 const defaultState = {
   title: '',
@@ -153,6 +154,9 @@ function EditSeedModal({ plants, seeds, setPlant, addPlant, addSeed, setSeed }: 
           </View>
         </View>
 
+          <ParentDisplay motherPlant={motherPlant} fatherPlant={fatherPlant} />
+
+      </ScrollView>
         {showAncestorModal && (
           <View style={styles.modal}>
             <AncestorModal
@@ -168,7 +172,6 @@ function EditSeedModal({ plants, seeds, setPlant, addPlant, addSeed, setSeed }: 
             />
           </View>
         )}
-      </ScrollView>
       <>
         {displayDatepicker.harvestDate && (
           <DateTimePicker value={harvestDate ? harvestDate : new Date()} onChange={onHarvestDateChange} mode="date" />

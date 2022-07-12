@@ -1,7 +1,7 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { GestureResponderEvent } from 'react-native';
 import uuid from 'react-native-uuid';
-import { plantProperty, plantsReducer, plantState, rootState } from '../../types';
+import { plantProperty, plantsReducer, plantState, rootState, seedsReducer } from '../../types';
 
 const initialState: plantsReducer = [
   {
@@ -51,7 +51,7 @@ const plantSlice = createSlice({
       }));
       return newPlants
     },
-    importAppend(state, action: PayloadAction<rootState>) {
+    importAppendPlants(state, action: PayloadAction<rootState>) {
       const newPlants: plantsReducer = action.payload.plants.map((plant) => ({
         ...plant,
         startDate: typeof plant.startDate === 'string' ? new Date(Date.parse(plant.startDate)) : undefined,
@@ -120,5 +120,5 @@ const getAllPlantProperties = createSelector(
 );
 
 export { getAllPlantProperties, getAllPlantTitles, selectPlantById };
-export const { addPlant, deletePlant, setPlant, importAppend, importOverride } = plantSlice.actions;
+export const { addPlant, deletePlant, setPlant, importAppendPlants, importOverride } = plantSlice.actions;
 export default plantSlice.reducer;

@@ -28,9 +28,9 @@ export const PlantPropertyEdit = ({
   return (
     <View>
       <Text>Specify Plant Properties</Text>
-      {properties.map((property: plantProperty) => {
+      {properties.map((property: plantProperty, index) => {
         return (
-          <View key={`plantPropertyEdit-${property.uuid}`}>
+          <View key={`plantPropertyEdit-${property.uuid}-${index}`}>
             <PlantPropertyWeightEdit 
               property={property}
               setPlantProperty={setPlantProperty}

@@ -11,8 +11,8 @@ export const PlantPropertiesDisplay = ({ properties }: { properties: plantProper
     <View style={styles.propertiesContainer as any}>
 
       {properties.length > 0  ? <Text style={styles.title}>Properties:</Text> : null}
-      {properties.map((property) => {
-        return <PlantPropertyDisplay key={property.uuid} property={property} />;
+      {properties.map((property, index) => {
+        return <PlantPropertyDisplay key={"plantProperty" + property.uuid + "-" + index} property={property} />;
       })}
     </View>
   );

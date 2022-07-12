@@ -9,6 +9,7 @@ import styles from './AddSeedModal.module.scss';
 import { Button, Input } from 'react-native-elements';
 import { AncestorModal } from '../AncestorModal/AncestorModal';
 import { addPlant, selectPlantById } from '../../redux/reducers/plantReducer';
+import { ParentDisplay } from '../../components/ParentDisplay/ParentDisplay';
 
 const defaultState = {
   title: '',
@@ -142,6 +143,8 @@ const AddSeedModal = ({ addSeed, plants, seeds, addPlant }: Props) => {
             <Button style={styles.button} title="Parents" onPress={() => setShowAncestorModal(true)} />
           </View>
         </View>
+        <ParentDisplay motherPlant={motherPlant} fatherPlant={fatherPlant} />
+
       </ScrollView>
       {showAncestorModal && (
         <View style={styles.modal}>

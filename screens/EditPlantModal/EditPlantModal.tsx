@@ -155,6 +155,10 @@ function AddPlantModal({ plants, seeds, setPlant, addPlant }: Props) {
             <Button title="Flower" onPress={() => setDisplayDatepicker({ ...displayDatepicker, flowerDate: true })} />
             <Button title="Harvest" onPress={() => setDisplayDatepicker({ ...displayDatepicker, harvestDate: true })} />
           </View>
+          <PlantPropertiesDisplay properties={properties} />
+        </View>
+
+      </ScrollView>
           {showPropertyModal && (
             <PropertyModal
               setShowPropertyModal={setShowPropertyModal}
@@ -164,9 +168,6 @@ function AddPlantModal({ plants, seeds, setPlant, addPlant }: Props) {
               properties={properties}
             />
           )}
-          <PlantPropertiesDisplay properties={properties} />
-        </View>
-
         {showAncestorModal && (
           <View style={styles.modal}>
             <AncestorModal
@@ -182,7 +183,6 @@ function AddPlantModal({ plants, seeds, setPlant, addPlant }: Props) {
             />
           </View>
         )}
-      </ScrollView>
       {displayDatepicker.startDate && (
         <DateTimePicker value={startDate ? startDate : new Date()} onChange={onStartDateChange} mode="date" />
       )}
@@ -192,10 +192,9 @@ function AddPlantModal({ plants, seeds, setPlant, addPlant }: Props) {
           <DateTimePicker value={flowerDate ? flowerDate : new Date()} onChange={onFlowerDateChange} mode="date" />
         )}
       </>
-      <Button title="Save Changes" onPress={onSubmit} />
+      <Button style={styles.addButton as styles} title="Save Changes" onPress={onSubmit} />
 
-      {/* Use a light status bar on iOS to account for the black space above the modal */}
-      <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
+
     </View>
   );
 }

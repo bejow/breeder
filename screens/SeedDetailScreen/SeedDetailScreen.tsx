@@ -90,10 +90,12 @@ const SeedDetailScreen = ({ state, deleteSeed }: Props) => {
   if (seed) {
     return (
       <View>
-        <KeyValuePair title="Title" value={seed.title} />
-        <KeyValuePair title="Strain" value={seed.strain} />
-        <KeyValuePair title="Info" value={seed.note} />
-        <KeyValuePair title="Harvest Date" value={seed.harvestDate?.toDateString()} />
+        <View style={styles.textContainer}>
+          <KeyValuePair title="Title" value={seed.title} />
+          <KeyValuePair title="Strain" value={seed.strain} />
+          <KeyValuePair title="Info" value={seed.note} />
+          <KeyValuePair title="Harvest Date" value={seed.harvestDate?.toDateString()} />
+        </View>
         <ParentDisplay fatherPlant={fatherPlant} motherPlant={motherPlant} />
       </View>
     );
