@@ -3,3 +3,28 @@
   flex-direction: row;
   justify-content: space-between;
 }
+
+.propertyTitle{
+  font-weight: bold;
+}
+
+.container{
+  margin: 8px 0;
+}
+
+.sliderThumbBackground{
+  background-color: white;
+  border-radius: 12px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sliderThumbNumber{
+  color: white;
+  font-weight: bold;
+
+
+}

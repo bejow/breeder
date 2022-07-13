@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { Text } from 'react-native-elements';
 import styles from './PlantPropertyEdit.module.scss';
 import { TabBarIcon } from '../../navigation/TabBarIcon';
+import { hashStringToColor, hexAToRGBA } from '../../helper/colorHash';
 export const PlantPropertyWeightEdit = ({
   property,
   setPlantProperty,
@@ -15,18 +16,36 @@ export const PlantPropertyWeightEdit = ({
   setPlantProperty: (property: plantProperty) => void;
   removePlantProperty: (property: plantProperty) => void;
 }) => {
+  const baseColorForProperty = hashStringToColor(property.title)
+  const rgba = hexAToRGBA(baseColorForProperty, property.weight / 10)
   return (
-    <View>
+    <View style={styles.container}>
       <View style={styles.infoContainer}>
         <View>
-          <Text>Set Weight for Property: {property.title}</Text>
-          <Text>{property.weight}</Text>
+          <Text style={styles.propertyTitle}>{property.title}</Text>
         </View>
         <TabBarIcon onPress={() => removePlantProperty(property)} name="close" color="black" />
       </View>
       <Slider
         value={property.weight}
         minimumValue={0}
+        renderThumbComponent={() => (
+          <View style={styles.sliderThumbBackground}>
+          <View
+            style={{
+              backgroundColor: rgba,
+              borderRadius: 12,
+              width: 24,
+              height: 24,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <Text style={styles.sliderThumbNumber}>{property.weight}</Text>
+          </View>
+          </View>
+        )}
         maximumValue={10}
         step={1}
         onValueChange={(value) =>

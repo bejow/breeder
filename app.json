@@ -26,7 +26,8 @@
       "supportsTablet": true
     },
     "android": {
-      "softwareKeyboardLayoutMode": "pan", 
+      "softwareKeyboardLayoutMode": "pan",
+      "package": "bayuuuum.breeds.breeder",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"

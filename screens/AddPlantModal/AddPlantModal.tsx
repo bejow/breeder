@@ -140,15 +140,7 @@ function AddPlantModal({ plants, seeds, addPlant }: Props) {
             <Button title="Harvest" onPress={() => setDisplayDatepicker({ ...displayDatepicker, harvestDate: true })} />
           </View>
 
-          {showPropertyModal && (
-            <PropertyModal
-              setShowPropertyModal={setShowPropertyModal}
-              showPropertyModal={showPropertyModal}
-              setPlantData={setPlantData}
-              plantData={plantData}
-              properties={properties}
-            />
-          )}
+          
           <PlantPropertiesDisplay properties={properties} />
           <ParentDisplay motherPlant={motherPlant} fatherPlant={fatherPlant} />
 
@@ -168,6 +160,16 @@ function AddPlantModal({ plants, seeds, addPlant }: Props) {
             )}
           </>
         </View>
+        {showPropertyModal && (
+
+            <PropertyModal
+              setShowPropertyModal={setShowPropertyModal}
+              showPropertyModal={showPropertyModal}
+              setPlantData={setPlantData}
+              plantData={plantData}
+              properties={properties}
+            />
+          )}
         {showAncestorModal && (
           <View style={styles.modal}>
             <AncestorModal

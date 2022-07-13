@@ -43,7 +43,6 @@ function PropertyModal({
 
   return (
     <View style={styles.modalContainer}>
-      <Text>Test</Text>
       <PlantPropertyPicker
         setPlantProperties={(properties: plantProperty[]) => setPlantData({ ...plantData, properties: properties })}
         addProperty={(property: plantProperty) =>
