@@ -6,6 +6,7 @@
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { CompositeScreenProps, NavigatorScreenParams, ParamListBase } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { Asset } from 'expo-media-library';
 
 declare global {
   namespace ReactNavigation {
@@ -76,6 +77,7 @@ export type plantState = {
   uuid: string;
   father: string;
   mother: string;
+  images: Asset[];
   properties: plantProperty[];
 };
 export type seedState = {

@@ -1,6 +1,7 @@
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
+import { Image } from 'react-native-elements/dist/image/Image';
 import { Tooltip } from 'react-native-elements/dist/tooltip/Tooltip';
 import { connect, ConnectedProps, useSelector } from 'react-redux';
 import { CustomIcon } from '../../components/CustomIcon/CustomIcon';
@@ -11,6 +12,7 @@ import { TabBarIcon } from '../../navigation/TabBarIcon';
 import { deletePlant, selectPlantById } from '../../redux/reducers/plantReducer';
 import { ParamList, plantState, rootState } from '../../types';
 import styles from './PlantDetailScreen.module.scss';
+import {requestStoragePermission} from '../../helper/imageHelper'
 
 const mapStateToProps = (state: rootState) => ({
   state: state,
@@ -86,6 +88,19 @@ const PlantDetailScreen = ({ state, deletePlant }: Props) => {
     };
   }, [plant]);
 
+  const renderImages = () => {
+    return plant?.images.map((asset) => {
+      return (
+        <Image
+          style={{ width: 300, height: 300, resizeMode: 'contain' }}
+          onError={(error) => console.log(error.type)}
+          key={'img_' + asset.filename}
+          source={{ uri: asset.uri}}
+        />
+      );
+    });
+  };
+
   if (plant) {
     return (
       <View>
@@ -97,6 +112,7 @@ const PlantDetailScreen = ({ state, deletePlant }: Props) => {
         <KeyValuePair title="Harvest Date" value={plant.harvestDate?.toDateString()} />
         <PlantPropertiesDisplay properties={plant.properties} />
         <ParentDisplay fatherPlant={fatherPlant} motherPlant={motherPlant} />
+        {renderImages()}
       </View>
     );
   } else {

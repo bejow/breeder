@@ -13,6 +13,11 @@ import { AncestorModal } from '../AncestorModal/AncestorModal';
 import { useNavigation } from '@react-navigation/native';
 import { TabBarIcon } from '../../navigation/TabBarIcon';
 import { ParentDisplay } from '../../components/ParentDisplay/ParentDisplay';
+import { pickImage, saveImage, takeImage } from '../../helper/imageHelper';
+import { ImageInfo } from 'expo-image-picker';
+import uuid from 'react-native-uuid';
+import { Asset } from 'expo-media-library';
+
 
 const defaultState = {
   title: '',
@@ -21,10 +26,11 @@ const defaultState = {
   harvestDate: undefined,
   note: '',
   strain: '',
-  uuid: '',
+  uuid: uuid.v4().toString(),
   father: '',
   mother: '',
   properties: new Array<plantProperty>(),
+  images:[]
 };
 
 const mapStateToProps = (state: rootState) => ({
@@ -58,7 +64,8 @@ function AddPlantModal({ plants, seeds, addPlant }: Props) {
     harvestDate: false,
   });
 
-  const { title, strain, startDate, flowerDate, note, uuid, father, mother, properties, harvestDate } = plantData;
+  console.log(plantData)
+  const { title, strain, startDate, flowerDate, note, uuid, father, mother, properties, harvestDate, images } = plantData;
 
   const motherPlant = useSelector((state) => selectPlantById(state as rootState, mother));
   const fatherPlant = useSelector((state) => selectPlantById(state as rootState, father));
@@ -75,6 +82,10 @@ function AddPlantModal({ plants, seeds, addPlant }: Props) {
       });
     };
   }, [showAncestorModal, showPropertyModal, plantData]);
+
+  const onAddImageChange = (file: Asset) => {
+    setPlantData({...plantData, images: images.concat([file])})
+  }
 
   const onStartDateChange = (event: Event, date: Date | undefined) => {
     setDisplayDatepicker({ ...displayDatepicker, startDate: false });
@@ -113,6 +124,8 @@ function AddPlantModal({ plants, seeds, addPlant }: Props) {
             onChangeText={(text) => onTextInputChange('title', text)}
             label="Plant Title"
           />
+          <Button onPress={() => pickImage((result: ImageInfo)=> saveImage(result.uri, onAddImageChange))} title={"Pick Photo"}/>
+          <Button onPress={() => takeImage((result: ImageInfo)=> saveImage(result.uri, onAddImageChange))} title={"Take Photo"}/>
           <Input
             ref={strainRef}
             onSubmitEditing={() => noteRef.current?.focus()}

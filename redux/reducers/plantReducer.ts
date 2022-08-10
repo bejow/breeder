@@ -14,6 +14,7 @@ const initialState: plantsReducer = [
     uuid: '11edc52b-2918-4d71-9058-f7285e29d894',
     father: '',
     mother: '',
+    images: [],
     properties: [
       {
         title: 'Harz',
@@ -30,7 +31,7 @@ const plantSlice = createSlice({
   initialState: initialState,
   reducers: {
     addPlant(state, action: PayloadAction<plantState>) {
-      state.push({ ...action.payload, uuid: uuid.v4().toString() });
+      state.push({ ...action.payload, uuid: action.payload.uuid ? action.payload.uuid : uuid.v4().toString() });
     },
     setPlant(state, action: PayloadAction<plantState>){
       const plantIndex = state.findIndex(plant => plant.uuid === action.payload.uuid)
