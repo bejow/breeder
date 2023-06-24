@@ -1,11 +1,11 @@
-import { ScrollView, TextInput } from 'react-native';
+import { ScrollView, Keyboard, TextInput } from 'react-native';
 import styles from './AddPlantModal.module.scss';
 import { View } from '../../components/Themed';
-import { Button, Input } from 'react-native-elements';
+import { Button, Input, Text } from 'react-native-elements';
 import DateTimePicker, { Event } from '@react-native-community/datetimepicker';
 import { useEffect, useRef, useState } from 'react';
 import { plantProperty, plantState, rootState, RootTabScreenProps } from '../../types';
-import { addPlant, selectPlantById } from '../../redux/reducers/plantReducer';
+import { addPlant, selectPlantById, getAllPlantStrains } from '../../redux/reducers/plantReducer';
 import { connect, ConnectedProps, useSelector } from 'react-redux';
 import PropertyModal from '../PropertyModal/PropertyModal';
 import { PlantPropertiesDisplay } from '../../components/PlantPropertiesDisplay/PlantPropertiesDisplay';
@@ -17,7 +17,7 @@ import { pickImage, saveImage, takeImage } from '../../helper/imageHelper';
 import { ImageInfo } from 'expo-image-picker';
 import uuid from 'react-native-uuid';
 import { Asset } from 'expo-media-library';
-
+import SearchableDropdown from 'react-native-searchable-dropdown';
 
 const defaultState = {
   title: '',
@@ -30,7 +30,7 @@ const defaultState = {
   father: '',
   mother: '',
   properties: new Array<plantProperty>(),
-  images:[]
+  images: [],
 };
 
 const mapStateToProps = (state: rootState) => ({
@@ -51,6 +51,9 @@ interface Props extends PropsFromRedux {
 const connector = connect(mapStateToProps, mapDispatch);
 
 function AddPlantModal({ plants, seeds, addPlant }: Props) {
+  const distinctStrains = useSelector((state: rootState) => getAllPlantStrains(state));
+  const strainSelectItems = distinctStrains.reverse().map((strain, index) => ({ name: strain, id: index }))
+  const [selectedStrain, setSelectedStrain] = useState<{id: Number, name: String} | undefined>(undefined)
   const navigation = useNavigation();
   const [plantData, setPlantData] = useState<plantState>(defaultState);
   const [showPropertyModal, setShowPropertyModal] = useState<boolean>(false);
@@ -64,8 +67,9 @@ function AddPlantModal({ plants, seeds, addPlant }: Props) {
     harvestDate: false,
   });
 
-  console.log(plantData)
-  const { title, strain, startDate, flowerDate, note, uuid, father, mother, properties, harvestDate, images } = plantData;
+  console.log(plantData);
+  const { title, strain, startDate, flowerDate, note, uuid, father, mother, properties, harvestDate, images } =
+    plantData;
 
   const motherPlant = useSelector((state) => selectPlantById(state as rootState, mother));
   const fatherPlant = useSelector((state) => selectPlantById(state as rootState, father));
@@ -84,8 +88,8 @@ function AddPlantModal({ plants, seeds, addPlant }: Props) {
   }, [showAncestorModal, showPropertyModal, plantData]);
 
   const onAddImageChange = (file: Asset) => {
-    setPlantData({...plantData, images: images.concat([file])})
-  }
+    setPlantData({ ...plantData, images: images.concat([file]) });
+  };
 
   const onStartDateChange = (event: Event, date: Date | undefined) => {
     setDisplayDatepicker({ ...displayDatepicker, startDate: false });
@@ -106,6 +110,13 @@ function AddPlantModal({ plants, seeds, addPlant }: Props) {
     setPlantData({ ...plantData, [name]: value });
   };
 
+  const onStrainSelect = (strain: {name:string, id:number}) => {
+    console.log(strain)
+    console.log("tst")
+    setPlantData({ ...plantData, strain: strain.name });
+    setSelectedStrain(strain)
+  };
+
   const onSubmit = () => {
     addPlant(plantData);
     navigation.goBack();
@@ -113,7 +124,7 @@ function AddPlantModal({ plants, seeds, addPlant }: Props) {
 
   return (
     <View style={styles.wrapper}>
-      <ScrollView style={styles.container as any}>
+      <ScrollView keyboardShouldPersistTaps="handled" style={styles.container as any}>
         <View style={styles.viewContainer as any}>
           <Input
             style={styles.input as any}
@@ -124,18 +135,48 @@ function AddPlantModal({ plants, seeds, addPlant }: Props) {
             onChangeText={(text) => onTextInputChange('title', text)}
             label="Plant Title"
           />
-          <Button onPress={() => pickImage((result: ImageInfo)=> saveImage(result.uri, onAddImageChange))} title={"Pick Photo"}/>
-          <Button onPress={() => takeImage((result: ImageInfo)=> saveImage(result.uri, onAddImageChange))} title={"Take Photo"}/>
-          <Input
-            ref={strainRef}
-            onSubmitEditing={() => noteRef.current?.focus()}
-            style={styles.input as any}
-            value={strain}
-            placeholder="strain"
-            blurOnSubmit={false}
-            onChangeText={(text) => onTextInputChange('strain', text)}
-            label="Strain"
+          <Button
+            onPress={() => pickImage((result: ImageInfo) => saveImage(result.uri, onAddImageChange))}
+            title={'Pick Photo'}
           />
+          <Button
+            onPress={() => takeImage((result: ImageInfo) => saveImage(result.uri, onAddImageChange))}
+            title={'Take Photo'}
+          />
+
+          <Text style={styles.inputLabel}>Strain</Text>
+          <SearchableDropdown
+            onItemSelect={onStrainSelect}
+            resetValue={false}
+
+            selectedItems={selectedStrain}
+            textInputProps={{
+              placeholder: 'Type or select a Strain..',
+              blurOnSubmit: false,
+              label: 'Strain',
+              ref: strainRef,
+              onSubmitEditing: () => {
+                if (!distinctStrains.includes(strain)){
+                  strainSelectItems.push({name:strain, id: strainSelectItems.length})
+                  setSelectedStrain({name:strain, id: strainSelectItems.length})
+                }
+                noteRef.current?.focus()
+              },
+              style: styles.input,
+              onChangeText: (text: string) =>{ onTextInputChange('strain', text)},
+            }}
+            itemStyle={{
+              padding: 10,
+              marginTop: 2,
+              backgroundColor: '#ddd',
+              borderColor: '#bbb',
+              borderWidth: 1,
+              borderRadius: 5,
+            }}
+            items={strainSelectItems}
+          />
+      
+
           <Input
             ref={noteRef}
             style={styles.input as any}
@@ -145,15 +186,14 @@ function AddPlantModal({ plants, seeds, addPlant }: Props) {
             onChangeText={(text) => onTextInputChange('note', text)}
             label="Note"
           />
-          <View style={styles.horizontalContainer}>
-            <Button style={styles.button} title="Parents" onPress={() => setShowAncestorModal(true)} />
-            <Button style={styles.button} title="Properties" onPress={() => setShowPropertyModal(true)} />
+          <View style={styles.horizontalContainer as any}>
+            <Button style={styles.button as any} title="Parents" onPress={() => setShowAncestorModal(true)} />
+            <Button style={styles.button as any} title="Properties" onPress={() => setShowPropertyModal(true)} />
             <Button title="Start" onPress={() => setDisplayDatepicker({ ...displayDatepicker, startDate: true })} />
             <Button title="Flower" onPress={() => setDisplayDatepicker({ ...displayDatepicker, flowerDate: true })} />
             <Button title="Harvest" onPress={() => setDisplayDatepicker({ ...displayDatepicker, harvestDate: true })} />
           </View>
 
-          
           <PlantPropertiesDisplay properties={properties} />
           <ParentDisplay motherPlant={motherPlant} fatherPlant={fatherPlant} />
 
@@ -174,15 +214,14 @@ function AddPlantModal({ plants, seeds, addPlant }: Props) {
           </>
         </View>
         {showPropertyModal && (
-
-            <PropertyModal
-              setShowPropertyModal={setShowPropertyModal}
-              showPropertyModal={showPropertyModal}
-              setPlantData={setPlantData}
-              plantData={plantData}
-              properties={properties}
-            />
-          )}
+          <PropertyModal
+            setShowPropertyModal={setShowPropertyModal}
+            showPropertyModal={showPropertyModal}
+            setPlantData={setPlantData}
+            plantData={plantData}
+            properties={properties}
+          />
+        )}
         {showAncestorModal && (
           <View style={styles.modal}>
             <AncestorModal

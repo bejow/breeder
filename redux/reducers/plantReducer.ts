@@ -98,6 +98,16 @@ const getAllPlantTitles = createSelector(selectPlants, (plants: plantsReducer) =
   return uniquePlantTitles;
 });
 
+const getAllPlantStrains  = createSelector(
+  selectPlants,
+  // selector logic
+  (plants: plantsReducer) => {
+    // get distinct plant strains
+    var strains: string[] = [...new Set(plants.map(plant => plant.strain))];
+    return strains;
+  }
+);
+
 const getAllPlantProperties = createSelector(
   selectPlants,
   // selector logic
@@ -120,6 +130,6 @@ const getAllPlantProperties = createSelector(
   }
 );
 
-export { getAllPlantProperties, getAllPlantTitles, selectPlantById };
+export { getAllPlantProperties, getAllPlantTitles, selectPlantById, getAllPlantStrains };
 export const { addPlant, deletePlant, setPlant, importAppendPlants, importOverride } = plantSlice.actions;
 export default plantSlice.reducer;

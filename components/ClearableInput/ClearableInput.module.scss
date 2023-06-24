@@ -1,0 +1,27 @@
+.parent {
+    margin-left: 8px;
+    margin-right: 8px;
+    border-radius: 5px;
+    border-width: 1px;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.textInput {
+    height: 40px;
+    padding-left: 8px;
+    width: 100%;
+}
+
+.closeButton {
+    height: 32px;
+    width: 48px;
+    position: absolute;
+    right: 0
+}
+
+.closeButtonParent {
+    justify-content: center;
+    align-items: center;
+    margin-right: 5px;
+}

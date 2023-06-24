@@ -89,7 +89,7 @@ const PlantDetailScreen = ({ state, deletePlant }: Props) => {
   }, [plant]);
 
   const renderImages = () => {
-    return plant?.images.map((asset) => {
+    return plant?.images?.map((asset) => {
       return (
         <Image
           style={{ width: 300, height: 300, resizeMode: 'contain' }}
