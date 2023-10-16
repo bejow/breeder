@@ -1,0 +1,25 @@
+.closeButton {
+    height: 32px;
+    width: 48px;
+    margin-left: 8px;
+}
+
+.copyButton {
+    height: 32px;
+    width: 32px;
+}    
+
+.menuContainer {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    height: 41px;
+}
+
+.itemContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}

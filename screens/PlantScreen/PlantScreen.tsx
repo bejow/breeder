@@ -15,10 +15,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import PlantList  from "../../components/PlantList/PlantList";
 import ExportButton from "../../components/ExportButton/ExportButton";
 import ImportButton from "../../components/ImportButton/ImportButton";
+import FolderList from "../../components/FolderList/FolderList";
 
 const mapStateToProps = (state: rootState) => ({
   plants: state.plants,
-  seeds: state.seeds
+  seeds: state.seeds,
+  folders: state.folders
 });
 
 const mapDispatch = {
@@ -32,10 +34,12 @@ interface Props extends PropsFromRedux {
   navigation: RootTabScreenProps<"Plants">;
 }
 
-function PlantScreen({ navigation, plants, seeds, addPlant }: Props) {
+function PlantScreen({ navigation, plants, seeds, addPlant, folders }: Props) {
+  console.log(folders)
   return (
     <View style={styles.container as any}>
       <ScrollView style={styles.listView as any}>
+      <FolderList folders={folders}/>
       <PlantList plants={plants}/>
       </ScrollView>
     </View>

@@ -79,7 +79,11 @@ export type plantState = {
   mother: string;
   images: Asset[];
   properties: plantProperty[];
+  folder: string;
 };
+
+export type folderState = string
+
 export type seedState = {
   title: string;
   amount: number;
@@ -98,7 +102,10 @@ export type SeedType = 'feminized' | 'regular' | 'autoflowering' | undefined;
 export type plantsReducer = plantState[];
 
 export type seedsReducer = seedState[];
+
+export type folderReducer = folderState[]
 export interface rootState {
   plants: plantsReducer;
   seeds: seedsReducer;
+  folders: folderReducer;
 }
