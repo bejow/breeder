@@ -13,6 +13,8 @@ import { PlantPropertiesDisplay } from '../../components/PlantPropertiesDisplay/
 import { AncestorModal } from '../AncestorModal/AncestorModal';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { TabBarIcon } from '../../navigation/TabBarIcon';
+import { pickImage, saveImage, takeImage } from '../../helper/imageHelper';
+import { Asset } from 'expo-media-library';
 
 const defaultState = {
   title: '',
@@ -25,6 +27,7 @@ const defaultState = {
   father: '',
   mother: '',
   properties: new Array<plantProperty>(),
+  images: [],
 };
 
 const selectableProperties = [
@@ -70,7 +73,7 @@ function AddPlantModal({ plants, seeds, setPlant, addPlant }: Props) {
     harvestDate: false,
   });
 
-  const { title, strain, startDate, flowerDate, note, uuid, father, mother, properties } = plantData;
+  const { title, strain, startDate, flowerDate, note, images, uuid, father, mother, properties } = plantData;
 
   useEffect(() => {
     navigation.setOptions({
@@ -95,6 +98,10 @@ function AddPlantModal({ plants, seeds, setPlant, addPlant }: Props) {
   const onStartDateChange = (event: Event, date: Date | undefined) => {
     setDisplayDatepicker({ ...displayDatepicker, startDate: false });
     setPlantData({ ...plantData, startDate: date });
+  };
+
+  const onAddImageChange = (file: Asset) => {
+    setPlantData({ ...plantData, images: images.concat([file]) });
   };
 
   const onFlowerDateChange = (event: Event, date: Date | undefined) => {
@@ -155,6 +162,14 @@ function AddPlantModal({ plants, seeds, setPlant, addPlant }: Props) {
             <Button title="Flower" onPress={() => setDisplayDatepicker({ ...displayDatepicker, flowerDate: true })} />
             <Button title="Harvest" onPress={() => setDisplayDatepicker({ ...displayDatepicker, harvestDate: true })} />
           </View>
+          <Button
+            onPress={() => pickImage((result: ImageInfo) => saveImage(result.uri, onAddImageChange))}
+            title={'Pick Photo'}
+          />
+          <Button
+            onPress={() => takeImage((result: ImageInfo) => saveImage(result.uri, onAddImageChange))}
+            title={'Take Photo'}
+          />
           <PlantPropertiesDisplay properties={properties} />
         </View>
 

@@ -1,6 +1,6 @@
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, ScrollView, Text, View } from 'react-native';
 import { Image } from 'react-native-elements/dist/image/Image';
 import { Tooltip } from 'react-native-elements/dist/tooltip/Tooltip';
 import { connect, ConnectedProps, useSelector } from 'react-redux';
@@ -92,7 +92,7 @@ const PlantDetailScreen = ({ state, deletePlant }: Props) => {
     return plant?.images?.map((asset) => {
       return (
         <Image
-          style={{ width: 300, height: 300, resizeMode: 'contain' }}
+          style={{ width: 300, height: 300, resizeMode: 'contain', margin:8 }}
           onError={(error) => console.log(error.type)}
           key={'img_' + asset.filename}
           source={{ uri: asset.uri}}
@@ -103,7 +103,7 @@ const PlantDetailScreen = ({ state, deletePlant }: Props) => {
 
   if (plant) {
     return (
-      <View>
+      <ScrollView>
         <KeyValuePair title="Title" value={plant.title} />
         <KeyValuePair title="Strain" value={plant.strain} />
         <KeyValuePair title="Info" value={plant.note} />
@@ -113,7 +113,7 @@ const PlantDetailScreen = ({ state, deletePlant }: Props) => {
         <PlantPropertiesDisplay properties={plant.properties} />
         <ParentDisplay fatherPlant={fatherPlant} motherPlant={motherPlant} />
         {renderImages()}
-      </View>
+      </ScrollView>
     );
   } else {
     return (
