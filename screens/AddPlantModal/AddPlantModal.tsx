@@ -4,13 +4,13 @@ import { View } from '../../components/Themed';
 import { Button, Input, Text } from 'react-native-elements';
 import DateTimePicker, { Event } from '@react-native-community/datetimepicker';
 import { useEffect, useRef, useState } from 'react';
-import { plantProperty, plantState, rootState, RootTabScreenProps } from '../../types';
+import { plantProperty, plantState, RootStackParamList, rootState, RootTabScreenProps } from '../../types';
 import { addPlant, selectPlantById, getAllPlantStrains } from '../../redux/reducers/plantReducer';
 import { connect, ConnectedProps, useSelector } from 'react-redux';
 import PropertyModal from '../PropertyModal/PropertyModal';
 import { PlantPropertiesDisplay } from '../../components/PlantPropertiesDisplay/PlantPropertiesDisplay';
 import { AncestorModal } from '../AncestorModal/AncestorModal';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, RouteProp } from '@react-navigation/native';
 import { TabBarIcon } from '../../navigation/TabBarIcon';
 import { ParentDisplay } from '../../components/ParentDisplay/ParentDisplay';
 import { pickImage, saveImage, takeImage } from '../../helper/imageHelper';
@@ -18,6 +18,7 @@ import { ImageInfo } from 'expo-image-picker';
 import uuid from 'react-native-uuid';
 import { Asset } from 'expo-media-library';
 import SearchableDropdown from 'react-native-searchable-dropdown';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 const defaultState = {
   title: '',
@@ -48,14 +49,20 @@ interface Props extends PropsFromRedux {
   plant: plantState;
 }
 
+interface Props extends NativeStackScreenProps<RootStackParamList, 'AddPlantModal'> {
+  // other props ...
+}
+
 const connector = connect(mapStateToProps, mapDispatch);
 
-function AddPlantModal({ plants, seeds, addPlant }: Props) {
+function AddPlantModal({ plants, seeds, addPlant, route}: Props) {
+  console.log("param")
+  console.log(route.params)
   const distinctStrains = useSelector((state: rootState) => getAllPlantStrains(state));
   const strainSelectItems = distinctStrains.reverse().map((strain, index) => ({ name: strain, id: index }))
   const [selectedStrain, setSelectedStrain] = useState<{id: Number, name: String} | undefined>(undefined)
   const navigation = useNavigation();
-  const [plantData, setPlantData] = useState<plantState>(defaultState);
+  const [plantData, setPlantData] = useState<plantState>(route.params ? route.params : defaultState);
   const [showPropertyModal, setShowPropertyModal] = useState<boolean>(false);
   const [showAncestorModal, setShowAncestorModal] = useState<boolean>(false);
   const strainRef = useRef<TextInput>(null);

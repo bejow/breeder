@@ -54,7 +54,7 @@ function RootNavigator() {
       <Stack.Screen name="SeedDetailScreen" component={SeedDetailScreen} initialParams={{ id: '0' }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen name="AddSeedModal" component={AddSeedModal} options={{ title: 'Add Seeds' }} />
-        <Stack.Screen name="AddPlantModal" component={AddPlantModal} options={{ title: 'Add a new Plant' }} />
+        <Stack.Screen name="AddPlantModal" component={AddPlantModal} options={{ title: 'Add a new Plant' }}/>
         <Stack.Screen name="EditPlantModal" component={EditPlantModal} />
         <Stack.Screen name="EditSeedModal" component={EditSeedModal} />
       </Stack.Group>
@@ -73,7 +73,7 @@ function BottomTabNavigator() {
 
   return (
     <BottomTab.Navigator
-      initialRouteName="Seeds"
+      initialRouteName="Plants"
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme].tint,
       }}

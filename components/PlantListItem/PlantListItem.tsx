@@ -7,14 +7,16 @@ import { hashStringToColor } from '../../helper/colorHash';
 import { createPlantInfoString } from '../../helper/plantHelper';
 import { useNavigation } from '@react-navigation/native';
 import styles from './PlantListItem.module.scss';
+import uuid from 'react-native-uuid';
+
 
 export default ({ plant }: { plant: plantState }) => {
-  const navigation = useNavigation();
   const pushOnNavigationStack = StackActions.push('PlantDetailScreen', { id: plant.uuid });
   const [menuOpen, setMenuOpen] = useState(false);
+  const navigation = useNavigation();
 
   const createCopy = () => {
-    console.log("copy")
+    navigation.navigate('AddPlantModal', {...plant, title: plant.title + " copy", uuid: uuid.v4().toString()})
   }
 
   const renderMenu = () => {
