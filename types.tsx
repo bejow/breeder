@@ -23,6 +23,7 @@ export type RootStackParamList = {
   AddPlantModal: plantState | undefined;
   EditPlantModal: plantState | undefined;
   EditSeedModal: seedState | undefined;
+  Plants: folderState;
   NotFound: undefined;
   PropertyModal: NavigatorScreenParams<PlantPropertyModalParams>;
   PlantDetailScreen: { id: string };
@@ -82,7 +83,7 @@ export type plantState = {
   folder: string;
 };
 
-export type folderState = string
+export type folderState = {name: string, id:string, parent:string|null}
 
 export type seedState = {
   title: string;
@@ -104,8 +105,13 @@ export type plantsReducer = plantState[];
 export type seedsReducer = seedState[];
 
 export type folderReducer = folderState[]
+
+export type appStateReducer = {
+  currentFolder: string|null
+}
 export interface rootState {
   plants: plantsReducer;
   seeds: seedsReducer;
   folders: folderReducer;
+  appState: appStateReducer;
 }

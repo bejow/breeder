@@ -1,0 +1,22 @@
+.breadcrumbContainer{
+    display: flex;
+    flex-direction: row;
+    height: 50px;
+    align-items: center;
+    margin: 0 8px
+}
+
+.breadcrumbItem {
+    &::after{
+        content: "/";
+    }
+}
+
+.breadcrumbItemContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+.seperator {
+    margin: 0 4px;
+}

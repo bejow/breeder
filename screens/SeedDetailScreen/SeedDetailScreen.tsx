@@ -33,7 +33,6 @@ const SeedDetailScreen = ({ state, deleteSeed }: Props) => {
 
   const [showEditModal, setShowEditModal] = useState(false);
   const seedId = route.params.id;
-  console.log(seedId);
   const seed = useSelector((state) => selectSeedById(state as rootState, seedId));
 
   console.log(seed);

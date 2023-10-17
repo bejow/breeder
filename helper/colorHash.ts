@@ -55,7 +55,7 @@ export function rgb2hsv (r: number, g: number, b:number) {
 export function hexAToRGBA(h: string, a: number) {
   let r = "", g = "", b = "";
 
-  console.log(h.length)
+
   if (h.length ==3) {
     r = "0x" + h[1] + h[1];
     g = "0x" + h[2] + h[2];

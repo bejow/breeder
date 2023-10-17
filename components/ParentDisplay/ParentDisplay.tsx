@@ -10,7 +10,6 @@ export const ParentDisplay = ({
   motherPlant: plantState | undefined;
   fatherPlant: plantState | undefined;
 }) => {
-  console.log('father', fatherPlant);
   return (
     <View style={styles.container}>
       {motherPlant ? (

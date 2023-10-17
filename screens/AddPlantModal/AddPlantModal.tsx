@@ -56,8 +56,6 @@ interface Props extends NativeStackScreenProps<RootStackParamList, 'AddPlantModa
 const connector = connect(mapStateToProps, mapDispatch);
 
 function AddPlantModal({ plants, seeds, addPlant, route}: Props) {
-  console.log("param")
-  console.log(route.params)
   const distinctStrains = useSelector((state: rootState) => getAllPlantStrains(state));
   const strainSelectItems = distinctStrains.reverse().map((strain, index) => ({ name: strain, id: index }))
   const [selectedStrain, setSelectedStrain] = useState<{id: Number, name: String} | undefined>(undefined)
@@ -74,7 +72,6 @@ function AddPlantModal({ plants, seeds, addPlant, route}: Props) {
     harvestDate: false,
   });
 
-  console.log(plantData);
   const { title, strain, startDate, flowerDate, note, uuid, father, mother, properties, harvestDate, images } =
     plantData;
 
@@ -118,8 +115,6 @@ function AddPlantModal({ plants, seeds, addPlant, route}: Props) {
   };
 
   const onStrainSelect = (strain: {name:string, id:number}) => {
-    console.log(strain)
-    console.log("tst")
     setPlantData({ ...plantData, strain: strain.name });
     setSelectedStrain(strain)
   };

@@ -1,10 +1,13 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import uuid from 'react-native-uuid';
-import { folderReducer, folderState, plantState, rootState, seedsReducer, seedState } from '../../types';
+import { folderReducer, folderState, rootState } from '../../types';
+
+const homeFolder: folderState = {name: "Root", id: "614573bd-5053-407b-9fb2-788563a1a451", parent:null}
 
 const initialState: folderReducer = [
-  "Beispiel Ordner"
+  homeFolder,
 ];
+
 
 const folderSlice = createSlice({
   name: 'folders',
@@ -33,3 +36,4 @@ const folderSlice = createSlice({
 
 export const { addFolder, importAppendFolders, importOverride, deleteFolder } = folderSlice.actions;
 export default folderSlice.reducer;
+export {homeFolder}

@@ -37,7 +37,6 @@ export const pickImage = async (callback: (result: ImagePicker.ImageInfo) => voi
     aspect: [4, 3],
     quality: 1,
   });
-
   console.log(result);
   if (!result.cancelled) {
     callback(result);

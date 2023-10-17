@@ -11,9 +11,11 @@ import { CustomIcon } from '../CustomIcon/CustomIcon';
 import { importAppendSeeds } from '../../redux/reducers/seedReducer';
 import { Alert, View } from 'react-native'; 
 import Dialog from 'react-native-dialog'
+import uuid from 'react-native-uuid';
 
 const mapStateToProps = (state: rootState) => ({
   folders: state.folders,
+  currentFolder: state.appState.currentFolder
 });
 
 const mapDispatch = {addFolder};
@@ -22,14 +24,13 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 
 const connector = connect(mapStateToProps, mapDispatch);
 
-const CreateFolderButton = ({ folders, addFolder }: PropsFromRedux) => {
+const CreateFolderButton = ({ currentFolder, folders, addFolder }: PropsFromRedux) => {
   const [menuOpen, setMenuOpen] = useState(false)
   const [folderName, setFolderName] = useState("")
-  console.log(folders)
-  console.log(folderName)
 
   const createFolder = () => {
-    addFolder(folderName)
+    let id = uuid.v4().toString()
+    addFolder({name: folderName, id, parent: currentFolder})
     setFolderName("")
     setMenuOpen(false)
   }
@@ -39,7 +40,7 @@ const CreateFolderButton = ({ folders, addFolder }: PropsFromRedux) => {
       <Dialog.Container visible={menuOpen}>
       <Dialog.Title>Create Folder</Dialog.Title>
       <Dialog.Input onChangeText={(text) => setFolderName(text)} placeholder='Folder Name'>
-        
+        <Text>Test</Text>
       </Dialog.Input>
       <Dialog.Button label="Cancel" onPress={() => setMenuOpen(false)}/>
       <Dialog.Button label="Create Folder" onPress={() => createFolder()}/>
