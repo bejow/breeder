@@ -51,6 +51,8 @@ interface Props extends PropsFromRedux {
 function PlantScreen({ route, navigation, plants, seeds, addPlant, deleteFolder, folders, currentFolder }: Props) {
   const [search, setSearch] = useState("")
 
+  console.log("folders", folders)
+  console.log("currentfolder", currentFolder)
   const getFoldersToDisplay = () => {
     // filters all folders within the current folder
     let foldersToDisplay = folders.filter((folder) => (folder.parent === currentFolder))
