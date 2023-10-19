@@ -1,6 +1,6 @@
-import { folderReducer } from '../types';
+import { folderReducer, folderState, plantsReducer } from '../types';
 
-const getPathToFolder = (folders: folderReducer, folderName: string | null) => {
+const getPathToFolderName = (folders: folderReducer, folderName: string | null) => {
   let pathToFolder: string | null = 'null';
   folders.forEach((folder) => {
     if (folder.name === folderName) {
@@ -22,7 +22,6 @@ const getPathToFolderById = (folders: folderReducer, folderId: string | null) =>
   return pathToFolder;
 };
 
-
 const getFolderIdsFromPath = (path: string | null) => {
   return path?.split('/');
 };
@@ -39,4 +38,18 @@ const getCurrentFolderNameFromPath = (folders: folderReducer, path: string|null)
   return folders.find(folder => folderId === folder.id)?.name 
 }
 
-export { getPathToFolder, getFolderIdsFromPath, getCurrentFolderIdFromPath, getPathToFolderById, getCurrentFolderNameFromPath };
+const getPathFromFolder = (folder: folderState) => {
+  return folder.parent + "/" + folder.id
+}
+
+const isFolderEmpty = (folders: folderReducer, plants: plantsReducer, folderToDelete: folderState) => {
+  const folderPath = getPathFromFolder(folderToDelete)
+  const folderContainsFolder = folders.some((folder) => (folder.parent === folderPath))
+  const folderContainsPlants = plants.some((plant) => (plant.folder === folderPath))
+  if (folderContainsFolder || folderContainsPlants){
+    return false
+  }
+  return true
+}
+
+export { getPathToFolderName, getFolderIdsFromPath, getCurrentFolderIdFromPath, getPathToFolderById, getCurrentFolderNameFromPath, isFolderEmpty, getPathFromFolder };

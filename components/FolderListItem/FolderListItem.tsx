@@ -22,12 +22,13 @@ const mapDispatch = {
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 interface Props extends PropsFromRedux {
-  folder: folderState
+  folder: folderState,
+  safelyDeleteFolder: (folderToDelete: folderState) => void
 }
 
 const connector = connect(mapStateToProps, mapDispatch);
 
-const FolderListItem = ({ folder, currentFolder, setCurrentFolder }: Props) => {
+const FolderListItem = ({ folder, currentFolder, setCurrentFolder, safelyDeleteFolder }: Props) => {
     
   const [menuOpen, setMenuOpen] = useState(false);
   const navigation = useNavigation();
@@ -40,7 +41,7 @@ const FolderListItem = ({ folder, currentFolder, setCurrentFolder }: Props) => {
   const renderMenu = () => {
     return (
       <View style={styles.menuContainer}>
-        <TouchableOpacity style={styles.closeButtonParent as any} onPress={() => console.log("test")}>
+        <TouchableOpacity style={styles.closeButtonParent as any} onPress={() => safelyDeleteFolder(folder)}>
         <Image style={styles.copyButton as any} source={require('../../assets/images/trash.png')} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.closeButtonParent as any} onPress={() => setMenuOpen(false)}>

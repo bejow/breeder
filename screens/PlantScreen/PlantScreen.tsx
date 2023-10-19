@@ -5,6 +5,7 @@ import styles from './PlantScreen.module.scss'
 import EditScreenInfo from "../../components/EditScreenInfo";
 import { Text, View } from "../../components/Themed";
 import {
+  folderState,
   plantsReducer,
   plantState,
   RootStackParamList,
@@ -22,6 +23,8 @@ import { RouteProp } from "@react-navigation/native";
 import { getParentFolders } from "../../redux/reducers/appStateReducer";
 import Breadcrumbs from "../../components/Breadcrumbs/Breadcrumbs";
 import { ClearableInput } from '../../components/ClearableInput/ClearableInput';
+import { isFolderEmpty } from '../../helper/folderHelper';
+import { deleteFolder } from '../../redux/reducers/folderReducer';
 
 const mapStateToProps = (state: rootState) => ({
   plants: state.plants,
@@ -32,6 +35,7 @@ const mapStateToProps = (state: rootState) => ({
 
 const mapDispatch = {
   addPlant,
+  deleteFolder
 };
 
 const connector = connect(mapStateToProps, mapDispatch);
@@ -44,7 +48,7 @@ interface Props extends PropsFromRedux {
 
 
 
-function PlantScreen({ route, navigation, plants, seeds, addPlant, folders, currentFolder }: Props) {
+function PlantScreen({ route, navigation, plants, seeds, addPlant, deleteFolder, folders, currentFolder }: Props) {
   const [search, setSearch] = useState("")
 
   const getFoldersToDisplay = () => {
@@ -59,8 +63,14 @@ function PlantScreen({ route, navigation, plants, seeds, addPlant, folders, curr
     let plantsToDisplay = plants.filter((plant) => (plant.folder === currentFolder))
     // apply search filter to plants
     return plantsToDisplay.filter((plant) => plant.title.toLowerCase().includes(search.toLowerCase()))
-    
   }
+
+  const safelyDeleteFolder = (folderToDelete: folderState) => {
+    if (isFolderEmpty(folders, plants, folderToDelete)){
+      console.log("deleting folder")
+      deleteFolder(folderToDelete)
+    }
+  } 
 
   return (
     <View style={styles.container as any}>
@@ -75,7 +85,7 @@ function PlantScreen({ route, navigation, plants, seeds, addPlant, folders, curr
             onSubmitEditing={Keyboard.dismiss}
             clearButtonMode="always"    
             />
-      <FolderList folders={getFoldersToDisplay()}/>
+      <FolderList folders={getFoldersToDisplay()} safelyDeleteFolder={safelyDeleteFolder}/>
       <PlantList plants={getPlantsToDisplay()}/>
       </ScrollView>
     </View>

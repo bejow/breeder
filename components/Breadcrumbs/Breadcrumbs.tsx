@@ -10,7 +10,7 @@ import uuid from 'react-native-uuid';
 import { CustomIcon } from '../CustomIcon/CustomIcon';
 import { getParentFolders, setCurrentFolder } from '../../redux/reducers/appStateReducer';
 import { connect, ConnectedProps, useSelector } from 'react-redux';
-import { getPathToFolder } from '../../helper/folderHelper';
+import { getPathToFolderName } from '../../helper/folderHelper';
 import styles from './Breadcrumbs.module.scss'
 import { homeFolder } from '../../redux/reducers/folderReducer';
 
@@ -35,7 +35,7 @@ const Breadcrumbs = ({ currentFolder, setCurrentFolder }: Props) => {
   let parentFolder = useSelector((state: rootState) => getParentFolders(state))
 
   const onPress = (folder: folderState) => {
-    let pathToFolder = getPathToFolder(parentFolder, folder.name )
+    let pathToFolder = getPathToFolderName(parentFolder, folder.name )
     setCurrentFolder(pathToFolder)
     navigation.navigate("Plants", folder)
   };

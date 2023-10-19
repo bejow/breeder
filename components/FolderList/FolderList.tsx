@@ -8,7 +8,7 @@ import  PlantListItem  from '../PlantListItem/PlantListItem'
 import styles from './FolderList.module.scss'
 import FolderListItem from '../FolderListItem/FolderListItem'
 
-export default ({folders}: {folders: folderReducer}) => {
+export default ({folders, safelyDeleteFolder}: {folders: folderReducer, safelyDeleteFolder: (folderToDelete: folderState) => void}) => {
   const [search, setSearch] = useState("")
 
 //   const getSearchedPlants = (search:string) => {
@@ -26,7 +26,7 @@ export default ({folders}: {folders: folderReducer}) => {
   }
 
   const renderFolder = (folder:folderState, index: number) => {
-    return <FolderListItem key={"plantKey-" + "-" + index} folder={folder}/>
+    return <FolderListItem safelyDeleteFolder={safelyDeleteFolder} key={"plantKey-" + "-" + index} folder={folder}/>
   }
 
   return (

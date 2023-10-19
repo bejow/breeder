@@ -18,7 +18,7 @@ const folderSlice = createSlice({
     },
 
     deleteFolder(state, action: PayloadAction<folderState>) {
-      return state.filter((folder) => folder !== action.payload);
+      return state.filter((folder) => folder.id !== action.payload.id);
     },
 
     importOverride(state, action: PayloadAction<rootState>) {
