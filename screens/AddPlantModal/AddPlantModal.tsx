@@ -4,7 +4,7 @@ import { View } from '../../components/Themed';
 import { Button, Input, Text } from 'react-native-elements';
 import DateTimePicker, { Event } from '@react-native-community/datetimepicker';
 import { useEffect, useRef, useState } from 'react';
-import { plantProperty, plantState, RootStackParamList, rootState, RootTabScreenProps } from '../../types';
+import { folderState, plantProperty, plantState, RootStackParamList, rootState, RootTabScreenProps } from '../../types';
 import { addPlant, selectPlantById, getAllPlantStrains } from '../../redux/reducers/plantReducer';
 import { connect, ConnectedProps, useSelector } from 'react-redux';
 import PropertyModal from '../PropertyModal/PropertyModal';
@@ -19,6 +19,9 @@ import uuid from 'react-native-uuid';
 import { Asset } from 'expo-media-library';
 import SearchableDropdown from 'react-native-searchable-dropdown';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import CreateFolderButton from '../../components/CreateFolderButton/CreateFolderButton';
+import SelectFolderButton from '../../components/FolderSelectButton/SelectFolderButton';
+import { getCurrentFolderNameFromPath, getPathToFolderById } from '../../helper/folderHelper';
 
 const defaultState = {
   title: '',
@@ -32,11 +35,14 @@ const defaultState = {
   mother: '',
   properties: new Array<plantProperty>(),
   images: [],
+  folder: "",
 };
 
 const mapStateToProps = (state: rootState) => ({
   plants: state.plants,
   seeds: state.seeds,
+  folders: state.folders,
+  currentFolder: state.appState.currentFolder
 });
 
 const mapDispatch = {
@@ -55,12 +61,12 @@ interface Props extends NativeStackScreenProps<RootStackParamList, 'AddPlantModa
 
 const connector = connect(mapStateToProps, mapDispatch);
 
-function AddPlantModal({ plants, seeds, addPlant, route}: Props) {
+function AddPlantModal({ plants, seeds, folders, addPlant, route, currentFolder}: Props) {
   const distinctStrains = useSelector((state: rootState) => getAllPlantStrains(state));
   const strainSelectItems = distinctStrains.reverse().map((strain, index) => ({ name: strain, id: index }))
   const [selectedStrain, setSelectedStrain] = useState<{id: Number, name: String} | undefined>(undefined)
   const navigation = useNavigation();
-  const [plantData, setPlantData] = useState<plantState>(route.params ? route.params : defaultState);
+  const [plantData, setPlantData] = useState<plantState>(route.params ? route.params : {...defaultState, folder:currentFolder});
   const [showPropertyModal, setShowPropertyModal] = useState<boolean>(false);
   const [showAncestorModal, setShowAncestorModal] = useState<boolean>(false);
   const strainRef = useRef<TextInput>(null);
@@ -119,11 +125,16 @@ function AddPlantModal({ plants, seeds, addPlant, route}: Props) {
     setSelectedStrain(strain)
   };
 
+  const onFolderSelect = (folder: folderState, index:number) => {
+    setPlantData({...plantData, folder: getPathToFolderById(folders, folder.id)})
+  }
+
   const onSubmit = () => {
     addPlant(plantData);
     navigation.goBack();
   };
 
+  console.log(plantData)
   return (
     <View style={styles.wrapper}>
       <ScrollView keyboardShouldPersistTaps="handled" style={styles.container as any}>
@@ -145,7 +156,8 @@ function AddPlantModal({ plants, seeds, addPlant, route}: Props) {
             onPress={() => takeImage((result: ImageInfo) => saveImage(result.uri, onAddImageChange))}
             title={'Take Photo'}
           />
-
+          <Text style={styles.inputLabel}>Folder</Text>
+          <SelectFolderButton onFolderSelect={onFolderSelect} selectedFolderName={getCurrentFolderNameFromPath(folders, plantData.folder)}/>
           <Text style={styles.inputLabel}>Strain</Text>
           <SearchableDropdown
             onItemSelect={onStrainSelect}

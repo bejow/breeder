@@ -80,7 +80,7 @@ export type plantState = {
   mother: string;
   images: Asset[];
   properties: plantProperty[];
-  folder: string;
+  folder: string|null;
 };
 
 export type folderState = {name: string, id:string, parent:string|null}

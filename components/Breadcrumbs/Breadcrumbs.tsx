@@ -32,12 +32,10 @@ const connector = connect(mapStateToProps, mapDispatch);
 
 const Breadcrumbs = ({ currentFolder, setCurrentFolder }: Props) => {
   const navigation = useNavigation();
-  console.log(currentFolder)
   let parentFolder = useSelector((state: rootState) => getParentFolders(state))
 
   const onPress = (folder: folderState) => {
     let pathToFolder = getPathToFolder(parentFolder, folder.name )
-    console.log("path to folder", pathToFolder)
     setCurrentFolder(pathToFolder)
     navigation.navigate("Plants", folder)
   };
@@ -48,7 +46,7 @@ const Breadcrumbs = ({ currentFolder, setCurrentFolder }: Props) => {
   }
 
   const renderBreadcrumbs = () => {
-    return parentFolder.map(folder => <View style={styles.breadcrumbItemContainer}><Text style={styles.seperator}>/</Text><Text onPress={() => onPress(folder)} style={styles.breadcrumbItem}>{folder.name}</Text></View>)
+    return parentFolder.map(folder => <View key={folder.id} style={styles.breadcrumbItemContainer}><Text style={styles.seperator}>/</Text><Text onPress={() => onPress(folder)} style={styles.breadcrumbItem}>{folder.name}</Text></View>)
   }
 
   return (

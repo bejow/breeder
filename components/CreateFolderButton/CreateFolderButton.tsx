@@ -12,6 +12,7 @@ import { importAppendSeeds } from '../../redux/reducers/seedReducer';
 import { Alert, View } from 'react-native'; 
 import Dialog from 'react-native-dialog'
 import uuid from 'react-native-uuid';
+import Breadcrumbs from '../Breadcrumbs/Breadcrumbs';
 
 const mapStateToProps = (state: rootState) => ({
   folders: state.folders,
@@ -27,6 +28,7 @@ const connector = connect(mapStateToProps, mapDispatch);
 const CreateFolderButton = ({ currentFolder, folders, addFolder }: PropsFromRedux) => {
   const [menuOpen, setMenuOpen] = useState(false)
   const [folderName, setFolderName] = useState("")
+  const buttonColor = folderName.length < 1 ? "#BBBBBB" : undefined
 
   const createFolder = () => {
     let id = uuid.v4().toString()
@@ -40,10 +42,9 @@ const CreateFolderButton = ({ currentFolder, folders, addFolder }: PropsFromRedu
       <Dialog.Container visible={menuOpen}>
       <Dialog.Title>Create Folder</Dialog.Title>
       <Dialog.Input onChangeText={(text) => setFolderName(text)} placeholder='Folder Name'>
-        <Text>Test</Text>
       </Dialog.Input>
       <Dialog.Button label="Cancel" onPress={() => setMenuOpen(false)}/>
-      <Dialog.Button label="Create Folder" onPress={() => createFolder()}/>
+      <Dialog.Button disabled={folderName.length < 1} color={buttonColor} label="Create Folder" onPress={() => createFolder()}/>
     </Dialog.Container>
     )
   }

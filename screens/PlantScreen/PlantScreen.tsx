@@ -1,5 +1,6 @@
+import {useState} from 'react'
 import { connect, ConnectedProps, useSelector } from "react-redux";
-import { Button, FlatList, ScrollView, StyleSheet } from "react-native";
+import { Button, FlatList, ScrollView, StyleSheet, Keyboard } from "react-native";
 import styles from './PlantScreen.module.scss'
 import EditScreenInfo from "../../components/EditScreenInfo";
 import { Text, View } from "../../components/Themed";
@@ -20,6 +21,7 @@ import FolderList from "../../components/FolderList/FolderList";
 import { RouteProp } from "@react-navigation/native";
 import { getParentFolders } from "../../redux/reducers/appStateReducer";
 import Breadcrumbs from "../../components/Breadcrumbs/Breadcrumbs";
+import { ClearableInput } from '../../components/ClearableInput/ClearableInput';
 
 const mapStateToProps = (state: rootState) => ({
   plants: state.plants,
@@ -43,22 +45,36 @@ interface Props extends PropsFromRedux {
 
 
 function PlantScreen({ route, navigation, plants, seeds, addPlant, folders, currentFolder }: Props) {
-  
-  let parentFolder = useSelector((state: rootState) => getParentFolders(state))
+  const [search, setSearch] = useState("")
+
   const getFoldersToDisplay = () => {
     // filters all folders within the current folder
-    return folders.filter((folder) => (folder.parent === currentFolder))
+    let foldersToDisplay = folders.filter((folder) => (folder.parent === currentFolder))
+    // apply search filter to folders
+    return foldersToDisplay.filter((folder) => folder.name.toLowerCase().includes(search.toLowerCase()))
   }
 
   const getPlantsToDisplay = () => {
-    // ilters all plants within the current folder
-    return plants.filter((plant) => (plant.folder === currentFolder))
+    // filters all plants within the current folder
+    let plantsToDisplay = plants.filter((plant) => (plant.folder === currentFolder))
+    // apply search filter to plants
+    return plantsToDisplay.filter((plant) => plant.title.toLowerCase().includes(search.toLowerCase()))
+    
   }
 
   return (
     <View style={styles.container as any}>
       <ScrollView style={styles.listView as any}>
         <Breadcrumbs/>
+        <ClearableInput
+            onDelete={() => setSearch("")}       
+            placeholder="Search Plant"
+            blurOnSubmit={false}
+            value={search}
+            onChangeText={(text: string) => setSearch(text)}
+            onSubmitEditing={Keyboard.dismiss}
+            clearButtonMode="always"    
+            />
       <FolderList folders={getFoldersToDisplay()}/>
       <PlantList plants={getPlantsToDisplay()}/>
       </ScrollView>

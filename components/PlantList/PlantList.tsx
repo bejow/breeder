@@ -30,15 +30,7 @@ export default ({plants}: {plants: plantsReducer}) => {
 
   return (
     <View style={styles.list as any}>
-      <ClearableInput
-            onDelete={() => setSearch("")}       
-            placeholder="Search Plant"
-            blurOnSubmit={false}
-            value={search}
-            onChangeText={(text: string) => setSearch(text)}
-            onSubmitEditing={Keyboard.dismiss}
-            clearButtonMode="always"    
-            />
+
         {renderPlantList()}
     </View>
   )

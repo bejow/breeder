@@ -41,7 +41,7 @@ const FolderListItem = ({ folder, currentFolder, setCurrentFolder }: Props) => {
     return (
       <View style={styles.menuContainer}>
         <TouchableOpacity style={styles.closeButtonParent as any} onPress={() => console.log("test")}>
-        <Image style={styles.copyButton as any} source={require('../../assets/images/copy.png')} />
+        <Image style={styles.copyButton as any} source={require('../../assets/images/trash.png')} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.closeButtonParent as any} onPress={() => setMenuOpen(false)}>
         <Image style={styles.closeButton as any} source={require('../../assets/images/close.png')} />
@@ -57,16 +57,16 @@ const FolderListItem = ({ folder, currentFolder, setCurrentFolder }: Props) => {
       bottomDivider
       style={styles.listItem}
     >
+      <ListItem.Content>
+        <View style={styles.itemContainer}>
+          <CustomIcon name="folder-outline"/>
+          <ListItem.Title>{folder.name}</ListItem.Title>
       {menuOpen ? (
         renderMenu()
-      ) : (
-        <ListItem.Content>
-            <View style={styles.itemContainer}>
-            <CustomIcon name="folder-outline"/>
-          <ListItem.Title>{folder.name}</ListItem.Title>
+      ) : ( null
+          )}
           </View>
-        </ListItem.Content>
-      )}
+      </ListItem.Content>
     </ListItem>
   );
 };
