@@ -23,7 +23,7 @@ import { RouteProp } from "@react-navigation/native";
 import { getParentFolders } from "../../redux/reducers/appStateReducer";
 import Breadcrumbs from "../../components/Breadcrumbs/Breadcrumbs";
 import { ClearableInput } from '../../components/ClearableInput/ClearableInput';
-import { isFolderEmpty } from '../../helper/folderHelper';
+import { getPathFromFolder, isFolderEmpty } from '../../helper/folderHelper';
 import { deleteFolder } from '../../redux/reducers/folderReducer';
 
 const mapStateToProps = (state: rootState) => ({
@@ -51,25 +51,24 @@ interface Props extends PropsFromRedux {
 function PlantScreen({ route, navigation, plants, seeds, addPlant, deleteFolder, folders, currentFolder }: Props) {
   const [search, setSearch] = useState("")
 
-  console.log("folders", folders)
-  console.log("currentfolder", currentFolder)
+
   const getFoldersToDisplay = () => {
     // filters all folders within the current folder
-    let foldersToDisplay = folders.filter((folder) => (folder.parent === currentFolder))
+    let foldersToDisplay = folders.filter((folder) => ((folder.parent === getPathFromFolder(currentFolder)) && folder.parent !== null))
+
     // apply search filter to folders
     return foldersToDisplay.filter((folder) => folder.name.toLowerCase().includes(search.toLowerCase()))
   }
 
   const getPlantsToDisplay = () => {
     // filters all plants within the current folder
-    let plantsToDisplay = plants.filter((plant) => (plant.folder === currentFolder))
+    let plantsToDisplay = plants.filter((plant) => (plant.folder === getPathFromFolder(currentFolder)))
     // apply search filter to plants
     return plantsToDisplay.filter((plant) => plant.title.toLowerCase().includes(search.toLowerCase()))
   }
 
   const safelyDeleteFolder = (folderToDelete: folderState) => {
     if (isFolderEmpty(folders, plants, folderToDelete)){
-      console.log("deleting folder")
       deleteFolder(folderToDelete)
     }
   } 

@@ -107,7 +107,7 @@ export type seedsReducer = seedState[];
 export type folderReducer = folderState[]
 
 export type appStateReducer = {
-  currentFolder: string|null
+  currentFolder: folderState
 }
 export interface rootState {
   plants: plantsReducer;

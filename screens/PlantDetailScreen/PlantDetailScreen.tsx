@@ -37,7 +37,6 @@ const PlantDetailScreen = ({ state, deletePlant }: Props) => {
   const plantId = route.params.id;
   const plant = useSelector((state) => selectPlantById(state as rootState, plantId));
 
-  console.log(plant);
 
   var motherPlant: plantState;
   var fatherPlant: plantState;

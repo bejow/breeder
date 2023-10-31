@@ -25,7 +25,7 @@ const mapDispatch = {
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
 interface Props extends PropsFromRedux {
-  currentFolder: string|null;
+  currentFolder: folderState;
 }
 
 const connector = connect(mapStateToProps, mapDispatch);
@@ -33,20 +33,18 @@ const connector = connect(mapStateToProps, mapDispatch);
 const Breadcrumbs = ({ currentFolder, setCurrentFolder }: Props) => {
   const navigation = useNavigation();
   let parentFolder = useSelector((state: rootState) => getParentFolders(state))
-
   const onPress = (folder: folderState) => {
-    let pathToFolder = getPathFromFolder(folder)
-    setCurrentFolder(pathToFolder)
+    setCurrentFolder(folder)
     navigation.navigate("Plants", folder)
   };
 
   const onHomePress = () => {
-    setCurrentFolder(null)
+    setCurrentFolder(homeFolder)
     navigation.navigate("Plants", homeFolder)
   }
 
   const renderBreadcrumbs = () => {
-    return parentFolder.map(folder => <View key={folder.id} style={styles.breadcrumbItemContainer}><Text style={styles.seperator}>/</Text><Text onPress={() => onPress(folder)} style={styles.breadcrumbItem}>{folder.name}</Text></View>)
+    return parentFolder.slice(1).map(folder => <View key={folder.id} style={styles.breadcrumbItemContainer}><Text style={styles.seperator}>/</Text><Text onPress={() => onPress(folder)} style={styles.breadcrumbItem}>{folder.name}</Text></View>)
   }
 
   return (

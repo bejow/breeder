@@ -35,8 +35,6 @@ const SeedDetailScreen = ({ state, deleteSeed }: Props) => {
   const seedId = route.params.id;
   const seed = useSelector((state) => selectSeedById(state as rootState, seedId));
 
-  console.log(seed);
-
   var motherPlant: plantState;
   var fatherPlant: plantState;
 

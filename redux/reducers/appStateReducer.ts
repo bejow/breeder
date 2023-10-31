@@ -1,13 +1,15 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { appStateReducer, folderReducer, rootState } from '../../types';
+import { getFolderById, getFolderIdsFromPath, getPathFromFolder } from '../../helper/folderHelper';
+import { appStateReducer, folderReducer, folderState, rootState } from '../../types';
+import { homeFolder } from './folderReducer';
 
-const initialState: appStateReducer = {currentFolder: null}
+const initialState: appStateReducer = {currentFolder: homeFolder}
 
 const folderSlice = createSlice({
   name: 'appState',
   initialState: initialState,
   reducers: {
-    setCurrentFolder(state, action: PayloadAction<string|null>) {
+    setCurrentFolder(state, action: PayloadAction<folderState>) {
       return{...state, currentFolder: action.payload}
     },
   },
@@ -16,32 +18,26 @@ const folderSlice = createSlice({
 const selectCurrentFolder = (state: rootState) => state.appState.currentFolder
 const selectFolders = (state: rootState) => state.folders
 
-const getParentFolders = createSelector(selectCurrentFolder, selectFolders, (currentFolder: string|null, folders: folderReducer) => {
+const getParentFolders = createSelector(selectCurrentFolder, selectFolders, (currentFolder: folderState, folders: folderReducer) => {
   // currentfolder structure: root/uuid/uuid --> split at "/" and enrich the ids with folder data
-  let folderIds = currentFolder?.split("/")
+  if (currentFolder.parent === null){
+    // return empty array if in root directory
+    return []
+  }
+
+  let folderIds = getFolderIdsFromPath(getPathFromFolder(currentFolder))
   let parentFolders: folderReducer = []
   folderIds?.forEach(folderId => {
     // iterate over all folders and check for the one with the right id
-    folders.forEach((folder) => {
-      if (folder.id === folderId){
-        parentFolders.push(folder)
-      }
-    })
+    let folder = getFolderById(folders, folderId)
+    if (folder){
+      parentFolders.push(folder)
+    }
   });
   return parentFolders
 })
 
-const getPathToFolder = createSelector(selectFolders, (folders:folderReducer, folderName: string) => folderName, (folders, folderName) => {
-  let pathToFolder:string|null = null;
-  folders.forEach(folder => {
-    if (folder.name === folderName){
-      pathToFolder = folder.parent  + "/" + folder.id
-      return
-    }
-  });
-  return pathToFolder
-})
 
-export {getParentFolders, getPathToFolder}
+export {getParentFolders}
 export const { setCurrentFolder } = folderSlice.actions;
 export default folderSlice.reducer;

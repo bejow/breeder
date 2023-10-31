@@ -21,7 +21,8 @@ import SearchableDropdown from 'react-native-searchable-dropdown';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import CreateFolderButton from '../../components/CreateFolderButton/CreateFolderButton';
 import SelectFolderButton from '../../components/FolderSelectButton/SelectFolderButton';
-import { getCurrentFolderNameFromPath, getPathToFolderById } from '../../helper/folderHelper';
+import { getCurrentFolderNameFromPath, getPathFromFolder, getPathToFolderById } from '../../helper/folderHelper';
+import { homeFolder } from '../../redux/reducers/folderReducer';
 
 const defaultState = {
   title: '',
@@ -30,12 +31,12 @@ const defaultState = {
   harvestDate: undefined,
   note: '',
   strain: '',
-  uuid: uuid.v4().toString(),
+  uuid: '',
   father: '',
   mother: '',
   properties: new Array<plantProperty>(),
   images: [],
-  folder: "",
+  folder: null,
 };
 
 const mapStateToProps = (state: rootState) => ({
@@ -66,7 +67,7 @@ function AddPlantModal({ plants, seeds, folders, addPlant, route, currentFolder}
   const strainSelectItems = distinctStrains.reverse().map((strain, index) => ({ name: strain, id: index }))
   const [selectedStrain, setSelectedStrain] = useState<{id: Number, name: String} | undefined>(undefined)
   const navigation = useNavigation();
-  const [plantData, setPlantData] = useState<plantState>(route.params ? route.params : {...defaultState, folder:currentFolder});
+  const [plantData, setPlantData] = useState<plantState>(route.params ? route.params : {...defaultState, folder:getPathFromFolder(currentFolder)});
   const [showPropertyModal, setShowPropertyModal] = useState<boolean>(false);
   const [showAncestorModal, setShowAncestorModal] = useState<boolean>(false);
   const strainRef = useRef<TextInput>(null);
@@ -78,7 +79,7 @@ function AddPlantModal({ plants, seeds, folders, addPlant, route, currentFolder}
     harvestDate: false,
   });
 
-  const { title, strain, startDate, flowerDate, note, uuid, father, mother, properties, harvestDate, images } =
+  const { title, strain, startDate, flowerDate, note,  father, mother, properties, harvestDate, images } =
     plantData;
 
   const motherPlant = useSelector((state) => selectPlantById(state as rootState, mother));
@@ -126,15 +127,14 @@ function AddPlantModal({ plants, seeds, folders, addPlant, route, currentFolder}
   };
 
   const onFolderSelect = (folder: folderState, index:number) => {
-    setPlantData({...plantData, folder: getPathToFolderById(folders, folder.id)})
+    setPlantData({...plantData, folder: getPathFromFolder(folder)})
   }
 
   const onSubmit = () => {
-    addPlant(plantData);
+    addPlant({...plantData, uuid: uuid.v4().toString()});
     navigation.goBack();
   };
 
-  console.log(plantData)
   return (
     <View style={styles.wrapper}>
       <ScrollView keyboardShouldPersistTaps="handled" style={styles.container as any}>
@@ -157,7 +157,7 @@ function AddPlantModal({ plants, seeds, folders, addPlant, route, currentFolder}
             title={'Take Photo'}
           />
           <Text style={styles.inputLabel}>Folder</Text>
-          <SelectFolderButton onFolderSelect={onFolderSelect} selectedFolderName={getCurrentFolderNameFromPath(folders, plantData.folder)}/>
+          <SelectFolderButton onFolderSelect={onFolderSelect} selectedFolderName={currentFolder.name}/>
           <Text style={styles.inputLabel}>Strain</Text>
           <SearchableDropdown
             onItemSelect={onStrainSelect}

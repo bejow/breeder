@@ -34,7 +34,7 @@ const FolderListItem = ({ folder, currentFolder, setCurrentFolder, safelyDeleteF
   const navigation = useNavigation();
 
   const onPress = () => {
-    setCurrentFolder(currentFolder + "/" + folder.id)
+    setCurrentFolder(folder)
     navigation.navigate("Plants", {...folder})
   }
 

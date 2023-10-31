@@ -16,8 +16,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export default function App() {
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
-
-  // AsyncStorage.clear()
+  console.log("clearing async storage")
+  AsyncStorage.clear()
 
   if (!isLoadingComplete) {
     return null;

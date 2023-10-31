@@ -13,6 +13,7 @@ import { Alert, View } from 'react-native';
 import Dialog from 'react-native-dialog'
 import uuid from 'react-native-uuid';
 import Breadcrumbs from '../Breadcrumbs/Breadcrumbs';
+import { getPathFromFolder } from '../../helper/folderHelper';
 
 const mapStateToProps = (state: rootState) => ({
   folders: state.folders,
@@ -32,7 +33,7 @@ const CreateFolderButton = ({ currentFolder, folders, addFolder }: PropsFromRedu
 
   const createFolder = () => {
     let id = uuid.v4().toString()
-    addFolder({name: folderName, id, parent: currentFolder})
+    addFolder({name: folderName, id, parent: getPathFromFolder(currentFolder)})
     setFolderName("")
     setMenuOpen(false)
   }
