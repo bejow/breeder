@@ -9,7 +9,7 @@ import { hashStringToColor, hexAToRGBA, rgb2hsv } from '../../helper/colorHash';
 
 const PlantPropertyDisplay = ({ property }: { property: plantProperty }) => {
   const baseColorForProperty = hashStringToColor(property.title)
-  const rgba = hexAToRGBA(baseColorForProperty, property.weight / 10)
+  const rgba = hexAToRGBA(baseColorForProperty, property.weight > 0 ? property.weight / 10 : 0.05)
   return (
 
     <Chip buttonStyle={{"backgroundColor": rgba, margin: 8}} title={`${property.title}: ${property.weight}`}/>

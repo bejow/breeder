@@ -17,7 +17,7 @@ export const PlantPropertyWeightEdit = ({
   removePlantProperty: (property: plantProperty) => void;
 }) => {
   const baseColorForProperty = hashStringToColor(property.title)
-  const rgba = hexAToRGBA(baseColorForProperty, property.weight / 10)
+  const rgba = hexAToRGBA(baseColorForProperty, property.weight > 0 ? property.weight / 10 : 0.05)
   return (
     <View style={styles.container}>
       <View style={styles.infoContainer}>

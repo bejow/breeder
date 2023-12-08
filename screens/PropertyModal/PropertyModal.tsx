@@ -1,4 +1,4 @@
-import { TextInput } from 'react-native';
+import { ScrollView, TextInput } from 'react-native';
 import styles from './PropertyModal.module.scss';
 
 import { Text, View } from '../../components/Themed';
@@ -40,6 +40,7 @@ function PropertyModal({
       });
     };
   }, [showPropertyModal, plantData]);
+
 
   return (
     <View style={styles.modalContainer}>

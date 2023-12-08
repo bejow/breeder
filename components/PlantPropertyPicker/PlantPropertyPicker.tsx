@@ -9,7 +9,11 @@ import uuid from 'react-native-uuid';
 import { TabBarIcon } from '../../navigation/TabBarIcon';
 
 export type DropdownItem = { id: String; title: String };
-
+export type FlatlistProperty = {
+  id: String;
+  title: String;
+  onPress: (event: GestureResponderEvent) => void;
+}
 const mapStateToProps = (state: rootState) => ({
   plants: state.plants,
 });
@@ -30,11 +34,7 @@ const PlantPropertyPicker = ({
   addProperty: (property: plantProperty) => void;
 }) => {
   var previousUsedProperties = useSelector((state: rootState) => getAllPlantProperties(state));
-  var previousUsedPropertiesForFlatlist: Array<{
-    id: string;
-    title: string;
-    onPress: (event: GestureResponderEvent) => void;
-  }> = previousUsedProperties.map((property) => {
+  var previousUsedPropertiesForFlatlist: Array<FlatlistProperty> = previousUsedProperties.map((property) => {
     return {
       title: property.title,
       id: property.id,
@@ -61,9 +61,9 @@ const PlantPropertyPicker = ({
         <TabBarIcon
           color="black"
           name="plus"
-          onPress={() =>
-            addProperty({ title: search, note: '', weight: 5, uuid: uuid.v4().toString(), inheritance: undefined })
-          }
+          onPress={() => {
+              addProperty({ title: search, note: '', weight: 5, uuid: uuid.v4().toString(), inheritance: undefined });
+          }}
         />
       );
     }
@@ -72,10 +72,10 @@ const PlantPropertyPicker = ({
   return (
     <View style={styles.container as any}>
       <SearchDropdown
+        properties={properties}
         label={label}
         placeholder="Search or Create Property"
         data={previousUsedPropertiesForFlatlist}
-        onSubmit={addProperty}
         renderSubmitButton={renderAddPropertyButton}
       />
     </View>

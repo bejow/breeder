@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { FlatList, ListRenderItemInfo, View } from 'react-native';
 import { Text } from 'react-native-elements';
 import { plantProperty } from '../../types';
 import { PlantPropertyWeightEdit } from './PlantPropertyWeightEdit';
@@ -25,9 +25,22 @@ export const PlantPropertyEdit = ({
     setPlantProperties(propertiesCopy);
   };
 
+  const renderPlantWeightEdit = (property: ListRenderItemInfo<plantProperty>) => {
+    return (
+      <View>
+        <PlantPropertyWeightEdit 
+          property={property.item}
+          setPlantProperty={setPlantProperty}
+          removePlantProperty={removePlantProperty}
+        />
+      </View>
+    );
+  }
+
   return (
     <View>
-      {properties.map((property: plantProperty, index) => {
+      <FlatList data={properties} renderItem={(property) => renderPlantWeightEdit(property)}/>
+      {/* {properties.map((property: plantProperty, index) => {
         return (
           <View key={`plantPropertyEdit-${property.uuid}-${index}`}>
             <PlantPropertyWeightEdit 
@@ -37,7 +50,7 @@ export const PlantPropertyEdit = ({
             />
           </View>
         );
-      })}
+      })} */}
     </View>
   );
 };
