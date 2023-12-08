@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Pressable } from 'react-native';
 import { plantProperty, plantPropertyWeight } from '../../types';
 import { Slider } from '@miblanchard/react-native-slider';
 import { useState } from 'react';
@@ -7,6 +7,9 @@ import { Text } from 'react-native-elements';
 import styles from './PlantPropertyEdit.module.scss';
 import { TabBarIcon } from '../../navigation/TabBarIcon';
 import { hashStringToColor, hexAToRGBA } from '../../helper/colorHash';
+import  PlantPropertyDisplay from '../PlantPropertiesDisplay/PlantPropertyDisplay';
+import { CustomIcon } from '../CustomIcon/CustomIcon';
+
 export const PlantPropertyWeightEdit = ({
   property,
   setPlantProperty,
@@ -16,15 +19,25 @@ export const PlantPropertyWeightEdit = ({
   setPlantProperty: (property: plantProperty) => void;
   removePlantProperty: (property: plantProperty) => void;
 }) => {
+  const [expanded, setExpanded] = useState(false)
+  console.log(expanded)
   const baseColorForProperty = hashStringToColor(property.title)
   const rgba = hexAToRGBA(baseColorForProperty, property.weight > 0 ? property.weight / 10 : 0.05)
   return (
     <View style={styles.container}>
+      {expanded ? 
+      <>
+
       <View style={styles.infoContainer}>
+
         <View>
           <Text style={styles.propertyTitle}>{property.title}</Text>
         </View>
-        <TabBarIcon onPress={() => removePlantProperty(property)} name="close" color="black" />
+        <View style={styles.propertyMenuBtnContainer}>
+
+        <CustomIcon onLongPress={() => removePlantProperty(property)} name="trash-can-outline" color="black" />
+        <CustomIcon onPress={() => setExpanded(false)} name="check" color="black" />
+        </View>
       </View>
       <Slider
         value={property.weight}
@@ -54,7 +67,7 @@ export const PlantPropertyWeightEdit = ({
             weight: typeof value === 'number' ? (value as plantPropertyWeight) : (value[0] as plantPropertyWeight),
           })
         }
-      />
+      /></> : <PlantPropertyDisplay onLongPress={() => setExpanded(true)} property={property}/>}
     </View>
   );
 };

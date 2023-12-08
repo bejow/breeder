@@ -10,6 +10,7 @@
 
 .container{
   margin: 8px 0;
+
 }
 
 .sliderThumbBackground{
@@ -27,4 +28,16 @@
   font-weight: bold;
 
 
+}
+
+.propertyMenuBtnContainer{
+  display: flex;
+  flex-direction: row;
+  align-items: space-between;
+}
+
+.horizontal{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
 }
