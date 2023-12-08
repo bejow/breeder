@@ -46,7 +46,7 @@ const SelectFolderButton = ({ selectedFolderName, currentFolder, folders, addFol
     return (
       <Dialog.Container visible={menuOpen}>
       <Dialog.Title>Select Folder</Dialog.Title>
-      <SelectFolderDropdown onFolderSelect={onSelect}/>
+      <SelectFolderDropdown onFolderSelect={onSelect} currentFolder={currentFolder}/>
       <Dialog.Button label="Cancel" onPress={() => setMenuOpen(false)}/>
     </Dialog.Container>
     )

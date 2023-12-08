@@ -34,14 +34,14 @@ interface Props extends PropsFromRedux {
 const SelectFolderDropdown = ({ currentFolder, folders, addFolder, onFolderSelect }: Props) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [folderName, setFolderName] = useState('');
-  const currentFolderObject = useSelector((state) => selectFolderById(state as rootState, getCurrentFolderIdFromPath(currentFolder)))
+  
   const renderDropdown = () => {
     return (
       <SelectDropdown
         data={folders}
         search={true}
-        defaultButtonText={currentFolderObject.name}
-        defaultValue={currentFolderObject}
+        defaultButtonText={currentFolder.name}
+        defaultValue={currentFolder}
         onSelect={(folder: folderState, index:number) => {
           onFolderSelect(folder, index)
         }}

@@ -5,7 +5,7 @@ import { Text, View } from '../../components/Themed';
 import { Button, Input } from 'react-native-elements';
 import DateTimePicker, { Event } from '@react-native-community/datetimepicker';
 import { useEffect, useRef, useState } from 'react';
-import { plantProperty, plantState, rootState, RootTabScreenProps } from '../../types';
+import { folderState, plantProperty, plantState, rootState, RootTabScreenProps } from '../../types';
 import { setPlant, addPlant, selectPlantById } from '../../redux/reducers/plantReducer';
 import { connect, ConnectedProps, useSelector } from 'react-redux';
 import PropertyModal from '../PropertyModal/PropertyModal';
@@ -15,6 +15,9 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { TabBarIcon } from '../../navigation/TabBarIcon';
 import { pickImage, saveImage, takeImage } from '../../helper/imageHelper';
 import { Asset } from 'expo-media-library';
+import { ImageInfo } from 'expo-image-picker';
+import SelectFolderButton from '../../components/FolderSelectButton/SelectFolderButton';
+import { getPathFromFolder } from '../../helper/folderHelper';
 
 const defaultState = {
   title: '',
@@ -40,6 +43,8 @@ const selectableProperties = [
 const mapStateToProps = (state: rootState) => ({
   plants: state.plants,
   seeds: state.seeds,
+    folders: state.folders,
+  currentFolder: state.appState.currentFolder
 });
 
 const mapDispatch = {
@@ -55,7 +60,7 @@ interface Props extends PropsFromRedux {
 
 const connector = connect(mapStateToProps, mapDispatch);
 
-function AddPlantModal({ plants, seeds, setPlant, addPlant }: Props) {
+function AddPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFolder }: Props) {
   const route = useRoute();
   const navigation = useNavigation();
   const [plantData, setPlantData] = useState<plantState>(route.params ? (route.params as plantState) : defaultState);
@@ -114,6 +119,10 @@ function AddPlantModal({ plants, seeds, setPlant, addPlant }: Props) {
     setPlantData({ ...plantData, harvestDate: date });
   };
 
+    const onFolderSelect = (folder: folderState, index:number) => {
+    setPlantData({...plantData, folder: getPathFromFolder(folder)})
+  }
+
   const onTextInputChange = (name: string, value: string) => {
     setPlantData({ ...plantData, [name]: value });
   };
@@ -122,6 +131,8 @@ function AddPlantModal({ plants, seeds, setPlant, addPlant }: Props) {
     setPlant(plantData);
     navigation.goBack();
   };
+
+  console.log(currentFolder)
 
   return (
     <View style={styles.wrapper as any}>
@@ -136,6 +147,16 @@ function AddPlantModal({ plants, seeds, setPlant, addPlant }: Props) {
             onChangeText={(text) => onTextInputChange('title', text)}
             label="Plant Title"
           />
+          <Button
+            onPress={() => pickImage((result: ImageInfo) => saveImage(result.uri, onAddImageChange))}
+            title={'Pick Photo'}
+          />
+          <Button
+            onPress={() => takeImage((result: ImageInfo) => saveImage(result.uri, onAddImageChange))}
+            title={'Take Photo'}
+          />
+          <Text style={styles.inputLabel}>Folder</Text>
+          <SelectFolderButton onFolderSelect={onFolderSelect} selectedFolderName={currentFolder.name}/>
           <Input
             ref={strainRef}
             onSubmitEditing={() => noteRef.current?.focus()}
@@ -172,32 +193,31 @@ function AddPlantModal({ plants, seeds, setPlant, addPlant }: Props) {
           />
           <PlantPropertiesDisplay properties={properties} />
         </View>
-
       </ScrollView>
-          {showPropertyModal && (
-            <PropertyModal
-              setShowPropertyModal={setShowPropertyModal}
-              showPropertyModal={showPropertyModal}
-              setPlantData={setPlantData}
-              plantData={plantData}
-              properties={properties}
-            />
-          )}
-        {showAncestorModal && (
-          <View style={styles.modal}>
-            <AncestorModal
-              label="Pick Plant Parents"
-              placeholder="Search or Add Plant"
-              setShowAncestorModal={setShowAncestorModal}
-              showAncestorModal={showAncestorModal}
-              onSubmit={(search) => addPlant({ ...defaultState, title: search })}
-              setMother={(plantId: string) => setPlantData({ ...plantData, mother: plantId })}
-              setFather={(plantId: string) => setPlantData({ ...plantData, father: plantId })}
-              mother={motherPlant}
-              father={fatherPlant}
-            />
-          </View>
-        )}
+      {showPropertyModal && (
+        <PropertyModal
+          setShowPropertyModal={setShowPropertyModal}
+          showPropertyModal={showPropertyModal}
+          setPlantData={setPlantData}
+          plantData={plantData}
+          properties={properties}
+        />
+      )}
+      {showAncestorModal && (
+        <View style={styles.modal}>
+          <AncestorModal
+            label="Pick Plant Parents"
+            placeholder="Search or Add Plant"
+            setShowAncestorModal={setShowAncestorModal}
+            showAncestorModal={showAncestorModal}
+            onSubmit={(search) => addPlant({ ...defaultState, title: search })}
+            setMother={(plantId: string) => setPlantData({ ...plantData, mother: plantId })}
+            setFather={(plantId: string) => setPlantData({ ...plantData, father: plantId })}
+            mother={motherPlant}
+            father={fatherPlant}
+          />
+        </View>
+      )}
       {displayDatepicker.startDate && (
         <DateTimePicker value={startDate ? startDate : new Date()} onChange={onStartDateChange} mode="date" />
       )}
@@ -208,8 +228,6 @@ function AddPlantModal({ plants, seeds, setPlant, addPlant }: Props) {
         )}
       </>
       <Button style={styles.addButton as styles} title="Save Changes" onPress={onSubmit} />
-
-
     </View>
   );
 }
