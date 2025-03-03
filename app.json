@@ -3,7 +3,13 @@
     "name": "Breeder",
     "packagerOpts": {
       "config": "metro.config.js",
-      "sourceExts": ["js", "jsx", "css", "scss", "sass"]
+      "sourceExts": [
+        "js",
+        "jsx",
+        "css",
+        "scss",
+        "sass"
+      ]
     },
     "slug": "Breeder",
     "version": "1.0.0",
@@ -20,7 +26,8 @@
       "fallbackToCacheTimeout": 0
     },
     "assetBundlePatterns": [
-      "**/*"
+      "**/*",
+      "assets/**/*"
     ],
     "ios": {
       "supportsTablet": true
@@ -50,8 +57,9 @@
         {
           "photosPermission": "The app accesses your photos to reference them within the app"
         }
-      ]
+      ],
+      "expo-asset",
+      "expo-font"
     ]
   }
-  
 }
