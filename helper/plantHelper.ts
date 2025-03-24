@@ -1,4 +1,21 @@
-import { plantState } from "../types";
+import { plantProperty, plantState } from "../types";
+import uuid from 'react-native-uuid';
+import { Asset } from 'expo-media-library';
+
+const defaultPlantState: plantState = {
+    title: "",
+    startDate: undefined,
+    flowerDate: undefined,
+    harvestDate: undefined,
+    note: "",
+    strain: "",
+    uuid: "",
+    father: "",
+    mother: "",
+    images: [] as Asset[],
+    properties: [] as plantProperty[],
+    folder: null,
+}
 
 export const getDayDifference = (date1 : number, date2: number) => {
     const diffTime = Math.abs(date2- date1);
@@ -14,3 +31,6 @@ export const createPlantInfoString = (plant: plantState) => {
     return infoString
 }
 
+export const createNewPlantData = ():plantState => {
+    return {...defaultPlantState, uuid: uuid.v4().toString()}
+} 

@@ -30,6 +30,7 @@ import { TabBarIcon } from './TabBarIcon';
 import SeedDetailScreen from '../screens/SeedDetailScreen/SeedDetailScreen';
 import EditSeedModal from '../screens/EditSeedModal/EditSeedModal';
 import CreateFolderButton from '../components/CreateFolderButton/CreateFolderButton';
+import { createNewPlantData } from '../helper/plantHelper';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -90,7 +91,7 @@ function BottomTabNavigator() {
               <ExportButton />
               <ImportButton />
               <CreateFolderButton />
-              <CustomIcon onPress={() => navigation.navigate('AddPlantModal')} name="plus-circle" marginRight={15} />
+              <CustomIcon onPress={() => navigation.navigate('EditPlantModal', createNewPlantData())} name="plus-circle" marginRight={15} />
             </View>
           ),
         })}

@@ -1,13 +1,11 @@
 import React, { ReactElement, RefObject, useState } from 'react';
 import { FlatList, GestureResponderEvent, Text, TextInput, View } from 'react-native';
 import { Input } from 'react-native-elements';
-import { Button } from 'react-native-elements/dist/buttons/Button';
-import { IconNode } from 'react-native-elements/dist/icons/Icon';
-import { TabBarIcon } from '../../navigation';
+
 import { plantProperty } from '../../types';
 import { DropdownItem } from './DropdownItem';
 import styles from './SearchDropdown.module.scss';
-import uuid from 'react-native-uuid';
+
 import { DropdownItem as DropdownItemType, FlatlistProperty } from '../PlantPropertyPicker/PlantPropertyPicker';
 
 export const SearchDropdown = ({
@@ -15,7 +13,7 @@ export const SearchDropdown = ({
   data,
   renderSubmitButton,
   placeholder,
-  properties,
+
 }: {
   label: String;
   data: { id: String; title: String; onPress: (event: GestureResponderEvent) => void }[];
@@ -29,25 +27,11 @@ export const SearchDropdown = ({
     setSearch(text);
   };
 
-  const isPropertyAlreadyPicked = (propertyTitle: String) => {
-    // is property already selected for the current plant?
-    if (
-      properties.find((existingProperty) => {
-        console.log(existingProperty)
-        console.log(propertyTitle)
-        if (existingProperty.title === propertyTitle) {
-          return true;
-        }
-      })
-    ) {
-      return true;
-    }
-    return false;
-  };
+
 
   let filteredData : Array<FlatlistProperty> = data.filter(
     (item) =>
-      item.title.toLowerCase().includes(search.toLowerCase()) && !isPropertyAlreadyPicked(item.title) 
+      item.title.toLowerCase().includes(search.toLowerCase())
   );
 
   filteredData = filteredData.map((property) => {

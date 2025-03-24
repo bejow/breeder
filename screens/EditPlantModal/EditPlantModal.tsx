@@ -19,7 +19,7 @@ import { ImageInfo } from 'expo-image-picker';
 import SelectFolderButton from '../../components/FolderSelectButton/SelectFolderButton';
 import { getPathFromFolder } from '../../helper/folderHelper';
 
-const defaultState = {
+const defaultState: plantState = {
   title: '',
   startDate: undefined,
   flowerDate: undefined,
@@ -28,6 +28,7 @@ const defaultState = {
   strain: '',
   uuid: '',
   father: '',
+  folder: null,
   mother: '',
   properties: new Array<plantProperty>(),
   images: [],
@@ -78,7 +79,7 @@ function AddPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFold
     harvestDate: false,
   });
 
-  const { title, strain, startDate, flowerDate, note, images, uuid, father, mother, properties } = plantData;
+  const { title, strain, startDate, flowerDate, harvestDate, note, images, uuid, father, mother, properties } = plantData;
 
   useEffect(() => {
     navigation.setOptions({
@@ -128,6 +129,7 @@ function AddPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFold
   };
 
   const onSubmit = () => {
+    console.log(plantData)
     setPlant(plantData);
     navigation.goBack();
   };
@@ -221,7 +223,9 @@ function AddPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFold
       {displayDatepicker.startDate && (
         <DateTimePicker value={startDate ? startDate : new Date()} onChange={onStartDateChange} mode="date" />
       )}
-
+      {displayDatepicker.harvestDate && (
+        <DateTimePicker value={harvestDate ? harvestDate : new Date()} onChange={onHarvestDateChange} mode="date" />
+      )}
       <>
         {displayDatepicker.flowerDate && (
           <DateTimePicker value={flowerDate ? flowerDate : new Date()} onChange={onFlowerDateChange} mode="date" />
