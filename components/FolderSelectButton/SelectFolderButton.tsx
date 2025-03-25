@@ -15,6 +15,7 @@ import uuid from 'react-native-uuid';
 import Breadcrumbs from '../Breadcrumbs/Breadcrumbs';
 import SelectFolderDropdown from '../SelectFolderDropdown/SelectFolderDropdown';
 import styles from './SelectFolderButton.module.scss'
+import { getCurrentFolderIdFromPath } from '../../helper/folderHelper';
 
 const mapStateToProps = (state: rootState) => ({
   folders: state.folders,
@@ -23,20 +24,22 @@ const mapStateToProps = (state: rootState) => ({
 
 const mapDispatch = {addFolder};
 
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-interface Props extends PropsFromRedux {
-  // other props ...
-  onFolderSelect: (folder: folderState, index:number) => void
-  selectedFolderName: string | null
+interface Props extends ConnectedProps<typeof connector> {
+  onFolderSelect: (folder: folderState, index: number) => void;
+  selectedFolderPath: string | null;
+  currentFolder: folderState;
+  folders: folderState[];
 }
 
 const connector = connect(mapStateToProps, mapDispatch);
 
-const SelectFolderButton = ({ selectedFolderName, currentFolder, folders, addFolder, onFolderSelect }: Props) => {
+const SelectFolderButton :React.FC<Props>= ({ selectedFolderPath, currentFolder, folders, addFolder, onFolderSelect }: Props) => {
   const [menuOpen, setMenuOpen] = useState(false)
-  const currentFolderObject = useSelector((state) => selectFolderById(state as rootState, currentFolder))
+  const currentFolderObject = useSelector((state) => selectFolderById(state as rootState, currentFolder.id))
+  const selectedFolderObject = useSelector((state) => selectFolderById(state as rootState, getCurrentFolderIdFromPath(selectedFolderPath)))
   const [folder, setFolder] = useState(currentFolderObject)
+  const [folderName, setFolderName] = useState('');
+
   const onSelect = (folder: folderState, index:number) => {
     onFolderSelect(folder, index)
     setMenuOpen(false)
@@ -44,20 +47,20 @@ const SelectFolderButton = ({ selectedFolderName, currentFolder, folders, addFol
 
   const renderDialog = () => {
     return (
-      <Dialog.Container visible={menuOpen}>
+    <Dialog.Container visible={menuOpen}>
       <Dialog.Title>Select Folder</Dialog.Title>
-      <SelectFolderDropdown onFolderSelect={onSelect} currentFolder={currentFolder}/>
+      <SelectFolderDropdown folders={folders} currentFolder={currentFolder} onFolderSelect={onSelect} addFolder={addFolder} selectedFolder={selectedFolderObject}/>
       <Dialog.Button label="Cancel" onPress={() => setMenuOpen(false)}/>
     </Dialog.Container>
     )
   }
 
-  
+
   return  (
     <View style={styles.container}>
       <View style={styles.selectionContainer}>
       <CustomIcon name="folder-outline" color="black" onPress={() => setMenuOpen(true)}/>
-      <Text>{selectedFolderName}</Text>
+      <Text>{selectedFolderPath ? selectedFolderObject.name :currentFolder.name}</Text>
       </View>
       {renderDialog()}
     </View>
@@ -65,4 +68,4 @@ const SelectFolderButton = ({ selectedFolderName, currentFolder, folders, addFol
   
 };
 
-export default connector(SelectFolderButton);
+export default connector(SelectFolderButton)

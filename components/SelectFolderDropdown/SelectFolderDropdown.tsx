@@ -15,33 +15,31 @@ import uuid from 'react-native-uuid';
 import Breadcrumbs from '../Breadcrumbs/Breadcrumbs';
 import SelectDropdown from 'react-native-select-dropdown';
 import { getCurrentFolderIdFromPath } from '../../helper/folderHelper';
+import { TabBarIcon } from '../../navigation/TabBarIcon';
 
-const mapStateToProps = (state: rootState) => ({
-  folders: state.folders,
-  currentFolder: state.appState.currentFolder,
-});
 
-const mapDispatch = { addFolder };
 
-const connector = connect(mapStateToProps, mapDispatch);
 
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-interface Props extends PropsFromRedux {
-  onFolderSelect: (folder: folderState, index:number) => void
+interface Props{
+  onFolderSelect: (folder: folderState, index:number) => void,
+  folders: folderState[],
+  currentFolder: folderState,
+  addFolder: (foldername: string) => void 
+  folderName: string
+  selectedFolder: folderState
 }
 
-const SelectFolderDropdown = ({ currentFolder, folders, addFolder, onFolderSelect }: Props) => {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [folderName, setFolderName] = useState('');
+const SelectFolderDropdown : React.FC<Props> = ({ currentFolder, selectedFolder, folders, addFolder, onFolderSelect }: Props) => {
+
   
   const renderDropdown = () => {
     return (
       <SelectDropdown
         data={folders}
         search={true}
-        defaultButtonText={currentFolder.name}
-        defaultValue={currentFolder}
+        renderSearchInputRightIcon={() => <TabBarIcon color="black" size={20} name="plus" onPress={() => addFolder(folderName)}/>}
+        defaultButtonText={selectedFolder ? selectedFolder.name : currentFolder.name}
+        defaultValue={selectedFolder ? selectedFolder.name : currentFolder.name}
         onSelect={(folder: folderState, index:number) => {
           onFolderSelect(folder, index)
         }}
@@ -66,4 +64,6 @@ const SelectFolderDropdown = ({ currentFolder, folders, addFolder, onFolderSelec
   );
 };
 
-export default connector(SelectFolderDropdown);
+
+
+export default SelectFolderDropdown

@@ -36,6 +36,7 @@ const folderSlice = createSlice({
 const selectFolder = (state: rootState) => state.folders;
 
 const selectFolderById = createSelector([selectFolder, (state: folderReducer, id: string| null) => id], (folders, id) => {
+  
   let folder = folders.find((folder) => (folder.id === id))
     if (folder){
       return folder

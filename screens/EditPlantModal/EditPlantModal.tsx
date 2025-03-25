@@ -3,7 +3,7 @@ import { Platform, ScrollView, TextInput } from 'react-native';
 import styles from './EditPlantModal.module.scss';
 import { Text, View } from '../../components/Themed';
 import { Button, Input } from 'react-native-elements';
-import DateTimePicker, { Event } from '@react-native-community/datetimepicker';
+import DateTimePicker, { DateTimePickerEvent, Event } from '@react-native-community/datetimepicker';
 import { useEffect, useRef, useState } from 'react';
 import { folderState, plantProperty, plantState, rootState, RootTabScreenProps } from '../../types';
 import { setPlant, addPlant, selectPlantById } from '../../redux/reducers/plantReducer';
@@ -18,6 +18,8 @@ import { Asset } from 'expo-media-library';
 import { ImageInfo } from 'expo-image-picker';
 import SelectFolderButton from '../../components/FolderSelectButton/SelectFolderButton';
 import { getPathFromFolder } from '../../helper/folderHelper';
+import { current } from '@reduxjs/toolkit';
+import uuid from 'react-native-uuid';
 
 const defaultState: plantState = {
   title: '',
@@ -44,7 +46,7 @@ const selectableProperties = [
 const mapStateToProps = (state: rootState) => ({
   plants: state.plants,
   seeds: state.seeds,
-    folders: state.folders,
+  folders: state.folders,
   currentFolder: state.appState.currentFolder
 });
 
@@ -64,7 +66,7 @@ const connector = connect(mapStateToProps, mapDispatch);
 function AddPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFolder }: Props) {
   const route = useRoute();
   const navigation = useNavigation();
-  const [plantData, setPlantData] = useState<plantState>(route.params ? (route.params as plantState) : defaultState);
+  const [plantData, setPlantData] = useState<plantState>(route.params ? (route.params as plantState) : {...defaultState, folder: getPathFromFolder(currentFolder), uuid: uuid.v4().toString()});
 
   const [showPropertyModal, setShowPropertyModal] = useState<boolean>(false);
   const [showAncestorModal, setShowAncestorModal] = useState<boolean>(false);
@@ -79,14 +81,16 @@ function AddPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFold
     harvestDate: false,
   });
 
-  const { title, strain, startDate, flowerDate, harvestDate, note, images, uuid, father, mother, properties } = plantData;
-
-  useEffect(() => {
+  const { title, strain, startDate, flowerDate, harvestDate, note, images , father, mother, properties, folder } = plantData;
+console.log("PLANTDATA",plantData)
+useEffect(() => {
     navigation.setOptions({
       title: 'Edit',
       headerRight: () => (
         <View style={styles.iconContainer}>
-          <TabBarIcon style={{ marginLeft: 12 }} name="save" size={30} color="black" onPress={onSubmit} />
+          <View style={{margin: 12}}>
+          <TabBarIcon name="save" size={30} color="black" onPress={onSubmit} />
+          </View>
         </View>
       ),
     });
@@ -101,7 +105,7 @@ function AddPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFold
   const motherPlant = useSelector((state) => selectPlantById(state as rootState, mother));
   const fatherPlant = useSelector((state) => selectPlantById(state as rootState, father));
 
-  const onStartDateChange = (event: Event, date: Date | undefined) => {
+  const onStartDateChange = (event: DateTimePickerEvent, date: Date | undefined) => {
     setDisplayDatepicker({ ...displayDatepicker, startDate: false });
     setPlantData({ ...plantData, startDate: date });
   };
@@ -110,12 +114,12 @@ function AddPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFold
     setPlantData({ ...plantData, images: images.concat([file]) });
   };
 
-  const onFlowerDateChange = (event: Event, date: Date | undefined) => {
+  const onFlowerDateChange = (event: DateTimePickerEvent, date: Date | undefined) => {
     setDisplayDatepicker({ ...displayDatepicker, flowerDate: false });
     setPlantData({ ...plantData, flowerDate: date });
   };
 
-  const onHarvestDateChange = (event: Event, date: Date | undefined) => {
+  const onHarvestDateChange = (event: DateTimePickerEvent, date: Date | undefined) => {
     setDisplayDatepicker({ ...displayDatepicker, harvestDate: false });
     setPlantData({ ...plantData, harvestDate: date });
   };
@@ -133,8 +137,6 @@ function AddPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFold
     setPlant(plantData);
     navigation.goBack();
   };
-
-  console.log(currentFolder)
 
   return (
     <View style={styles.wrapper as any}>
@@ -158,7 +160,7 @@ function AddPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFold
             title={'Take Photo'}
           />
           <Text style={styles.inputLabel}>Folder</Text>
-          <SelectFolderButton onFolderSelect={onFolderSelect} selectedFolderName={currentFolder.name}/>
+          <SelectFolderButton onFolderSelect={onFolderSelect} selectedFolder={folder}/>
           <Input
             ref={strainRef}
             onSubmitEditing={() => noteRef.current?.focus()}
@@ -231,7 +233,7 @@ function AddPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFold
           <DateTimePicker value={flowerDate ? flowerDate : new Date()} onChange={onFlowerDateChange} mode="date" />
         )}
       </>
-      <Button style={styles.addButton as styles} title="Save Changes" onPress={onSubmit} />
+      <Button style={styles.addButton} title="Save Changes" onPress={onSubmit} />
     </View>
   );
 }

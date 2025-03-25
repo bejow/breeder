@@ -31,6 +31,6 @@ export const createPlantInfoString = (plant: plantState) => {
     return infoString
 }
 
-export const createNewPlantData = ():plantState => {
+export const createNewPlantData = (): plantState => {
     return {...defaultPlantState, uuid: uuid.v4().toString()}
 } 

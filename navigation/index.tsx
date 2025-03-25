@@ -22,7 +22,7 @@ import NotFoundScreen from '../screens/NotFoundScreen';
 import PlantDetailScreen from '../screens/PlantDetailScreen/PlantDetailScreen';
 import PlantScreen from '../screens/PlantScreen/PlantScreen';
 import SeedScreen from '../screens/SeedScreen/SeedScreen';
-import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
+import { plantState, RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
 import { CustomIcon } from '../components/CustomIcon/CustomIcon';
 import AddSeedModal from '../screens/AddSeedModal/AddSeedModal';
@@ -83,7 +83,7 @@ function BottomTabNavigator() {
       <BottomTab.Screen
         name="Plants"
         component={PlantScreen}
-        options={({ navigation }: RootTabScreenProps<'Plants'>) => ({
+        options={({ navigation }) => ({
           title: 'Plants',
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
           headerRight: () => (
@@ -91,7 +91,7 @@ function BottomTabNavigator() {
               <ExportButton />
               <ImportButton />
               <CreateFolderButton />
-              <CustomIcon onPress={() => navigation.navigate('EditPlantModal', createNewPlantData())} name="plus-circle" marginRight={15} />
+              <CustomIcon onPress={() => navigation.navigate('EditPlantModal')} name="plus-circle" marginRight={15} />
             </View>
           ),
         })}
