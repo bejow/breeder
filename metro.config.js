@@ -15,7 +15,7 @@ const config = {
     babelTransformerPath: require.resolve('react-native-sass-transformer'),
   },
   resolver: {
-    assetExts: assetExts.filter((ext) => ext !== "svg"),
+    assetExts: assetExts.filter((ext) => ext !== "svg" ||ext !== "scss"),
     sourceExts: [...sourceExts, "svg", "scss", "sass"],
     resolverMainFields: ["sbmodern", "react-native", "browser", "main"],
   },
