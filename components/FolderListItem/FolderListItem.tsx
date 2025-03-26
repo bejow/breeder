@@ -58,9 +58,9 @@ const FolderListItem = ({ folder, currentFolder, setCurrentFolder, safelyDeleteF
       bottomDivider
       style={styles.listItem}
     >
+          <CustomIcon style={styles.icon} name="folder-outline"/>
       <ListItem.Content>
         <View style={styles.itemContainer}>
-          <CustomIcon name="folder-outline"/>
           <ListItem.Title>{folder.name}</ListItem.Title>
       {menuOpen ? (
         renderMenu()
