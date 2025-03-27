@@ -43,12 +43,10 @@ const connector = connect(mapStateToProps, mapDispatch);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 interface Props extends PropsFromRedux {
   navigation: RootTabScreenProps<"Plants">;
-  route: RouteProp<RootStackParamList, 'Plants'>
+
 }
 
-
-
-function PlantScreen({ route, navigation, plants, seeds, addPlant, deleteFolder, folders, currentFolder }: Props) {
+function PlantScreen({  plants, seeds, addPlant, deleteFolder, folders, currentFolder }: Props) {
   const [search, setSearch] = useState("")
 
 

@@ -1,5 +1,4 @@
-import { StatusBar } from 'expo-status-bar';
-import { Platform, ScrollView, TextInput } from 'react-native';
+import { ScrollView, TextInput } from 'react-native';
 import styles from './EditPlantModal.module.scss';
 import { Text, View } from '../../components/Themed';
 import { Button, Input } from 'react-native-elements';
@@ -18,7 +17,6 @@ import { Asset } from 'expo-media-library';
 import { ImageInfo } from 'expo-image-picker';
 import SelectFolderButton from '../../components/FolderSelectButton/SelectFolderButton';
 import { getPathFromFolder } from '../../helper/folderHelper';
-import { current } from '@reduxjs/toolkit';
 import uuid from 'react-native-uuid';
 
 const defaultState: plantState = {
@@ -57,13 +55,10 @@ const mapDispatch = {
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-interface Props extends PropsFromRedux {
-  plant: plantState;
-}
 
 const connector = connect(mapStateToProps, mapDispatch);
 
-function AddPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFolder }: Props) {
+function AddPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFolder }: PropsFromRedux) {
   const route = useRoute();
   const navigation = useNavigation();
   const [plantData, setPlantData] = useState<plantState>(route.params ? (route.params as plantState) : {...defaultState, folder: getPathFromFolder(currentFolder), uuid: uuid.v4().toString()});

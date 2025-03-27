@@ -12,10 +12,8 @@ import { ColorSchemeName } from 'react-native';
 import ExportButton from '../components/ExportButton/ExportButton';
 import ImportButton from '../components/ImportButton/ImportButton';
 import styles from './navigation.module.scss';
-
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
-import AddPlantModal from '../screens/AddPlantModal/AddPlantModal';
 import EditPlantModal from '../screens/EditPlantModal/EditPlantModal';
 import PlantDetailScreen from '../screens/PlantDetailScreen/PlantDetailScreen';
 import PlantScreen from '../screens/PlantScreen/PlantScreen';
@@ -26,8 +24,14 @@ import { CustomIcon } from '../components/CustomIcon/CustomIcon';
 import AddSeedModal from '../screens/AddSeedModal/AddSeedModal';
 import { TabBarIcon } from './TabBarIcon';
 import SeedDetailScreen from '../screens/SeedDetailScreen/SeedDetailScreen';
-import EditSeedModal from '../screens/EditSeedModal/EditSeedModal';
 import CreateFolderButton from '../components/CreateFolderButton/CreateFolderButton';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faPaperPlane } from '@fortawesome/free-regular-svg-icons';
+import SeedlingIcon from '../assets/icons/SeedlingIcon';
+import SeedlingIconSvg from '../assets/icons/seedlingIcon.svgx';
+import SeedsIcon from '../assets/icons/SeedsIcon';
+
+
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -47,14 +51,13 @@ function PlantStack() {
   return (
     <Stack.Navigator initialRouteName="PlantScreen">
       <Stack.Screen name="PlantDetailScreen" component={PlantDetailScreen} initialParams={{ id: '0' }} />
-      <Stack.Screen name="AddPlantModal" component={AddPlantModal} options={{ title: 'Add a new Plant' }} />
       <Stack.Screen name="EditPlantModal" component={EditPlantModal} />
       <Stack.Screen
         name="PlantScreen"
         component={PlantScreen}
         options={({ navigation }) => ({
           title: 'Plants',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          tabBarIcon: ({ color } : {color: string}) => <TabBarIcon size={30} name="code" color={color} />,
           headerRight: () => (
             <View style={styles.navigationHeaderContainer}>
               <ExportButton />
@@ -79,7 +82,6 @@ function SeedStack() {
         component={SeedScreen}
         options={({ navigation }) => ({
           title: 'Seeds',
-          tabBarIcon: ({ color }) => <TabBarIcon name="seedling" color={color} />,
           headerRight: () => (
             <View style={styles.navigationHeaderContainer}>
               <ExportButton />
@@ -98,7 +100,6 @@ const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
 function BottomTabNavigator() {
   const colorScheme = useColorScheme();
-
   return (
     <BottomTab.Navigator
       initialRouteName="Plants"
@@ -108,9 +109,17 @@ function BottomTabNavigator() {
       }}
     >
 
-      <BottomTab.Screen name="Plants" component={PlantStack} />
+      <BottomTab.Screen 
+      name="Plants" 
+      component={PlantStack} 
+      options={{
+        tabBarIcon: ({ color } : {color: string}) => <SeedlingIcon width={30} height={30}  fill={color}/> 
+      } }
+      />
 
-      <BottomTab.Screen name="Seeds" component={SeedStack} />
+      <BottomTab.Screen name="Seeds" component={SeedStack} options={{
+         tabBarIcon: ({ color } : {color: string}) => <SeedsIcon width={25} height={25} fill={color}/> 
+      }}/>
 
     </BottomTab.Navigator>
   );

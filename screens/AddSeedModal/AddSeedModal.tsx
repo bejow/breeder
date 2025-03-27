@@ -49,13 +49,9 @@ const mapDispatch = {
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-interface Props extends PropsFromRedux {
-  seed: seedState;
-}
-
 const connector = connect(mapStateToProps, mapDispatch);
 
-const AddSeedModal = ({ addSeed, plants, seeds, addPlant }: Props) => {
+const AddSeedModal = ({ addSeed, plants, seeds, addPlant }: PropsFromRedux) => {
   const [seedData, setSeedData] = useState<seedState>(defaultState);
   const { title, strain, breeder, note, harvestDate, uuid, father, mother, type } = seedData;
   const [displayDatePicker, setDisplayDatepicker] = useState(false);
