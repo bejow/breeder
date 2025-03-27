@@ -3,7 +3,6 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
-import { FontAwesome } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -18,11 +17,10 @@ import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import AddPlantModal from '../screens/AddPlantModal/AddPlantModal';
 import EditPlantModal from '../screens/EditPlantModal/EditPlantModal';
-import NotFoundScreen from '../screens/NotFoundScreen';
 import PlantDetailScreen from '../screens/PlantDetailScreen/PlantDetailScreen';
 import PlantScreen from '../screens/PlantScreen/PlantScreen';
 import SeedScreen from '../screens/SeedScreen/SeedScreen';
-import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
+import { RootStackParamList, RootTabParamList} from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
 import { CustomIcon } from '../components/CustomIcon/CustomIcon';
 import AddSeedModal from '../screens/AddSeedModal/AddSeedModal';
@@ -31,11 +29,10 @@ import SeedDetailScreen from '../screens/SeedDetailScreen/SeedDetailScreen';
 import EditSeedModal from '../screens/EditSeedModal/EditSeedModal';
 import CreateFolderButton from '../components/CreateFolderButton/CreateFolderButton';
 
-
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
     <NavigationContainer linking={LinkingConfiguration} theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <RootNavigator />
+      <BottomTabNavigator />
     </NavigationContainer>
   );
 }
@@ -46,43 +43,14 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
  */
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
-function RootNavigator() {
+function PlantStack() {
   return (
-    <Stack.Navigator >
-      <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
-      <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
-      <Stack.Screen name="SeedScreen" component={SeedScreen} options={{ title: 'Seeds' }} />
+    <Stack.Navigator initialRouteName="PlantScreen">
       <Stack.Screen name="PlantDetailScreen" component={PlantDetailScreen} initialParams={{ id: '0' }} />
-      <Stack.Screen name="SeedDetailScreen" component={SeedDetailScreen} initialParams={{ id: '0' }} />
-      <Stack.Group screenOptions={{ presentation: 'modal' }}>
-        <Stack.Screen name="AddSeedModal" component={AddSeedModal} options={{ title: 'Add Seeds' }} />
-        <Stack.Screen name="AddPlantModal" component={AddPlantModal} options={{ title: 'Add a new Plant' }}/>
-        <Stack.Screen name="EditPlantModal" component={EditPlantModal} />
-        <Stack.Screen name="EditSeedModal" component={EditSeedModal} />
-      </Stack.Group>
-    </Stack.Navigator>
-  );
-}
-
-/**
- * A bottom tab navigator displays tab buttons on the bottom of the display to switch screens.
- * https://reactnavigation.org/docs/bottom-tab-navigator
- */
-const BottomTab = createBottomTabNavigator<RootTabParamList>();
-
-function BottomTabNavigator() {
-  const colorScheme = useColorScheme();
-
-  return (
-    
-    <BottomTab.Navigator
-      initialRouteName="Plants"
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme].tint,
-      }}
-    >
-      <BottomTab.Screen
-        name="Plants"
+      <Stack.Screen name="AddPlantModal" component={AddPlantModal} options={{ title: 'Add a new Plant' }} />
+      <Stack.Screen name="EditPlantModal" component={EditPlantModal} />
+      <Stack.Screen
+        name="PlantScreen"
         component={PlantScreen}
         options={({ navigation }) => ({
           title: 'Plants',
@@ -97,11 +65,19 @@ function BottomTabNavigator() {
           ),
         })}
       />
+    </Stack.Navigator>
+  );
+}
 
-      <BottomTab.Screen
-        name="Seeds"
+function SeedStack() {
+  return (
+    <Stack.Navigator initialRouteName="SeedScreen">
+      <Stack.Screen name="SeedDetailScreen" component={SeedDetailScreen} initialParams={{ id: '0' }} />
+      <Stack.Screen name="AddSeedModal" component={AddSeedModal} options={{ title: 'Add Seeds' }} />
+      <Stack.Screen
+        name="SeedScreen"
         component={SeedScreen}
-        options={({ navigation }: RootTabScreenProps<'Seeds'>) => ({
+        options={({ navigation }) => ({
           title: 'Seeds',
           tabBarIcon: ({ color }) => <TabBarIcon name="seedling" color={color} />,
           headerRight: () => (
@@ -114,6 +90,28 @@ function BottomTabNavigator() {
           ),
         })}
       />
+    </Stack.Navigator>
+  );
+}
+
+const BottomTab = createBottomTabNavigator<RootTabParamList>();
+
+function BottomTabNavigator() {
+  const colorScheme = useColorScheme();
+
+  return (
+    <BottomTab.Navigator
+      initialRouteName="Plants"
+      screenOptions={{
+        tabBarActiveTintColor: Colors[colorScheme].tint,
+        headerShown: false,
+      }}
+    >
+
+      <BottomTab.Screen name="Plants" component={PlantStack} />
+
+      <BottomTab.Screen name="Seeds" component={SeedStack} />
+
     </BottomTab.Navigator>
   );
 }
