@@ -20,7 +20,6 @@ export const PlantPropertyWeightEdit = ({
   removePlantProperty: (property: plantProperty) => void;
 }) => {
   const [expanded, setExpanded] = useState(false)
-  console.log(expanded)
   const baseColorForProperty = hashStringToColor(property.title)
   const rgba = hexAToRGBA(baseColorForProperty, property.weight > 0 ? property.weight / 10 : 0.05)
   return (

@@ -1,10 +1,15 @@
 import { FontAwesome } from '@expo/vector-icons';
+import { TouchableOpacity } from 'react-native';
 
-export function TabBarIcon(props: {
+type Props = {
   name: React.ComponentProps<typeof FontAwesome>['name'];
   color: string;
-  onPress: (() => void) | undefined;
+  onPress: (() => void);
   size: number;
-}) {
-  return <FontAwesome style={{ marginBottom: -3 }} {...props} />;
+}
+
+export function TabBarIcon({onPress, ...rest}: Props) {
+  // remove onpress
+
+  return <TouchableOpacity onPress={() => onPress()}><FontAwesome {...rest} style={{ marginBottom: -3 }}/></TouchableOpacity>;
 }

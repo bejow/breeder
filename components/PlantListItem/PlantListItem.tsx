@@ -12,7 +12,7 @@ import uuid from 'react-native-uuid';
 
 export default ({ plant }: { plant: plantState }) => {
   const pushOnNavigationStack = StackActions.push('PlantDetailScreen', { id: plant.uuid });
-  console.log(plant.uuid)
+
   const [menuOpen, setMenuOpen] = useState(false);
   const navigation = useNavigation();
 

@@ -82,7 +82,6 @@ function AddPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFold
   });
 
   const { title, strain, startDate, flowerDate, harvestDate, note, images , father, mother, properties, folder } = plantData;
-console.log("PLANTDATA",plantData)
 useEffect(() => {
     navigation.setOptions({
       title: 'Edit',
@@ -133,7 +132,7 @@ useEffect(() => {
   };
 
   const onSubmit = () => {
-    console.log(plantData)
+
     setPlant(plantData);
     navigation.goBack();
   };

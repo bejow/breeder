@@ -36,7 +36,6 @@ const plantSlice = createSlice({
     },
     setPlant(state, action: PayloadAction<plantState>){
       const plantIndex = state.findIndex(plant => plant.uuid === action.payload.uuid)
-      console.log(plantIndex)
       if (plantIndex == -1){
         // Plant does not exist, create new one
         state.push({ ...action.payload, uuid: action.payload.uuid ? action.payload.uuid : uuid.v4().toString() })

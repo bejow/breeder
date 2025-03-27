@@ -34,9 +34,9 @@ const ImportButton = ({ state, plants, importAppendPlants, importAppendSeeds }: 
       const data: rootState= JSON.parse(rawData)
       importAppendPlants(data)
       importAppendSeeds(data)
-      console.log("data", data)
+
     } else {
-        console.log("cannot import");
+        // cannot import
       return;
     }
   };

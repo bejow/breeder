@@ -36,8 +36,6 @@ const ExportButton = ({ state, plants }: PropsFromRedux) => {
         const file = await StorageAccessFramework.createFileAsync(uri, filename, 'application/json');
         StorageAccessFramework.writeAsStringAsync(file, asset);
       } catch (e) {
-        console.log('ERROR!!!', e);
-
       }
     }
   };

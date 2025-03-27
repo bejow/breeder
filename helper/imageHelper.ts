@@ -20,9 +20,9 @@ export const requestStoragePermission = async () => {
       }
     );
     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-      console.log("You can use the EXTERNAL_STORAGE");
+      // use local storage
     } else {
-      console.log("EXTERNAL_STORAGE permission denied");
+      // permission denied
     }
   } catch (err) {
     console.warn(err);
@@ -37,7 +37,6 @@ export const pickImage = async (callback: (result: ImagePicker.ImageInfo) => voi
     aspect: [4, 3],
     quality: 1,
   });
-  console.log(result);
   if (!result.cancelled) {
     callback(result);
     return result;
@@ -52,7 +51,7 @@ export const takeImage = async (callback: (result: ImagePicker.ImageInfo) => voi
     aspect: [4, 3],
     quality: 1,
   });
-  console.log(result);
+
   if (!result.cancelled) {
     callback(result);
     return result;
@@ -81,9 +80,9 @@ export const saveImage = async (tempImageUri: string, callback: (asset: MediaLib
     var album = await MediaLibrary.getAlbumAsync(imageDirectory)
     var assetInfo = await MediaLibrary.getAssetInfoAsync(file)
 
-    console.log("ASSETINFO:", assetInfo)
-    console.log("FILE URI:", file.uri)
-    console.log("ALBUM URI:", album)
+    // console.log("ASSETINFO:", assetInfo)
+    // console.log("FILE URI:", file.uri)
+    // console.log("ALBUM URI:", album)
 
     if (album === null){
       // if not existent --> create new
@@ -99,6 +98,5 @@ export const saveImage = async (tempImageUri: string, callback: (asset: MediaLib
       callback(newFile)
     }   
   } catch (e) {
-    console.log('ERROR!!!', e);
   }
 };

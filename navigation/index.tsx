@@ -22,7 +22,7 @@ import NotFoundScreen from '../screens/NotFoundScreen';
 import PlantDetailScreen from '../screens/PlantDetailScreen/PlantDetailScreen';
 import PlantScreen from '../screens/PlantScreen/PlantScreen';
 import SeedScreen from '../screens/SeedScreen/SeedScreen';
-import { plantState, RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
+import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
 import { CustomIcon } from '../components/CustomIcon/CustomIcon';
 import AddSeedModal from '../screens/AddSeedModal/AddSeedModal';
@@ -30,7 +30,7 @@ import { TabBarIcon } from './TabBarIcon';
 import SeedDetailScreen from '../screens/SeedDetailScreen/SeedDetailScreen';
 import EditSeedModal from '../screens/EditSeedModal/EditSeedModal';
 import CreateFolderButton from '../components/CreateFolderButton/CreateFolderButton';
-import { createNewPlantData } from '../helper/plantHelper';
+
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -48,7 +48,7 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator >
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Screen name="SeedScreen" component={SeedScreen} options={{ title: 'Seeds' }} />
@@ -74,6 +74,7 @@ function BottomTabNavigator() {
   const colorScheme = useColorScheme();
 
   return (
+    
     <BottomTab.Navigator
       initialRouteName="Plants"
       screenOptions={{
@@ -102,7 +103,7 @@ function BottomTabNavigator() {
         component={SeedScreen}
         options={({ navigation }: RootTabScreenProps<'Seeds'>) => ({
           title: 'Seeds',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="seedling" color={color} />,
           headerRight: () => (
             <View style={styles.navigationHeaderContainer}>
               <ExportButton />
