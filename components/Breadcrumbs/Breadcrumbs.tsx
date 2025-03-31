@@ -1,16 +1,10 @@
-import { ListItem, Avatar, Text } from 'react-native-elements';
-import { View, Image, TouchableOpacity } from 'react-native';
-import { StackActions } from '@react-navigation/native';
-import React, { useState } from 'react';
-import { folderState, plantState, rootState, RootTabScreenProps } from '../../types';
-import { hashStringToColor } from '../../helper/colorHash';
-import { createPlantInfoString } from '../../helper/plantHelper';
+import { Text } from 'react-native-elements';
+import { View } from 'react-native';
+import React from 'react';
+import { folderState, rootState } from '../../types';
 import { useNavigation } from '@react-navigation/native';
-import uuid from 'react-native-uuid';
-import { CustomIcon } from '../CustomIcon/CustomIcon';
 import { getParentFolders, setCurrentFolder } from '../../redux/reducers/appStateReducer';
 import { connect, ConnectedProps, useSelector } from 'react-redux';
-import { getPathFromFolder, getPathToFolderById, getPathToFolderName } from '../../helper/folderHelper';
 import styles from './Breadcrumbs.module.scss'
 import { homeFolder } from '../../redux/reducers/folderReducer';
 
@@ -35,12 +29,12 @@ const Breadcrumbs = ({ currentFolder, setCurrentFolder }: Props) => {
   let parentFolder = useSelector((state: rootState) => getParentFolders(state))
   const onPress = (folder: folderState) => {
     setCurrentFolder(folder)
-    navigation.navigate("Plants", folder)
+    navigation.navigate("PlantScreen", folder)
   };
 
   const onHomePress = () => {
     setCurrentFolder(homeFolder)
-    navigation.navigate("Plants", homeFolder)
+    navigation.navigate("PlantScreen", homeFolder)
   }
 
   const renderBreadcrumbs = () => {

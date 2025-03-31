@@ -42,8 +42,8 @@ export type RootStackScreenProps<Screen extends keyof RootStackParamList> = Nati
 >;
 
 export type RootTabParamList = {
-  Plants: undefined;
-  Seeds: undefined;
+  Plants: folderState;
+  Seeds: folderState;
   PlantDetailScreen: { id: string };
   SeedDetailScreen: { id: string };
   EditSeedModal: seedState | undefined;
