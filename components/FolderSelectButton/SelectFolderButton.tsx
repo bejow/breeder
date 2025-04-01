@@ -1,18 +1,11 @@
 import React, {useState} from 'react';
-
-import { Pressable } from 'react-native';
-import { StorageAccessFramework } from 'expo-file-system';
 import { Text } from 'react-native-elements';
-import { folderState, rootState, RootTabScreenProps } from '../../types';
+import { folderState, rootState } from '../../types';
 import { connect, ConnectedProps, useSelector } from 'react-redux';
-import * as DocumentPicker from 'expo-document-picker';
-import { addFolder, homeFolder, selectFolderById } from '../../redux/reducers/folderReducer';
+import { addFolder, selectFolderById } from '../../redux/reducers/folderReducer';
 import { CustomIcon } from '../CustomIcon/CustomIcon';
-import { importAppendSeeds } from '../../redux/reducers/seedReducer';
-import { Alert, View } from 'react-native'; 
+import { View } from 'react-native'; 
 import Dialog from 'react-native-dialog'
-import uuid from 'react-native-uuid';
-import Breadcrumbs from '../Breadcrumbs/Breadcrumbs';
 import SelectFolderDropdown from '../SelectFolderDropdown/SelectFolderDropdown';
 import styles from './SelectFolderButton.module.scss'
 import { getCurrentFolderIdFromPath } from '../../helper/folderHelper';
@@ -29,6 +22,7 @@ interface Props extends ConnectedProps<typeof connector> {
   selectedFolderPath: string | null;
   currentFolder: folderState;
   folders: folderState[];
+
 }
 
 const connector = connect(mapStateToProps, mapDispatch);
@@ -48,7 +42,7 @@ const SelectFolderButton :React.FC<Props>= ({ selectedFolderPath, currentFolder,
   const renderDialog = () => {
     return (
     <Dialog.Container visible={menuOpen}>
-      <Dialog.Title>Select Folder</Dialog.Title>
+      <Dialog.Title><Text>Select Folder</Text></Dialog.Title>
       <SelectFolderDropdown folders={folders} currentFolder={currentFolder} onFolderSelect={onSelect} addFolder={addFolder} selectedFolder={selectedFolderObject}/>
       <Dialog.Button label="Cancel" onPress={() => setMenuOpen(false)}/>
     </Dialog.Container>

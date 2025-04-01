@@ -1,6 +1,4 @@
 import React, {useState} from 'react';
-
-
 import { rootState } from '../../types';
 import { connect, ConnectedProps } from 'react-redux';
 import { addFolder } from '../../redux/reducers/folderReducer';

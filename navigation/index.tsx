@@ -25,10 +25,7 @@ import AddSeedModal from '../screens/AddSeedModal/AddSeedModal';
 import { TabBarIcon } from './TabBarIcon';
 import SeedDetailScreen from '../screens/SeedDetailScreen/SeedDetailScreen';
 import CreateFolderButton from '../components/CreateFolderButton/CreateFolderButton';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faPaperPlane } from '@fortawesome/free-regular-svg-icons';
 import SeedlingIcon from '../assets/icons/SeedlingIcon';
-import SeedlingIconSvg from '../assets/icons/seedlingIcon.svgx';
 import SeedsIcon from '../assets/icons/SeedsIcon';
 
 

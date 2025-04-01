@@ -16,54 +16,56 @@ import Breadcrumbs from '../Breadcrumbs/Breadcrumbs';
 import SelectDropdown from 'react-native-select-dropdown';
 import { getCurrentFolderIdFromPath } from '../../helper/folderHelper';
 import { TabBarIcon } from '../../navigation/TabBarIcon';
+import styles from './SelectFolderDropdown.module.scss';
 
-
-
-
-interface Props{
-  onFolderSelect: (folder: folderState, index:number) => void,
-  folders: folderState[],
-  currentFolder: folderState,
-  addFolder: (foldername: string) => void 
-  folderName: string
-  selectedFolder: folderState
+interface Props {
+  onFolderSelect: (folder: folderState, index: number) => void;
+  folders: folderState[];
+  currentFolder: folderState;
+  addFolder: (folder: folderState) => void;
+  selectedFolder: folderState;
 }
 
-const SelectFolderDropdown : React.FC<Props> = ({ currentFolder, selectedFolder, folders, addFolder, onFolderSelect }: Props) => {
-
-  
+const SelectFolderDropdown: React.FC<Props> = ({
+  currentFolder,
+  selectedFolder,
+  folders,
+  addFolder,
+  onFolderSelect,
+}: Props) => {
   const renderDropdown = () => {
     return (
       <SelectDropdown
         data={folders}
         search={true}
-        renderSearchInputRightIcon={() => <TabBarIcon color="black" size={20} name="plus" onPress={() => addFolder(folderName)}/>}
-        defaultButtonText={selectedFolder ? selectedFolder.name : currentFolder.name}
+        dropdownStyle={styles.dropdownButtonStyle as any}
+        renderSearchInputRightIcon={() => (
+          <TabBarIcon color="black" size={20} name="plus" onPress={() => addFolder(selectedFolder)} />
+        )}
         defaultValue={selectedFolder ? selectedFolder.name : currentFolder.name}
-        onSelect={(folder: folderState, index:number) => {
-          onFolderSelect(folder, index)
+        onSelect={(folder: folderState, index: number) => {
+          onFolderSelect(folder, index);
         }}
-        buttonTextAfterSelection={(selectedItem: folderState, index:number) => {
-          // text represented after item is selected
-          // if data array is an array of objects then return selectedItem.property to render after item is selected
-          return selectedItem.name;
+        searchPlaceHolder={currentFolder.name}
+        renderButton={(selectedItem: folderState, isOpen: boolean) => {
+          return (
+            <View style={styles.dropdownButton}>
+              <Text>{selectedItem ? selectedItem.name : selectedFolder.name}</Text>
+            </View>
+          );
         }}
-        rowTextForSelection={(item: folderState, index:number) => {
-          // text represented for each item in dropdown
-          // if data array is an array of objects then return item.property to represent item in dropdown
-          return item.name;
+        renderItem={(item, index, isSelected) => {
+          return (
+            <View style={styles.dropdownItem}>
+              <Text>{item.name}</Text>
+            </View>
+          );
         }}
       />
     );
   };
 
-  return (
-    <View>
-      {renderDropdown()}
-    </View>
-  );
+  return <View>{renderDropdown()}</View>;
 };
 
-
-
-export default SelectFolderDropdown
+export default SelectFolderDropdown;

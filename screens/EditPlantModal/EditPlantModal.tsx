@@ -154,7 +154,7 @@ useEffect(() => {
             title={'Take Photo'}
           />
           <Text style={styles.inputLabel}>Folder</Text>
-          <SelectFolderButton onFolderSelect={onFolderSelect} selectedFolder={folder}/>
+          <SelectFolderButton onFolderSelect={onFolderSelect} selectedFolderPath={folder}/>
           <Input
             ref={strainRef}
             onSubmitEditing={() => noteRef.current?.focus()}

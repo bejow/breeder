@@ -1,13 +1,9 @@
-import { ListItem, Avatar, Text } from 'react-native-elements';
+import { ListItem} from 'react-native-elements';
 import { View, Image, TouchableOpacity } from 'react-native';
-import { StackActions } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { folderState, plantState, rootState, RootTabScreenProps } from '../../types';
-import { hashStringToColor } from '../../helper/colorHash';
-import { createPlantInfoString } from '../../helper/plantHelper';
+import { folderState, rootState } from '../../types';
 import { useNavigation } from '@react-navigation/native';
 import styles from './FolderListItem.module.scss';
-import uuid from 'react-native-uuid';
 import { CustomIcon } from '../CustomIcon/CustomIcon';
 import { setCurrentFolder } from '../../redux/reducers/appStateReducer';
 import { connect, ConnectedProps } from 'react-redux';
@@ -35,7 +31,7 @@ const FolderListItem = ({ folder, currentFolder, setCurrentFolder, safelyDeleteF
 
   const onPress = () => {
     setCurrentFolder(folder)
-    navigation.navigate("Plants", {...folder})
+    navigation.navigate("PlantScreen", folder)
   }
 
   const renderMenu = () => {

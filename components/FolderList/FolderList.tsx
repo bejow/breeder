@@ -1,10 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
-import { Keyboard, View } from 'react-native'
-import { Input } from 'react-native-elements/dist/input/Input'
-import { folderReducer, folderState, plantState, plantsReducer, rootState } from '../../types'
-import { ClearableInput } from '../ClearableInput/ClearableInput'
-import  PlantListItem  from '../PlantListItem/PlantListItem'
+import { View } from 'react-native'
+import { folderReducer, folderState} from '../../types'
 import styles from './FolderList.module.scss'
 import FolderListItem from '../FolderListItem/FolderListItem'
 
