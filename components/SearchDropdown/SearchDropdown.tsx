@@ -13,7 +13,6 @@ export const SearchDropdown = ({
   data,
   renderSubmitButton,
   placeholder,
-
 }: {
   label: String;
   data: { id: String; title: String; onPress: (event: GestureResponderEvent) => void }[];
@@ -27,23 +26,20 @@ export const SearchDropdown = ({
     setSearch(text);
   };
 
-
-
-  let filteredData : Array<FlatlistProperty> = data.filter(
-    (item) =>
-      item.title.toLowerCase().includes(search.toLowerCase())
+  let filteredData: Array<FlatlistProperty> = data.filter((item) =>
+    item.title.toLowerCase().includes(search.toLowerCase())
   );
 
   filteredData = filteredData.map((property) => {
     // clear search input on Press
-    return {...property, onPress:(event:GestureResponderEvent) => {
-  
-      property.onPress(event)
-      setSearch("")
-      
-    }}
-  })
-
+    return {
+      ...property,
+      onPress: (event: GestureResponderEvent) => {
+        property.onPress(event);
+        setSearch('');
+      },
+    };
+  });
 
   return (
     <View style={styles.container}>
@@ -56,15 +52,17 @@ export const SearchDropdown = ({
         value={search}
         rightIcon={renderSubmitButton(search)}
       />
-      { search ? <>
-      <Text style={styles.infoText}>{filteredData.length} Search Results:</Text>
-      <FlatList
-        style={styles.list as any}
-        data={filteredData}
-        renderItem={DropdownItem}
-        keyExtractor={(item) => item.id as string}
-      /></> : null
-    }
+      {search ? (
+        <>
+          <Text style={styles.infoText}>{filteredData.length} Search Results:</Text>
+          <FlatList
+            style={styles.list as any}
+            data={filteredData}
+            renderItem={DropdownItem}
+            keyExtractor={(item) => item.id as string}
+          />
+        </>
+      ) : null}
     </View>
   );
 };

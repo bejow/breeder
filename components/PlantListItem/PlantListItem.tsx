@@ -1,4 +1,4 @@
-import { ListItem, Avatar, Text } from '@rneui/themed';;
+import { ListItem, Avatar, Text } from '@rneui/themed';
 import { View, Image, TouchableOpacity } from 'react-native';
 import { StackActions } from '@react-navigation/native';
 import React, { useState } from 'react';
@@ -9,7 +9,6 @@ import { useNavigation } from '@react-navigation/native';
 import styles from './PlantListItem.module.scss';
 import uuid from 'react-native-uuid';
 
-
 export default ({ plant }: { plant: plantState }) => {
   const pushOnNavigationStack = StackActions.push('PlantDetailScreen', { id: plant.uuid });
 
@@ -17,17 +16,17 @@ export default ({ plant }: { plant: plantState }) => {
   const navigation = useNavigation();
 
   const createCopy = () => {
-    navigation.navigate('EditPlantModal', {...plant, title: plant.title + " copy", uuid: uuid.v4().toString()})
-  }
+    navigation.navigate('EditPlantModal', { ...plant, title: plant.title + ' copy', uuid: uuid.v4().toString() });
+  };
 
   const renderMenu = () => {
     return (
       <View style={styles.menuContainer}>
         <TouchableOpacity style={styles.closeButtonParent as any} onPress={() => createCopy()}>
-        <Image style={styles.copyButton as any} source={require('../../assets/images/copy.png')} />
+          <Image style={styles.copyButton as any} source={require('../../assets/images/copy.png')} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.closeButtonParent as any} onPress={() => setMenuOpen(false)}>
-        <Image style={styles.closeButton as any} source={require('../../assets/images/close.png')} />
+          <Image style={styles.closeButton as any} source={require('../../assets/images/close.png')} />
         </TouchableOpacity>
       </View>
     );

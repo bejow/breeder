@@ -140,7 +140,6 @@ const AddSeedModal = ({ addSeed, plants, seeds, addPlant }: PropsFromRedux) => {
           </View>
         </View>
         <ParentDisplay motherPlant={motherPlant} fatherPlant={fatherPlant} />
-
       </ScrollView>
       {showAncestorModal && (
         <View style={styles.modal}>

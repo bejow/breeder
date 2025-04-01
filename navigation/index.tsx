@@ -18,7 +18,7 @@ import EditPlantModal from '../screens/EditPlantModal/EditPlantModal';
 import PlantDetailScreen from '../screens/PlantDetailScreen/PlantDetailScreen';
 import PlantScreen from '../screens/PlantScreen/PlantScreen';
 import SeedScreen from '../screens/SeedScreen/SeedScreen';
-import { RootStackParamList, RootTabParamList} from '../types';
+import { RootStackParamList, RootTabParamList } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
 import { CustomIcon } from '../components/CustomIcon/CustomIcon';
 import AddSeedModal from '../screens/AddSeedModal/AddSeedModal';
@@ -27,8 +27,6 @@ import SeedDetailScreen from '../screens/SeedDetailScreen/SeedDetailScreen';
 import CreateFolderButton from '../components/CreateFolderButton/CreateFolderButton';
 import SeedlingIcon from '../assets/icons/SeedlingIcon';
 import SeedsIcon from '../assets/icons/SeedsIcon';
-
-
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -54,7 +52,7 @@ function PlantStack() {
         component={PlantScreen}
         options={({ navigation }) => ({
           title: 'Plants',
-          tabBarIcon: ({ color } : {color: string}) => <TabBarIcon size={30} name="code" color={color} />,
+          tabBarIcon: ({ color }: { color: string }) => <TabBarIcon size={30} name="code" color={color} />,
           headerRight: () => (
             <View style={styles.navigationHeaderContainer}>
               <ExportButton />
@@ -105,19 +103,21 @@ function BottomTabNavigator() {
         headerShown: false,
       }}
     >
-
-      <BottomTab.Screen 
-      name="Plants" 
-      component={PlantStack} 
-      options={{
-        tabBarIcon: ({ color } : {color: string}) => <SeedlingIcon width={30} height={30}  fill={color}/> 
-      } }
+      <BottomTab.Screen
+        name="Plants"
+        component={PlantStack}
+        options={{
+          tabBarIcon: ({ color }: { color: string }) => <SeedlingIcon width={30} height={30} fill={color} />,
+        }}
       />
 
-      <BottomTab.Screen name="Seeds" component={SeedStack} options={{
-         tabBarIcon: ({ color } : {color: string}) => <SeedsIcon width={25} height={25} fill={color}/> 
-      }}/>
-
+      <BottomTab.Screen
+        name="Seeds"
+        component={SeedStack}
+        options={{
+          tabBarIcon: ({ color }: { color: string }) => <SeedsIcon width={25} height={25} fill={color} />,
+        }}
+      />
     </BottomTab.Navigator>
   );
 }

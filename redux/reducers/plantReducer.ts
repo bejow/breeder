@@ -12,7 +12,7 @@ const initialState: plantsReducer = [
     note: '(Beispiel Eintrag kann gelöscht werden)',
     strain: 'Test Sorte',
     uuid: '11edc52b-2918-4d71-9058-f7285e29d894',
-    folder: "null",
+    folder: 'null',
     father: '',
     mother: '',
     images: [],
@@ -34,21 +34,19 @@ const plantSlice = createSlice({
     addPlant(state, action: PayloadAction<plantState>) {
       state.push({ ...action.payload, uuid: action.payload.uuid ? action.payload.uuid : uuid.v4().toString() });
     },
-    setPlant(state, action: PayloadAction<plantState>){
-      const plantIndex = state.findIndex(plant => plant.uuid === action.payload.uuid)
-      if (plantIndex == -1){
+    setPlant(state, action: PayloadAction<plantState>) {
+      const plantIndex = state.findIndex((plant) => plant.uuid === action.payload.uuid);
+      if (plantIndex == -1) {
         // Plant does not exist, create new one
-        state.push({ ...action.payload, uuid: action.payload.uuid ? action.payload.uuid : uuid.v4().toString() })
-      }
-      else {
-        const newState = [...state]
-        newState[plantIndex] = action.payload
-        return newState
+        state.push({ ...action.payload, uuid: action.payload.uuid ? action.payload.uuid : uuid.v4().toString() });
+      } else {
+        const newState = [...state];
+        newState[plantIndex] = action.payload;
+        return newState;
       }
     },
-    deletePlant(state, action: PayloadAction<plantState>){
-      return state.filter((plant) => (plant.uuid !== action.payload.uuid))
-
+    deletePlant(state, action: PayloadAction<plantState>) {
+      return state.filter((plant) => plant.uuid !== action.payload.uuid);
     },
     importOverride(state, action: PayloadAction<rootState>) {
       const newPlants: plantsReducer = action.payload.plants.map((plant) => ({
@@ -57,7 +55,7 @@ const plantSlice = createSlice({
         flowerDate: typeof plant.flowerDate === 'string' ? new Date(Date.parse(plant.flowerDate)) : undefined,
         harvestDate: typeof plant.harvestDate === 'string' ? new Date(Date.parse(plant.harvestDate)) : undefined,
       }));
-      return newPlants
+      return newPlants;
     },
     importAppendPlants(state, action: PayloadAction<rootState>) {
       const newPlants: plantsReducer = action.payload.plants.map((plant) => ({
@@ -85,15 +83,18 @@ type RawTitles = RawPlantTitle[];
 
 const selectPlants = (state: rootState) => state.plants;
 
-const selectPlantById = createSelector([selectPlants, (state: rootState, id: string| undefined) => id], (plants, id) => {
-  if (id === '') return undefined;
-  const index = plants.findIndex((plant: plantState) => {
-    return plant.uuid === id;
-  });
-  if (index >= 0) {
-    return plants[index];
+const selectPlantById = createSelector(
+  [selectPlants, (state: rootState, id: string | undefined) => id],
+  (plants, id) => {
+    if (id === '') return undefined;
+    const index = plants.findIndex((plant: plantState) => {
+      return plant.uuid === id;
+    });
+    if (index >= 0) {
+      return plants[index];
+    }
   }
-});
+);
 
 const getAllPlantTitles = createSelector(selectPlants, (plants: plantsReducer) => {
   var uniquePlantTitles: RawPlantTitle[] = [];
@@ -105,12 +106,12 @@ const getAllPlantTitles = createSelector(selectPlants, (plants: plantsReducer) =
   return uniquePlantTitles;
 });
 
-const getAllPlantStrains  = createSelector(
+const getAllPlantStrains = createSelector(
   selectPlants,
   // selector logic
   (plants: plantsReducer) => {
     // get distinct plant strains
-    var strains: string[] = [...new Set(plants.map(plant => plant.strain))];
+    var strains: string[] = [...new Set(plants.map((plant) => plant.strain))];
     return strains;
   }
 );

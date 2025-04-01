@@ -154,24 +154,23 @@ function EditSeedModal({ plants, seeds, setPlant, addPlant, addSeed, setSeed }: 
           </View>
         </View>
 
-          <ParentDisplay motherPlant={motherPlant} fatherPlant={fatherPlant} />
-
+        <ParentDisplay motherPlant={motherPlant} fatherPlant={fatherPlant} />
       </ScrollView>
-        {showAncestorModal && (
-          <View style={styles.modal}>
-            <AncestorModal
-              label="Pick Seed  Parents"
-              placeholder="Search or Add Plant"
-              setShowAncestorModal={setShowAncestorModal}
-              showAncestorModal={showAncestorModal}
-              onSubmit={(search) => addPlant({ ...defaultPlantState, title: search })}
-              setMother={(plantId: string) => setSeedData({ ...seedData, mother: plantId })}
-              setFather={(plantId: string) => setSeedData({ ...seedData, father: plantId })}
-              mother={motherPlant}
-              father={fatherPlant}
-            />
-          </View>
-        )}
+      {showAncestorModal && (
+        <View style={styles.modal}>
+          <AncestorModal
+            label="Pick Seed  Parents"
+            placeholder="Search or Add Plant"
+            setShowAncestorModal={setShowAncestorModal}
+            showAncestorModal={showAncestorModal}
+            onSubmit={(search) => addPlant({ ...defaultPlantState, title: search })}
+            setMother={(plantId: string) => setSeedData({ ...seedData, mother: plantId })}
+            setFather={(plantId: string) => setSeedData({ ...seedData, father: plantId })}
+            mother={motherPlant}
+            father={fatherPlant}
+          />
+        </View>
+      )}
       <>
         {displayDatepicker.harvestDate && (
           <DateTimePicker value={harvestDate ? harvestDate : new Date()} onChange={onHarvestDateChange} mode="date" />

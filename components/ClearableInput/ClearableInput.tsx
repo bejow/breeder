@@ -9,10 +9,12 @@ interface ClearableInputProps extends TextInputProps {
 export const ClearableInput = ({ onDelete, ...rest }: ClearableInputProps) => {
   return (
     <View style={styles.parent as any}>
-      <TextInput {...rest} style={styles.textInput as any}/>
-      {rest.value !== "" ? <TouchableOpacity style={styles.closeButtonParent as any} onPress={onDelete}>
-        <Image style={styles.closeButton as any} source={require('../../assets/images/close.png')} />
-      </TouchableOpacity> : null}
+      <TextInput {...rest} style={styles.textInput as any} />
+      {rest.value !== '' ? (
+        <TouchableOpacity style={styles.closeButtonParent as any} onPress={onDelete}>
+          <Image style={styles.closeButton as any} source={require('../../assets/images/close.png')} />
+        </TouchableOpacity>
+      ) : null}
     </View>
   );
 };

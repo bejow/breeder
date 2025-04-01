@@ -28,7 +28,7 @@ const linking: LinkingOptions<RootStackParamList> = {
         },
       },
       NotFound: '*',
-      PlantDetailScreen: "PlantDetailScreen",
+      PlantDetailScreen: 'PlantDetailScreen',
     },
   },
 };

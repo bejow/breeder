@@ -28,18 +28,18 @@ export const PlantPropertyEdit = ({
   const renderPlantWeightEdit = (property: ListRenderItemInfo<plantProperty>) => {
     return (
       <View>
-        <PlantPropertyWeightEdit 
+        <PlantPropertyWeightEdit
           property={property.item}
           setPlantProperty={setPlantProperty}
           removePlantProperty={removePlantProperty}
         />
       </View>
     );
-  }
+  };
 
   return (
     <View>
-      <FlatList data={properties} renderItem={(property) => renderPlantWeightEdit(property)}/>
+      <FlatList data={properties} renderItem={(property) => renderPlantWeightEdit(property)} />
       {/* {properties.map((property: plantProperty, index) => {
         return (
           <View key={`plantPropertyEdit-${property.uuid}-${index}`}>

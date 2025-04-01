@@ -34,28 +34,37 @@ const getCurrentFolderIdFromPath = (path: string | null) => {
 };
 
 const getCurrentFolderNameFromPath = (folders: folderReducer, path: string | null) => {
-  let folderId = getCurrentFolderIdFromPath(path)
-  return folders.find(folder => folderId === folder.id)?.name || "undefined name"
-}
+  let folderId = getCurrentFolderIdFromPath(path);
+  return folders.find((folder) => folderId === folder.id)?.name || 'undefined name';
+};
 
 const getPathFromFolder = (folder: folderState) => {
-  return folder.parent + "/" + folder.id
-}
+  return folder.parent + '/' + folder.id;
+};
 
 const isFolderEmpty = (folders: folderReducer, plants: plantsReducer, folderToDelete: folderState) => {
-  const folderPath = getPathFromFolder(folderToDelete)
-  const folderContainsFolder = folders.some((folder) => (folder.parent === folderPath))
-  const folderContainsPlants = plants.some((plant) => (plant.folder === folderPath))
+  const folderPath = getPathFromFolder(folderToDelete);
+  const folderContainsFolder = folders.some((folder) => folder.parent === folderPath);
+  const folderContainsPlants = plants.some((plant) => plant.folder === folderPath);
   if (folderContainsFolder || folderContainsPlants) {
-    return false
+    return false;
   }
-  return true
-}
+  return true;
+};
 
 const getFolderById = (folders: folderReducer, folderId: string) => {
- return folders.find((folder) => {
-    return folder.id === folderId
-  })
-}
+  return folders.find((folder) => {
+    return folder.id === folderId;
+  });
+};
 
-export { getPathToFolderName, getFolderIdsFromPath, getCurrentFolderIdFromPath, getPathToFolderById, getCurrentFolderNameFromPath, isFolderEmpty, getPathFromFolder, getFolderById };
+export {
+  getPathToFolderName,
+  getFolderIdsFromPath,
+  getCurrentFolderIdFromPath,
+  getPathToFolderById,
+  getCurrentFolderNameFromPath,
+  isFolderEmpty,
+  getPathFromFolder,
+  getFolderById,
+};

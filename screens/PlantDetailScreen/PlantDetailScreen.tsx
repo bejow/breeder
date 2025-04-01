@@ -1,7 +1,7 @@
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
-import { Image, Tooltip} from '@rneui/themed';
+import { Image, Tooltip } from '@rneui/themed';
 import { connect, ConnectedProps, useSelector } from 'react-redux';
 import { CustomIcon } from '../../components/CustomIcon/CustomIcon';
 import { KeyValuePair } from '../../components/KeyValuePair/KeyValuePair';
@@ -11,7 +11,7 @@ import { TabBarIcon } from '../../navigation/TabBarIcon';
 import { deletePlant, selectPlantById } from '../../redux/reducers/plantReducer';
 import { ParamList, plantState, rootState } from '../../types';
 import styles from './PlantDetailScreen.module.scss';
-import {requestStoragePermission} from '../../helper/imageHelper'
+import { requestStoragePermission } from '../../helper/imageHelper';
 
 const mapStateToProps = (state: rootState) => ({
   state: state,
@@ -35,7 +35,6 @@ const PlantDetailScreen = ({ state, deletePlant }: Props) => {
 
   const plantId = route.params.id;
   const plant = useSelector((state) => selectPlantById(state as rootState, plantId));
-
 
   var motherPlant: plantState;
   var fatherPlant: plantState;
@@ -68,7 +67,7 @@ const PlantDetailScreen = ({ state, deletePlant }: Props) => {
           >
             <CustomIcon name="trash-can-outline" size={30} style={styles.icon} color="red" />
           </Tooltip>
-          
+
           <TabBarIcon
             style={{ marginLeft: 12 }}
             name="edit"
@@ -91,10 +90,10 @@ const PlantDetailScreen = ({ state, deletePlant }: Props) => {
     return plant?.images?.map((asset) => {
       return (
         <Image
-          style={{ width: 300, height: 300, resizeMode: 'contain', margin:8 }}
+          style={{ width: 300, height: 300, resizeMode: 'contain', margin: 8 }}
           onError={(error) => console.log(error.type)}
           key={'img_' + asset.filename}
-          source={{ uri: asset.uri}}
+          source={{ uri: asset.uri }}
         />
       );
     });

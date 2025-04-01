@@ -30,13 +30,10 @@ const ExportButton = ({ state, plants }: PropsFromRedux) => {
         const asset = JSON.stringify(state);
         const file = await StorageAccessFramework.createFileAsync(uri, filename, 'application/json');
         StorageAccessFramework.writeAsStringAsync(file, asset);
-      } catch (e) {
-      }
+      } catch (e) {}
     }
   };
-  return (
-    <CustomIcon name="export-variant" color="black" onPress={exportData}/>
-  );
+  return <CustomIcon name="export-variant" color="black" onPress={exportData} />;
 };
 
 export default connector(ExportButton);

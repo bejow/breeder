@@ -13,7 +13,7 @@ export type FlatlistProperty = {
   id: String;
   title: String;
   onPress: (event: GestureResponderEvent) => void;
-}
+};
 const mapStateToProps = (state: rootState) => ({
   plants: state.plants,
 });
@@ -62,7 +62,7 @@ const PlantPropertyPicker = ({
           color="black"
           name="plus"
           onPress={() => {
-              addProperty({ title: search, note: '', weight: 5, uuid: uuid.v4().toString(), inheritance: undefined });
+            addProperty({ title: search, note: '', weight: 5, uuid: uuid.v4().toString(), inheritance: undefined });
           }}
         />
       );

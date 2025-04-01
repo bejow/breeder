@@ -45,7 +45,7 @@ const mapStateToProps = (state: rootState) => ({
   plants: state.plants,
   seeds: state.seeds,
   folders: state.folders,
-  currentFolder: state.appState.currentFolder
+  currentFolder: state.appState.currentFolder,
 });
 
 const mapDispatch = {
@@ -55,13 +55,16 @@ const mapDispatch = {
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-
 const connector = connect(mapStateToProps, mapDispatch);
 
 function EditPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFolder }: PropsFromRedux) {
   const route = useRoute();
   const navigation = useNavigation();
-  const [plantData, setPlantData] = useState<plantState>(route.params ? (route.params as plantState) : {...defaultState, folder: getPathFromFolder(currentFolder), uuid: uuid.v4().toString()});
+  const [plantData, setPlantData] = useState<plantState>(
+    route.params
+      ? (route.params as plantState)
+      : { ...defaultState, folder: getPathFromFolder(currentFolder), uuid: uuid.v4().toString() }
+  );
 
   const [showPropertyModal, setShowPropertyModal] = useState<boolean>(false);
   const [showAncestorModal, setShowAncestorModal] = useState<boolean>(false);
@@ -76,14 +79,15 @@ function EditPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFol
     harvestDate: false,
   });
 
-  const { title, strain, startDate, flowerDate, harvestDate, note, images , father, mother, properties, folder } = plantData;
-useEffect(() => {
+  const { title, strain, startDate, flowerDate, harvestDate, note, images, father, mother, properties, folder } =
+    plantData;
+  useEffect(() => {
     navigation.setOptions({
       title: 'Edit',
       headerRight: () => (
         <View style={styles.iconContainer}>
-          <View style={{margin: 12}}>
-          <TabBarIcon name="save" size={30} color="black" onPress={onSubmit} />
+          <View style={{ margin: 12 }}>
+            <TabBarIcon name="save" size={30} color="black" onPress={onSubmit} />
           </View>
         </View>
       ),
@@ -118,16 +122,15 @@ useEffect(() => {
     setPlantData({ ...plantData, harvestDate: date });
   };
 
-    const onFolderSelect = (folder: folderState, index:number) => {
-    setPlantData({...plantData, folder: getPathFromFolder(folder)})
-  }
+  const onFolderSelect = (folder: folderState, index: number) => {
+    setPlantData({ ...plantData, folder: getPathFromFolder(folder) });
+  };
 
   const onTextInputChange = (name: string, value: string) => {
     setPlantData({ ...plantData, [name]: value });
   };
 
   const onSubmit = () => {
-
     setPlant(plantData);
     navigation.goBack();
   };
@@ -154,7 +157,7 @@ useEffect(() => {
             title={'Take Photo'}
           />
           <Text style={styles.inputLabel}>Folder</Text>
-          <SelectFolderButton onFolderSelect={onFolderSelect} selectedFolderPath={folder}/>
+          <SelectFolderButton onFolderSelect={onFolderSelect} selectedFolderPath={folder} />
           <Input
             ref={strainRef}
             onSubmitEditing={() => noteRef.current?.focus()}

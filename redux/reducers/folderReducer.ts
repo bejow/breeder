@@ -2,12 +2,9 @@ import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import uuid from 'react-native-uuid';
 import { folderReducer, folderState, rootState } from '../../types';
 
-const homeFolder: folderState = {name: "Root", id: "614573bd-5053-407b-9fb2-788563a1a451", parent:null}
+const homeFolder: folderState = { name: 'Root', id: '614573bd-5053-407b-9fb2-788563a1a451', parent: null };
 
-const initialState: folderReducer = [
-  homeFolder,
-];
-
+const initialState: folderReducer = [homeFolder];
 
 const folderSlice = createSlice({
   name: 'folders',
@@ -22,12 +19,12 @@ const folderSlice = createSlice({
     },
 
     importOverride(state, action: PayloadAction<rootState>) {
-      const newFolders: folderReducer = action.payload.folders
+      const newFolders: folderReducer = action.payload.folders;
       return newFolders;
     },
 
     importAppendFolders(state, action: PayloadAction<rootState>) {
-      const newFolders: folderReducer = action.payload.folders
+      const newFolders: folderReducer = action.payload.folders;
       state.push(...newFolders);
     },
   },
@@ -35,15 +32,14 @@ const folderSlice = createSlice({
 
 const selectFolder = (state: rootState) => state.folders;
 
-const selectFolderById = createSelector([selectFolder, (state: rootState, id: string| null) => id], (folders, id) => {
-  
-  let folder = folders.find((folder) => (folder.id === id))
-    if (folder){
-      return folder
-    }
-    return homeFolder
+const selectFolderById = createSelector([selectFolder, (state: rootState, id: string | null) => id], (folders, id) => {
+  let folder = folders.find((folder) => folder.id === id);
+  if (folder) {
+    return folder;
+  }
+  return homeFolder;
 });
 
 export const { addFolder, importAppendFolders, importOverride, deleteFolder } = folderSlice.actions;
 export default folderSlice.reducer;
-export {homeFolder, selectFolderById}
+export { homeFolder, selectFolderById };

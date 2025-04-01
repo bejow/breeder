@@ -3,6 +3,7 @@ import { Text, View } from 'react-native';
 import { plantState } from '../../types';
 import PlantListItem from '../PlantListItem/PlantListItem';
 import styles from './ParentDisplay.module.scss';
+
 export const ParentDisplay = ({
   motherPlant,
   fatherPlant,

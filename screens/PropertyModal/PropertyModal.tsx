@@ -41,7 +41,6 @@ function PropertyModal({
     };
   }, [showPropertyModal, plantData]);
 
-
   return (
     <View style={styles.modalContainer}>
       <PlantPropertyPicker

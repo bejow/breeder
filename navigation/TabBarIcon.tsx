@@ -4,13 +4,16 @@ import { TouchableOpacity } from 'react-native';
 type Props = {
   name: React.ComponentProps<typeof FontAwesome>['name'];
   color: string;
-  onPress?: (() => void);
+  onPress?: () => void;
   size: number;
-}
+};
 
-export function TabBarIcon({onPress, ...rest}: Props) {
+export function TabBarIcon({ onPress, ...rest }: Props) {
   // remove onpress
 
-
-  return <TouchableOpacity onPress={onPress ? () => onPress() : undefined}><FontAwesome {...rest} style={{ marginBottom: -3 }}/></TouchableOpacity>;
+  return (
+    <TouchableOpacity onPress={onPress ? () => onPress() : undefined}>
+      <FontAwesome {...rest} style={{ marginBottom: -3 }} />
+    </TouchableOpacity>
+  );
 }
