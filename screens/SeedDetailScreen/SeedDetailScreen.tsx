@@ -67,9 +67,8 @@ const SeedDetailScreen = ({ state, deleteSeed }: Props) => {
             <CustomIcon name="trash-can-outline" size={30} style={styles.icon} color="red" />
           </Tooltip>
           <TabBarIcon
-            style={{ marginLeft: 12 }}
             name="edit"
-            size={30}
+            size={20}
             color="black"
             onPress={() => navigation.navigate('EditSeedModal', seed)}
           />

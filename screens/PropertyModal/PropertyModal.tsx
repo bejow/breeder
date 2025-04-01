@@ -30,7 +30,7 @@ function PropertyModal({
     navigation.setOptions({
       title: 'Properties',
       headerLeft: () => <HeaderBackButton onPress={() => setShowPropertyModal(false)} />,
-      headerRight: () => <TabBarIcon name="save" color="black" onPress={() => setShowPropertyModal(false)} />,
+      headerRight: () => <TabBarIcon size={20} name="save" color="black" onPress={() => setShowPropertyModal(false)} />,
     });
     return () => {
       navigation.setOptions({

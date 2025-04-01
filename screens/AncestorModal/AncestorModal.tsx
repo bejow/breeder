@@ -1,15 +1,14 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { ReactElement, RefObject, useEffect, useState } from 'react';
-import { GestureResponderEvent, Text, TextInput, Pressable, View } from 'react-native';
+import React, { ReactElement, useEffect, useState } from 'react';
+import { GestureResponderEvent, Pressable, View } from 'react-native';
 import { TabBarIcon } from '../../navigation/TabBarIcon';
 import styles from './AncestorModal.module.scss';
 import { HeaderBackButton } from '@react-navigation/elements';
 import { SearchDropdown } from '../../components/SearchDropdown/SearchDropdown';
 import { plantState, rootState } from '../../types';
-import { connect, ConnectedProps, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { getAllPlantTitles } from '../../redux/reducers/plantReducer';
 import { ParentDisplay } from '../../components/ParentDisplay/ParentDisplay';
-import { CustomIcon } from '../../components/CustomIcon/CustomIcon';
 import { Foundation } from '@expo/vector-icons';
 
 export const AncestorModal = ({
@@ -39,7 +38,7 @@ export const AncestorModal = ({
 
   const renderAddAncestorButton: (search: string) => ReactElement | undefined = (search) => {
     // If property does not exists already: render a button to add this property
-    return <TabBarIcon color="black" name="plus" onPress={() => onSubmit(search)} />;
+    return <TabBarIcon size={20} color="black" name="plus" onPress={() => onSubmit(search)} />;
   };
 
   var previousUsedTitlesForFlatlist: Array<{
@@ -64,7 +63,7 @@ export const AncestorModal = ({
     navigation.setOptions({
       title: 'Select Parents',
       headerLeft: () => <HeaderBackButton onPress={() => setShowAncestorModal(false)} />,
-      headerRight: () => <TabBarIcon name="save" color="black" onPress={() => setShowAncestorModal(false)} />,
+      headerRight: () => <TabBarIcon size={20} name="save" color="black" onPress={() => setShowAncestorModal(false)} />,
     });
     return () => {
       navigation.setOptions({
@@ -90,7 +89,6 @@ export const AncestorModal = ({
         data={previousUsedTitlesForFlatlist}
         label={`Pick ${selectMother ? 'Mother Plant' : 'Father Plant'}`}
         placeholder={placeholder}
-        onSubmit={onSubmit}
         renderSubmitButton={renderAddAncestorButton}
       />
       <ParentDisplay motherPlant={mother} fatherPlant={father} />

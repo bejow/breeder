@@ -10,6 +10,7 @@ import { Button, Input } from '@rneui/themed';
 import { AncestorModal } from '../AncestorModal/AncestorModal';
 import { addPlant, selectPlantById } from '../../redux/reducers/plantReducer';
 import { ParentDisplay } from '../../components/ParentDisplay/ParentDisplay';
+import { createNewPlantData } from '../../helper/plantHelper';
 
 const defaultState = {
   title: '',
@@ -68,7 +69,7 @@ const AddSeedModal = ({ addSeed, plants, seeds, addPlant }: PropsFromRedux) => {
   useEffect(() => {
     if (showAncestorModal === false)
       navigation.setOptions({
-        headerRight: () => <TabBarIcon name="save" color="black" onPress={() => onSubmit()} />,
+        headerRight: () => <TabBarIcon size={20} name="save" color="black" onPress={() => onSubmit()} />,
       });
     return () => {
       navigation.setOptions({
@@ -148,7 +149,7 @@ const AddSeedModal = ({ addSeed, plants, seeds, addPlant }: PropsFromRedux) => {
             placeholder="Search or Add Plant"
             setShowAncestorModal={setShowAncestorModal}
             showAncestorModal={showAncestorModal}
-            onSubmit={(search) => addPlant({ ...defaultPlantState, title: search })}
+            onSubmit={(search) => addPlant({ ...createNewPlantData(), title: search })}
             setMother={(plantId: string) => setSeedData({ ...seedData, mother: plantId })}
             setFather={(plantId: string) => setSeedData({ ...seedData, father: plantId })}
             mother={motherPlant}

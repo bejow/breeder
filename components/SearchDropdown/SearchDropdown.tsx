@@ -18,7 +18,7 @@ export const SearchDropdown = ({
   data: { id: String; title: String; onPress: (event: GestureResponderEvent) => void }[];
   renderSubmitButton: (search: string) => ReactElement | undefined;
   placeholder: string;
-  properties: plantProperty[];
+  properties?: plantProperty[];
 }) => {
   const [search, setSearch] = useState('');
 
