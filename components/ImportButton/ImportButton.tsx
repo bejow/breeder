@@ -27,8 +27,8 @@ const ImportButton = ({ state, plants, importAppendPlants, importAppendSeeds }: 
   const importData = async () => {
     // Requests permissions for external directory
     const document = await DocumentPicker.getDocumentAsync();
-    if (document.type === 'success') {
-      const rawData = await StorageAccessFramework.readAsStringAsync(document.uri);
+    if (!document.canceled) {
+      const rawData = await StorageAccessFramework.readAsStringAsync(document.assets[0].uri);
       const data: rootState = JSON.parse(rawData);
       importAppendPlants(data);
       importAppendSeeds(data);
