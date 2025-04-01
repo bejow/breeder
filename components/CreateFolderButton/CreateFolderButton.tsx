@@ -1,18 +1,13 @@
 import React, {useState} from 'react';
 
-import { Pressable } from 'react-native';
-import { StorageAccessFramework } from 'expo-file-system';
-import { Text } from 'react-native-elements';
-import { rootState, RootTabScreenProps } from '../../types';
+
+import { rootState } from '../../types';
 import { connect, ConnectedProps } from 'react-redux';
-import * as DocumentPicker from 'expo-document-picker';
 import { addFolder } from '../../redux/reducers/folderReducer';
 import { CustomIcon } from '../CustomIcon/CustomIcon';
-import { importAppendSeeds } from '../../redux/reducers/seedReducer';
-import { Alert, View } from 'react-native'; 
+import {  View } from 'react-native'; 
 import Dialog from 'react-native-dialog'
 import uuid from 'react-native-uuid';
-import Breadcrumbs from '../Breadcrumbs/Breadcrumbs';
 import { getPathFromFolder } from '../../helper/folderHelper';
 
 const mapStateToProps = (state: rootState) => ({
