@@ -1,4 +1,4 @@
-import { ListItem} from 'react-native-elements';
+import { ListItem} from '@rneui/themed';;
 import { View, Image, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
 import { folderState, rootState } from '../../types';

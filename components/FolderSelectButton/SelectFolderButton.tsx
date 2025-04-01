@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { Text } from 'react-native-elements';
+import { Text } from '@rneui/themed';;
 import { folderState, rootState } from '../../types';
 import { connect, ConnectedProps, useSelector } from 'react-redux';
 import { addFolder, selectFolderById } from '../../redux/reducers/folderReducer';

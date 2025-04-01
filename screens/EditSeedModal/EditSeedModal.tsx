@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { Platform, ScrollView, TextInput } from 'react-native';
 import styles from './EditSeedModal.module.scss';
 import { Text, View } from '../../components/Themed';
-import { Button, Input } from 'react-native-elements';
+import { Button, Input } from '@rneui/themed';
 import DateTimePicker, { Event } from '@react-native-community/datetimepicker';
 import { useEffect, useRef, useState } from 'react';
 import { plantProperty, plantState, rootState, RootTabScreenProps, seedState } from '../../types';

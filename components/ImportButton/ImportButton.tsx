@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Pressable } from 'react-native';
 import { StorageAccessFramework } from 'expo-file-system';
-import { Text } from 'react-native-elements';
+import { Text } from '@rneui/themed';;
 import { rootState, RootTabScreenProps } from '../../types';
 import { connect, ConnectedProps } from 'react-redux';
 import * as DocumentPicker from 'expo-document-picker';

@@ -1,4 +1,4 @@
-import { ListItem, Avatar } from 'react-native-elements';
+import { ListItem, Avatar } from '@rneui/themed';
 
 import React from 'react';
 import { seedState } from '../../types';

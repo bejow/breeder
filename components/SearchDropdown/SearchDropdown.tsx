@@ -1,6 +1,6 @@
 import React, { ReactElement, RefObject, useState } from 'react';
 import { FlatList, GestureResponderEvent, Text, TextInput, View } from 'react-native';
-import { Input } from 'react-native-elements';
+import { Input } from '@rneui/themed';
 
 import { plantProperty } from '../../types';
 import { DropdownItem } from './DropdownItem';

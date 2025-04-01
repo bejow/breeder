@@ -1,6 +1,6 @@
 import React from 'react';
 import { FlatList, ListRenderItemInfo, View } from 'react-native';
-import { Text } from 'react-native-elements';
+import { Text } from '@rneui/themed';
 import { plantProperty } from '../../types';
 import { PlantPropertyWeightEdit } from './PlantPropertyWeightEdit';
 

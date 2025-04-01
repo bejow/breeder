@@ -6,7 +6,7 @@ import { addSeed } from '../../redux/reducers/seedReducer';
 import { useNavigation } from '@react-navigation/native';
 import { TabBarIcon } from '../../navigation/TabBarIcon';
 import styles from './AddSeedModal.module.scss';
-import { Button, Input } from 'react-native-elements';
+import { Button, Input } from '@rneui/themed';
 import { AncestorModal } from '../AncestorModal/AncestorModal';
 import { addPlant, selectPlantById } from '../../redux/reducers/plantReducer';
 import { ParentDisplay } from '../../components/ParentDisplay/ParentDisplay';

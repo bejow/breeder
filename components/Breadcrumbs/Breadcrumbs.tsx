@@ -1,4 +1,4 @@
-import { Text } from 'react-native-elements';
+import { Text } from '@rneui/themed';
 import { View } from 'react-native';
 import React from 'react';
 import { folderState, rootState } from '../../types';

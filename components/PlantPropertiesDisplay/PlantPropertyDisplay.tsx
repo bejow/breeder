@@ -1,10 +1,6 @@
 import React from 'react';
-import { View } from 'react-native';
-import { Text, Tooltip } from 'react-native-elements';
 import { plantProperty } from '../../types';
-import { TooltipProps } from 'react-native-elements';
-import styles from './PlantPropertiesDisplay.module.scss';
-import { Chip } from 'react-native-elements/dist/buttons/Chip';
+import { Chip } from '@rneui/themed';
 import { hashStringToColor, hexAToRGBA, rgb2hsv } from '../../helper/colorHash';
 
 const PlantPropertyDisplay = ({ property, onLongPress }: { property: plantProperty, onLongPress: () => void | undefined }) => {

@@ -1,4 +1,4 @@
-import { ListItem, Avatar, Text } from 'react-native-elements';
+import { ListItem, Avatar, Text } from '@rneui/themed';;
 import { View, Image, TouchableOpacity } from 'react-native';
 import { StackActions } from '@react-navigation/native';
 import React, { useState } from 'react';

@@ -1,7 +1,7 @@
 import { ScrollView, Keyboard, TextInput } from 'react-native';
 import styles from './AddPlantModal.module.scss';
 import { View } from '../../components/Themed';
-import { Button, Input, Text } from 'react-native-elements';
+import { Button, Input, Text } from '@rneui/themed';
 import DateTimePicker, { Event } from '@react-native-community/datetimepicker';
 import { useEffect, useRef, useState } from 'react';
 import { folderState, plantProperty, plantState, RootStackParamList, rootState, RootTabScreenProps } from '../../types';

@@ -1,7 +1,7 @@
 import { ScrollView, TextInput } from 'react-native';
 import styles from './EditPlantModal.module.scss';
 import { Text, View } from '../../components/Themed';
-import { Button, Input } from 'react-native-elements';
+import { Button, Input } from '@rneui/themed';
 import DateTimePicker, { DateTimePickerEvent, Event } from '@react-native-community/datetimepicker';
 import { useEffect, useRef, useState } from 'react';
 import { folderState, plantProperty, plantState, rootState, RootTabScreenProps } from '../../types';
@@ -58,7 +58,7 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 
 const connector = connect(mapStateToProps, mapDispatch);
 
-function AddPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFolder }: PropsFromRedux) {
+function EditPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFolder }: PropsFromRedux) {
   const route = useRoute();
   const navigation = useNavigation();
   const [plantData, setPlantData] = useState<plantState>(route.params ? (route.params as plantState) : {...defaultState, folder: getPathFromFolder(currentFolder), uuid: uuid.v4().toString()});
@@ -232,4 +232,4 @@ useEffect(() => {
   );
 }
 
-export default connector(AddPlantModal);
+export default connector(EditPlantModal);

@@ -3,7 +3,7 @@ import { View, Pressable } from 'react-native';
 import { plantProperty, plantPropertyWeight } from '../../types';
 import { Slider } from '@miblanchard/react-native-slider';
 import { useState } from 'react';
-import { Text } from 'react-native-elements';
+import { Text } from '@rneui/themed';
 import styles from './PlantPropertyEdit.module.scss';
 import { TabBarIcon } from '../../navigation/TabBarIcon';
 import { hashStringToColor, hexAToRGBA } from '../../helper/colorHash';

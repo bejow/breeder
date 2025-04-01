@@ -1,9 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
-import { Keyboard, View } from 'react-native'
-import { Input } from 'react-native-elements/dist/input/Input'
-import { plantState, plantsReducer, rootState } from '../../types'
-import { ClearableInput } from '../ClearableInput/ClearableInput'
+import { View } from 'react-native'
+import { plantState, plantsReducer} from '../../types'
 import  PlantListItem  from '../PlantListItem/PlantListItem'
 import styles from './PlantList.module.scss'
 

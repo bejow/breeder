@@ -1,7 +1,7 @@
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
-import { Tooltip } from 'react-native-elements/dist/tooltip/Tooltip';
+import { Tooltip } from '@rneui/themed';
 import { connect, ConnectedProps, useSelector } from 'react-redux';
 import { CustomIcon } from '../../components/CustomIcon/CustomIcon';
 import { KeyValuePair } from '../../components/KeyValuePair/KeyValuePair';
