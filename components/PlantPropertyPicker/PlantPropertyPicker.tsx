@@ -59,6 +59,7 @@ const PlantPropertyPicker = ({
     } else {
       return (
         <TabBarIcon
+          size={20}
           color="black"
           name="plus"
           onPress={() => {
