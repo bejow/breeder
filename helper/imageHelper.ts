@@ -24,31 +24,29 @@ export const requestStoragePermission = async () => {
   }
 };
 
-export const pickImage = async (callback: (result: ImagePicker.ImageInfo) => void) => {
+export const pickImage =  async(callback: (result: ImagePicker.ImagePickerAsset) => void) => {
   // No permissions request is necessary for launching the image library
   let result = await ImagePicker.launchImageLibraryAsync({
-    mediaTypes: ImagePicker.MediaTypeOptions.Images,
     allowsEditing: true,
     aspect: [4, 3],
     quality: 1,
   });
-  if (!result.cancelled) {
-    callback(result);
+  if (!result.canceled) {
+    callback(result.assets[0]);
     return result;
   }
 };
 
-export const takeImage = async (callback: (result: ImagePicker.ImageInfo) => void) => {
+export const takeImage = async (callback: (result: ImagePicker.ImagePickerAsset) => void) => {
   // No permissions request is necessary for launching the image library
   let result = await ImagePicker.launchCameraAsync({
-    mediaTypes: ImagePicker.MediaTypeOptions.Images,
     allowsEditing: true,
     aspect: [4, 3],
     quality: 1,
   });
 
-  if (!result.cancelled) {
-    callback(result);
+  if (!result.canceled) {
+    callback(result.assets[0]);
     return result;
   }
 };
