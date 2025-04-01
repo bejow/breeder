@@ -27,7 +27,6 @@ const linking: LinkingOptions<RootStackParamList> = {
           },
         },
       },
-      AddPlantModal: 'AddPlantModal',
       NotFound: '*',
       PlantDetailScreen: "PlantDetailScreen",
     },

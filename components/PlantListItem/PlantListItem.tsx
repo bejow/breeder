@@ -17,7 +17,7 @@ export default ({ plant }: { plant: plantState }) => {
   const navigation = useNavigation();
 
   const createCopy = () => {
-    navigation.navigate('AddPlantModal', {...plant, title: plant.title + " copy", uuid: uuid.v4().toString()})
+    navigation.navigate('EditPlantModal', {...plant, title: plant.title + " copy", uuid: uuid.v4().toString()})
   }
 
   const renderMenu = () => {
