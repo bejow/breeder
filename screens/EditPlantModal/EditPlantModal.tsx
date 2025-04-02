@@ -81,6 +81,8 @@ function EditPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFol
 
   const { title, strain, startDate, flowerDate, harvestDate, note, images, father, mother, properties, folder } =
     plantData;
+
+  console.log(images);
   useEffect(() => {
     navigation.setOptions({
       title: 'Edit',
@@ -109,7 +111,11 @@ function EditPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFol
   };
 
   const onAddImageChange = (file: Asset) => {
-    setPlantData({ ...plantData, images: images.concat([file]) });
+    console.log(file.uri, file.id, file.filename);
+    // check if image is already added to prevent duplicates
+    if (images.findIndex((image, index) => image.uri === file.uri) === -1) {
+      setPlantData({ ...plantData, images: images.concat([file]) });
+    }
   };
 
   const onFlowerDateChange = (event: DateTimePickerEvent, date: Date | undefined) => {

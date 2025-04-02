@@ -5,24 +5,24 @@ import * as MediaLibrary from 'expo-media-library';
 import { imageDirectory } from '../constants/Image';
 import { PermissionsAndroid } from 'react-native';
 
-export const requestStoragePermission = async () => {
-  try {
-    const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE, {
-      title: 'Permission title',
-      message: 'Permission message',
-      buttonNeutral: 'Ask Me Later',
-      buttonNegative: 'Cancel',
-      buttonPositive: 'OK',
-    });
-    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-      // use local storage
-    } else {
-      // permission denied
-    }
-  } catch (err) {
-    console.warn(err);
-  }
-};
+// export const requestStoragePermission = async () => {
+//   try {
+//     const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE, {
+//       title: 'Permission title',
+//       message: 'Permission message',
+//       buttonNeutral: 'Ask Me Later',
+//       buttonNegative: 'Cancel',
+//       buttonPositive: 'OK',
+//     });
+//     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+//       // use local storage
+//     } else {
+//       // permission denied
+//     }
+//   } catch (err) {
+//     console.warn(err);
+//   }
+// };
 
 export const pickImage =  async(callback: (result: ImagePicker.ImagePickerAsset) => void) => {
   // No permissions request is necessary for launching the image library
@@ -34,6 +34,9 @@ export const pickImage =  async(callback: (result: ImagePicker.ImagePickerAsset)
   if (!result.canceled) {
     callback(result.assets[0]);
     return result;
+  }
+  else {
+    alert('You did not select any image.');
   }
 };
 

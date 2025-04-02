@@ -11,7 +11,6 @@ import { TabBarIcon } from '../../navigation/TabBarIcon';
 import { deletePlant, selectPlantById } from '../../redux/reducers/plantReducer';
 import { ParamList, plantState, rootState } from '../../types';
 import styles from './PlantDetailScreen.module.scss';
-import { requestStoragePermission } from '../../helper/imageHelper';
 
 const mapStateToProps = (state: rootState) => ({
   state: state,
@@ -92,7 +91,7 @@ const PlantDetailScreen = ({ state, deletePlant }: Props) => {
         <Image
           style={{ width: 300, height: 300, resizeMode: 'contain', margin: 8 }}
           onError={(error) => console.log(error.type)}
-          key={'img_' + asset.filename}
+          key={'img_' + asset.uri}
           source={{ uri: asset.uri }}
         />
       );
