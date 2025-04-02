@@ -1,10 +1,10 @@
 const path = require("path");
-const { mergeConfig } = require("@react-native/metro-config");
 const { getDefaultConfig} = require("expo/metro-config");
 
 
-const defaultConfig = getDefaultConfig(__dirname);
-const { resolver: { sourceExts, assetExts } } = defaultConfig;
+const defaultConfig = getDefaultConfig(__dirname, {isCSSEnabled: true});
+const { resolver: { sourceExts, assetExts }  } = defaultConfig;
+
 
 /**
  * Metro configuration
@@ -13,15 +13,19 @@ const { resolver: { sourceExts, assetExts } } = defaultConfig;
  * @type {import('metro-config').MetroConfig}
  */
 const config = {
+  ...defaultConfig,
+  transformerPath: require.resolve("./transform-worker.js"),
   transformer: {
+    ...defaultConfig.transformer,
     babelTransformerPath: require.resolve('react-native-sass-transformer'),
   },
   resolver: {
+    ...defaultConfig.resolver,
     assetExts: assetExts.filter((ext) => ext !== "svg" ||ext !== "scss"),
     sourceExts: [...sourceExts, "svg", "scss", "sass"],
     resolverMainFields: ["sbmodern", "react-native", "browser", "main"],
   },
-  watchFolders: [path.resolve(__dirname, "../")],
+  watchFolders: [...defaultConfig.watchFolders, path.resolve(__dirname, "../")],
 };
 
-module.exports = mergeConfig(defaultConfig, config);
+module.exports = config
