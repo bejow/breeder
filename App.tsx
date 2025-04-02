@@ -7,10 +7,8 @@ import Navigation from './navigation';
 import { PersistGate } from 'redux-persist/integration/react';
 import { Provider } from 'react-redux'
 
-
 // Modify to add persistor
 import { store, persistor } from './redux/store';
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 export default function App() {
@@ -27,7 +25,6 @@ export default function App() {
         <PersistGate loading={null} persistor={persistor}>
           <SafeAreaProvider>
             <Navigation colorScheme={colorScheme} />
-            <StatusBar />
           </SafeAreaProvider>
         </PersistGate>
       </Provider>
