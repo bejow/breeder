@@ -12,12 +12,14 @@ import { PlantPropertiesDisplay } from '../../components/PlantPropertiesDisplay/
 import { AncestorModal } from '../AncestorModal/AncestorModal';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { TabBarIcon } from '../../navigation/TabBarIcon';
-import { pickImage, requestPermissions, saveImage, takeImage } from '../../helper/imageHelper';
+import { pickImage, removeSpecialChars, requestPermissions, saveImage, takeImage } from '../../helper/imageHelper';
 import { Asset } from 'expo-media-library';
 import { ImageInfo } from 'expo-image-picker';
 import SelectFolderButton from '../../components/FolderSelectButton/SelectFolderButton';
 import { getPathFromFolder } from '../../helper/folderHelper';
 import uuid from 'react-native-uuid';
+import { imageDirectory, imageDirectoryPrefix } from '../../constants/Image';
+import { ImagePickerAsset } from 'expo-image-picker';
 
 const defaultState: plantState = {
   title: '',
@@ -79,8 +81,12 @@ function EditPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFol
     harvestDate: false,
   });
 
+  
   const { title, strain, startDate, flowerDate, harvestDate, note, images, father, mother, properties, folder } =
-    plantData;
+  plantData;
+  
+  // save images in this album --> if strain is know save in own album if not save in general directory
+  const image_album = strain ?  `${imageDirectoryPrefix}-${removeSpecialChars(plantData.strain)}`: imageDirectory
 
   console.log(images);
 
@@ -157,11 +163,11 @@ function EditPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFol
             label="Plant Title"
           />
           <Button
-            onPress={() => pickImage((result: ImageInfo) => saveImage(result.uri, onAddImageChange))}
+            onPress={() => pickImage((result: ImagePickerAsset) => saveImage(result.uri, onAddImageChange, image_album))}
             title={'Pick Photo'}
           />
           <Button
-            onPress={() => takeImage((result: ImageInfo) => saveImage(result.uri, onAddImageChange))}
+            onPress={() => takeImage((result: ImagePickerAsset) => saveImage(result.uri, onAddImageChange, image_album))}
             title={'Take Photo'}
           />
           <Text style={styles.inputLabel}>Folder</Text>
@@ -233,11 +239,11 @@ function EditPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFol
       {displayDatepicker.harvestDate && (
         <DateTimePicker value={harvestDate ? harvestDate : new Date()} onChange={onHarvestDateChange} mode="date" />
       )}
-      <>
+
         {displayDatepicker.flowerDate && (
           <DateTimePicker value={flowerDate ? flowerDate : new Date()} onChange={onFlowerDateChange} mode="date" />
         )}
-      </>
+
       <Button style={styles.addButton} title="Save Changes" onPress={onSubmit} />
     </View>
   );

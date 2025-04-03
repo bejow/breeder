@@ -33,6 +33,10 @@ export const requestPermissions = async () => {
   }
 };
 
+export const removeSpecialChars = (string:string) =>  {
+  return string.replace(/[\/:*?"<>|\\]/g, '');
+}
+
 export const pickImage =  async(callback: (result: ImagePicker.ImagePickerAsset) => void) => {
   // No permissions request is necessary for launching the image library
   let result = await ImagePicker.launchImageLibraryAsync({
@@ -70,11 +74,13 @@ const getLatestFile = async (album: MediaLibrary.Album) => {
   return assets.assets[0];
 };
 
-
-export const saveImage = async (tempImageUri: string, callback: (asset: MediaLibrary.Asset) => void) => {
+export const saveImage = async (tempImageUri: string, callback: (asset: MediaLibrary.Asset) => void, albumName?: string) => {
+  albumName = albumName ? albumName : imageDirectory
   const permission = await MediaLibrary.getPermissionsAsync();
-  console.log("saveImage", tempImageUri)
-  console.log("Permission: ", permission.granted)
+
+
+  console.log(albumName)
+
   if (permission.granted == false) {
     await MediaLibrary.requestPermissionsAsync();
   }
@@ -84,11 +90,11 @@ export const saveImage = async (tempImageUri: string, callback: (asset: MediaLib
     const file = await MediaLibrary.createAssetAsync(tempImageUri);
 
     //check for album existence
-    var album = await MediaLibrary.getAlbumAsync(imageDirectory);
+    var album = await MediaLibrary.getAlbumAsync(albumName);
 
     if (!album){
       // if not existent --> create new
-      album = await MediaLibrary.createAlbumAsync(imageDirectory, file, true)
+      album = await MediaLibrary.createAlbumAsync(albumName, file, true)
       callback(file)
       return file
     }
@@ -101,8 +107,6 @@ export const saveImage = async (tempImageUri: string, callback: (asset: MediaLib
         return existingImage
       }
 
-      // Create a new asset from the renamed file
-      const asset = await MediaLibrary.createAssetAsync(tempImageUri);
       var isAdded = await MediaLibrary.addAssetsToAlbumAsync([file], album.id, true);
       callback(file)
       return file
