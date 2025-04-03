@@ -12,6 +12,7 @@ const defaultPlantState: plantState = {
   uuid: '',
   father: '',
   mother: '',
+  breeder: '',
   images: [] as Asset[],
   properties: [] as plantProperty[],
   folder: null,

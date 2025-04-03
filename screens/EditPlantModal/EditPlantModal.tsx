@@ -33,6 +33,7 @@ const defaultState: plantState = {
   folder: null,
   mother: '',
   properties: new Array<plantProperty>(),
+  breeder: '',
   images: [],
 };
 
@@ -74,6 +75,7 @@ function EditPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFol
   const noteRef = useRef<TextInput>(null);
   const propertyRef = useRef<TextInput>(null);
   const parentRef = useRef<TextInput>(null);
+  const breederRef = useRef<TextInput>(null)
 
   const [displayDatepicker, setDisplayDatepicker] = useState({
     startDate: false,
@@ -82,13 +84,14 @@ function EditPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFol
   });
 
   
-  const { title, strain, startDate, flowerDate, harvestDate, note, images, father, mother, properties, folder } =
+  const { title, strain, breeder, startDate, flowerDate, harvestDate, note, images, father, mother, properties, folder } =
   plantData;
   
   // save images in this album --> if strain is know save in own album if not save in general directory
-  const image_album = strain ?  `${imageDirectoryPrefix}-${removeSpecialChars(plantData.strain)}`: imageDirectory
+  const image_album = strain ?  `${imageDirectoryPrefix}-${removeSpecialChars(`${strain}-${breeder}`)}`: imageDirectory
 
   console.log(images);
+  console.log(plantData)
 
   useEffect(() => {
     navigation.setOptions({
@@ -174,20 +177,28 @@ function EditPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFol
           <SelectFolderButton onFolderSelect={onFolderSelect} selectedFolderPath={folder} />
           <Input
             ref={strainRef}
-            onSubmitEditing={() => noteRef.current?.focus()}
+            onSubmitEditing={() => breederRef.current?.focus()}
             style={styles.input as any}
             value={strain}
             placeholder="strain"
-            blurOnSubmit={false}
             onChangeText={(text) => onTextInputChange('strain', text)}
             label="Strain"
-          />
+          />          
+          
+          <Input
+          ref={breederRef}
+          onSubmitEditing={() =>  noteRef.current?.focus()}
+          style={styles.input as any}
+          value={breeder}
+          placeholder="breeder"
+          onChangeText={(text) => onTextInputChange('breeder', text)}
+          label="Breeder"
+        />
           <Input
             ref={noteRef}
             style={styles.input as any}
             placeholder="note"
             value={note}
-            blurOnSubmit={true}
             onChangeText={(text) => onTextInputChange('note', text)}
             label="Note"
           />

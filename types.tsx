@@ -74,6 +74,7 @@ export type plantState = {
   harvestDate: Date | undefined;
   note: string;
   strain: string;
+  breeder: string;
   uuid: string;
   father: string;
   mother: string;
