@@ -12,7 +12,7 @@ import { PlantPropertiesDisplay } from '../../components/PlantPropertiesDisplay/
 import { AncestorModal } from '../AncestorModal/AncestorModal';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { TabBarIcon } from '../../navigation/TabBarIcon';
-import { pickImage, saveImage, takeImage } from '../../helper/imageHelper';
+import { pickImage, requestPermissions, saveImage, takeImage } from '../../helper/imageHelper';
 import { Asset } from 'expo-media-library';
 import { ImageInfo } from 'expo-image-picker';
 import SelectFolderButton from '../../components/FolderSelectButton/SelectFolderButton';
@@ -83,6 +83,7 @@ function EditPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFol
     plantData;
 
   console.log(images);
+
   useEffect(() => {
     navigation.setOptions({
       title: 'Edit',
@@ -110,8 +111,9 @@ function EditPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFol
     setPlantData({ ...plantData, startDate: date });
   };
 
+  console.log("Editplantstate ", plantData.images)
   const onAddImageChange = (file: Asset) => {
-    console.log(file.uri, file.id, file.filename);
+    console.log("onAddImageChange:", file.filename);
     // check if image is already added to prevent duplicates
     if (images.findIndex((image, index) => image.uri === file.uri) === -1) {
       setPlantData({ ...plantData, images: images.concat([file]) });

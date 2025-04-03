@@ -86,12 +86,13 @@ const PlantDetailScreen = ({ state, deletePlant }: Props) => {
   }, [plant]);
 
   const renderImages = () => {
-    return plant?.images?.map((asset) => {
+    return plant?.images?.map((asset, index) => {
+      console.log(`Imag ${index}. - ${asset.uri}`)
       return (
         <Image
           style={{ width: 300, height: 300, resizeMode: 'contain', margin: 8 }}
           onError={(error) => console.log(error.type)}
-          key={'img_' + asset.uri}
+          key={`img_${plant?.title}-${asset.uri}-${index}`}
           source={{ uri: asset.uri }}
         />
       );
