@@ -47,7 +47,6 @@ export const pickImage =  async(callback: (result: ImagePicker.ImagePickerAsset)
   });
   if (!result.canceled) {
     callback(result.assets[0]);
-    console.log("Images picked:", result.assets[0])
     return result.assets[0];
   }
   else {

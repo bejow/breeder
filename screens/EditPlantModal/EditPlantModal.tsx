@@ -90,7 +90,6 @@ function EditPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFol
   // save images in this album --> if strain is know save in own album if not save in general directory
   const image_album = strain ?  `${imageDirectoryPrefix}-${removeSpecialChars(`${strain}-${breeder}`)}`: imageDirectory
 
-  console.log(images);
   console.log(plantData)
 
   useEffect(() => {
@@ -120,9 +119,8 @@ function EditPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFol
     setPlantData({ ...plantData, startDate: date });
   };
 
-  console.log("Editplantstate ", plantData.images)
+
   const onAddImageChange = (file: Asset) => {
-    console.log("onAddImageChange:", file.filename);
     // check if image is already added to prevent duplicates
     if (images.findIndex((image, index) => image.uri === file.uri) === -1) {
       setPlantData({ ...plantData, images: images.concat([file]) });
