@@ -1,12 +1,12 @@
 import { FontAwesome } from '@expo/vector-icons';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { TouchableOpacity, ViewStyle } from 'react-native';
 
 type Props = {
   name: React.ComponentProps<typeof FontAwesome>['name'];
   color: string;
   onPress?: () => void;
   size: number;
-  style: StyleSheet
+  style?: ViewStyle
 };
 
 export function TabBarIcon({ onPress, style, ...rest }: Props) {
