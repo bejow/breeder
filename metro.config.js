@@ -1,6 +1,8 @@
 const path = require("path");
 const { getDefaultConfig} = require("expo/metro-config");
-
+const {
+  wrapWithReanimatedMetroConfig,
+} = require('react-native-reanimated/metro-config');
 
 const defaultConfig = getDefaultConfig(__dirname, {isCSSEnabled: true});
 const { resolver: { sourceExts, assetExts }  } = defaultConfig;
@@ -28,4 +30,4 @@ const config = {
   watchFolders: [...defaultConfig.watchFolders, path.resolve(__dirname, "../")],
 };
 
-module.exports = config
+module.exports = wrapWithReanimatedMetroConfig(config);

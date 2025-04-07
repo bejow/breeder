@@ -11,6 +11,7 @@ import { TabBarIcon } from '../../navigation/TabBarIcon';
 import { deletePlant, selectPlantById } from '../../redux/reducers/plantReducer';
 import { ParamList, plantState, rootState } from '../../types';
 import styles from './PlantDetailScreen.module.scss';
+import ImageCarousel from '../../components/ImageCarousel/ImageCarousel';
 
 const mapStateToProps = (state: rootState) => ({
   state: state,
@@ -98,6 +99,10 @@ const PlantDetailScreen = ({ state, deletePlant }: Props) => {
     });
   };
 
+  const renderImages2 = () => {
+    return <ImageCarousel images={plant?.images ? plant?.images : []}/>
+  };
+
   if (plant) {
     return (
       <ScrollView>
@@ -109,7 +114,7 @@ const PlantDetailScreen = ({ state, deletePlant }: Props) => {
         <KeyValuePair title="Harvest Date" value={plant.harvestDate?.toDateString()} />
         <PlantPropertiesDisplay properties={plant.properties} />
         <ParentDisplay fatherPlant={fatherPlant} motherPlant={motherPlant} />
-        {renderImages()}
+        {renderImages2()}
       </ScrollView>
     );
   } else {
