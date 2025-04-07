@@ -71,6 +71,7 @@ function PlantScreen({ plants, seeds, addPlant, deleteFolder, folders, currentFo
     }
   };
 
+
   return (
     <View style={styles.container as any}>
       <ScrollView style={styles.listView as any}>

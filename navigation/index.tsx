@@ -7,7 +7,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
-import { View } from 'react-native';
+import { Button, View } from 'react-native';
 import { ColorSchemeName } from 'react-native';
 import ExportButton from '../components/ExportButton/ExportButton';
 import ImportButton from '../components/ImportButton/ImportButton';
@@ -45,8 +45,6 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 function PlantStack() {
   return (
     <Stack.Navigator initialRouteName="PlantScreen">
-      <Stack.Screen name="PlantDetailScreen" component={PlantDetailScreen} initialParams={{ id: '0' }} />
-      <Stack.Screen name="EditPlantModal" component={EditPlantModal} />
       <Stack.Screen
         name="PlantScreen"
         component={PlantScreen}
@@ -58,11 +56,13 @@ function PlantStack() {
               <ExportButton />
               <ImportButton />
               <CreateFolderButton />
-              <CustomIcon onPress={() => navigation.navigate('EditPlantModal')} name="plus-circle" marginRight={15} />
+              <CustomIcon onPress={() => navigation.navigate('EditPlantModal')} name="plus-circle" />
             </View>
           ),
         })}
       />
+      <Stack.Screen name="PlantDetailScreen" component={PlantDetailScreen} initialParams={{ id: '0' }} />
+      <Stack.Screen name="EditPlantModal" component={EditPlantModal} />
     </Stack.Navigator>
   );
 }
@@ -82,7 +82,7 @@ function SeedStack() {
               <ExportButton />
               <ImportButton />
               <CreateFolderButton />
-              <CustomIcon onPress={() => navigation.navigate('AddSeedModal')} name="plus-circle" marginRight={15} />
+              <CustomIcon onPress={() => navigation.navigate('AddSeedModal')} name="plus-circle" />
             </View>
           ),
         })}
@@ -121,7 +121,3 @@ function BottomTabNavigator() {
     </BottomTab.Navigator>
   );
 }
-
-/**
- * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
- */
