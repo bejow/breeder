@@ -15,7 +15,7 @@ interface Props {
 
 const ImageForm = ({pickImage, takeImage, saveImage, onAddImageChange, imageAlbum}: Props) => (
   <View>
- 
+
     <Button onPress={() => pickImage((result: ImagePickerAsset) => saveImage(result.uri, onAddImageChange, imageAlbum))} title={'Pick Photo'} />
     <Button onPress={() => takeImage((result: ImagePickerAsset) => saveImage(result.uri, onAddImageChange, imageAlbum))} title={'Take Photo'} />
   </View>

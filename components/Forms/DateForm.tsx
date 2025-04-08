@@ -38,7 +38,6 @@ const DateForm = ({
     <Button title="Harvest" onPress={() => setDisplayDatepicker({ ...displayDatepicker, harvestDate: true })} />
     {displayDatepicker.startDate && <DateTimePicker value={startDate ? startDate : new Date()} onChange={onStartDateChange} mode="date" />}
     {displayDatepicker.harvestDate && <DateTimePicker value={harvestDate ? harvestDate : new Date()} onChange={onHarvestDateChange} mode="date" />}
-
     {displayDatepicker.flowerDate && <DateTimePicker value={flowerDate ? flowerDate : new Date()} onChange={onFlowerDateChange} mode="date" />}
   </View>
 );

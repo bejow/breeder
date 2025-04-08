@@ -1,9 +1,8 @@
-import { ScrollView, TextInput } from 'react-native';
 import styles from './PropertyModal.module.scss';
 
-import { Text, View } from '../../components/Themed';
+import {  View } from '../../components/Themed';
 
-import { RefObject, useEffect } from 'react';
+import {  useEffect } from 'react';
 import { plantProperty, plantState } from '../../types';
 
 import PlantPropertyPicker from '../../components/PlantPropertyPicker/PlantPropertyPicker';

@@ -1,25 +1,22 @@
-import { ScrollView, TextInput } from 'react-native';
+import { SafeAreaView, Text, TextInput } from 'react-native';
 import styles from './EditPlantModal.module.scss';
-import { Text, View } from '../../components/Themed';
-import { Button, Input } from '@rneui/themed';
-import DateTimePicker, { DateTimePickerEvent, Event } from '@react-native-community/datetimepicker';
+import { View } from '../../components/Themed';
+import { Button } from 'react-native';
+import  { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import { useEffect, useRef, useState } from 'react';
 import { folderState, plantProperty, plantState, rootState, RootTabScreenProps } from '../../types';
 import { setPlant, addPlant, selectPlantById } from '../../redux/reducers/plantReducer';
 import { connect, ConnectedProps, useSelector } from 'react-redux';
-import PropertyModal from '../PropertyModal/PropertyModal';
-import { PlantPropertiesDisplay } from '../../components/PlantPropertiesDisplay/PlantPropertiesDisplay';
-import { AncestorModal } from '../AncestorModal/AncestorModal';
+
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { TabBarIcon } from '../../navigation/TabBarIcon';
-import { pickImage, removeSpecialChars, requestPermissions, saveImage, takeImage } from '../../helper/imageHelper';
+import { pickImage, saveImage, takeImage } from '../../helper/imageHelper';
 import { Asset } from 'expo-media-library';
-import { ImageInfo } from 'expo-image-picker';
-import SelectFolderButton from '../../components/FolderSelectButton/SelectFolderButton';
+
 import { getPathFromFolder } from '../../helper/folderHelper';
 import uuid from 'react-native-uuid';
-import { imageDirectory, imageDirectoryPrefix } from '../../constants/Image';
-import { ImagePickerAsset } from 'expo-image-picker';
+import { imageDirectory} from '../../constants/Image';
+
 import GeneralForm from '../../components/Forms/GeneralForm';
 import ImageForm from '../../components/Forms/ImageForm';
 import DateForm from '../../components/Forms/DateForm';
@@ -209,9 +206,19 @@ function EditPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFol
       step: 3,
     },
     {
-      component: <ParentForm showAncestorModal={showAncestorModal} setShowAncestorModal={setShowAncestorModal} addPlant={addPlant} plantData={plantData} setPlantData={setPlantData} motherPlant={motherPlant} fatherPlant={fatherPlant}/>,
-      step: 4
-    }
+      component: (
+        <ParentForm
+          showAncestorModal={showAncestorModal}
+          setShowAncestorModal={setShowAncestorModal}
+          addPlant={addPlant}
+          plantData={plantData}
+          setPlantData={setPlantData}
+          motherPlant={motherPlant}
+          fatherPlant={fatherPlant}
+        />
+      ),
+      step: 4,
+    },
   ];
 
   const nextStep = () => {
@@ -220,25 +227,15 @@ function EditPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFol
   };
 
   return (
-    <View style={styles.wrapper as any}>
-      <ScrollView style={styles.container as any}>
-        <View style={styles.viewContainer as any}>
-          {renderStep()}
-
-          <View style={styles.horizontalContainer}>
-          </View>
-
+    <SafeAreaView  style={styles.wrapper as any}>
+      <View style={styles.container}>
+      <Text>Header</Text>
+      <View style={{flex: 1}}>
+      {renderStep()}
+      </View>
+      <Button title="Next" onPress={() => nextStep()} />
         </View>
-
-        
-        {displayDatepicker.startDate && <DateTimePicker value={startDate ? startDate : new Date()} onChange={onStartDateChange} mode="date" />}
-        {displayDatepicker.harvestDate && <DateTimePicker value={harvestDate ? harvestDate : new Date()} onChange={onHarvestDateChange} mode="date" />}
-
-        {displayDatepicker.flowerDate && <DateTimePicker value={flowerDate ? flowerDate : new Date()} onChange={onFlowerDateChange} mode="date" />}
-
-        <Button style={styles.addButton} title="Next" onPress={() => nextStep()} />
-      </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }
 

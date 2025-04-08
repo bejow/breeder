@@ -10,8 +10,8 @@ interface Props {
   strain?: string;
   breeder?: string;
   note?: string;
-  onFolderSelect: (folder: folderState, index: number) => void,
-  folder: string|null,
+  onFolderSelect: (folder: folderState, index: number) => void;
+  folder: string | null;
   onTextInputChange: (inputName: string, value: string) => void;
 }
 
@@ -50,10 +50,10 @@ const GeneralForm = ({ title = '', strain = '', breeder = '', note = '', folder,
         label="Breeder"
       />
       <Input ref={noteRef} style={styles.input as any} placeholder="note" value={note} onChangeText={(text) => onTextInputChange('note', text)} label="Note" />
-                <Text style={styles.inputLabel}>Folder</Text>
+      <Text style={styles.text}>Folder</Text>
       <SelectFolderButton onFolderSelect={onFolderSelect} selectedFolderPath={folder} />
     </View>
   );
 };
 
-export default GeneralForm
+export default GeneralForm;
