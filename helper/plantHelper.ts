@@ -2,7 +2,7 @@ import { plantProperty, plantState } from '../types';
 import uuid from 'react-native-uuid';
 import { Asset } from 'expo-media-library';
 
-const defaultPlantState: plantState = {
+export const defaultPlantState: plantState = {
   title: '',
   startDate: undefined,
   flowerDate: undefined,
