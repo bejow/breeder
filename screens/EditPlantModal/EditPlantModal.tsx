@@ -27,7 +27,6 @@ import { SharedValue, useSharedValue, withSpring } from 'react-native-reanimated
 import { CustomIcon } from '../../components/CustomIcon/CustomIcon';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-
 const PAGE_WIDTH = 430;
 const baseOptions = {
   vertical: false,
@@ -85,9 +84,8 @@ function EditPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFol
   const [showAncestorModal, setShowAncestorModal] = useState<boolean>(false);
 
   // needed for pagination
-  const step = useSharedValue<number>(0)
-  const [stepState, setStepState] = useState(0)
-  
+  const step = useSharedValue<number>(0);
+  const [stepState, setStepState] = useState(0);
 
   const strainRef = useRef<TextInput>(null);
   const noteRef = useRef<TextInput>(null);
@@ -161,10 +159,9 @@ function EditPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFol
     setPlantData({ ...plantData, [name]: value });
   };
 
-
   const renderStep = () => {
     let form = formSteps.find((stepObject) => stepObject.step == stepState);
-    if (form === undefined) { 
+    if (form === undefined) {
       return formSteps[0].component;
     }
     return form.component;
@@ -176,16 +173,18 @@ function EditPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFol
   };
 
   const onPressPagination = (index: number) => {
-    step.value = withSpring(index)
-    setStepState(index)
-
+    step.value = withSpring(index);
+    setStepState(index);
   };
+
+  console.log("shared",step)
+  console.log("state", stepState)
 
   const formSteps: {
     component: React.JSX.Element;
     step: number;
-    icon: React.ComponentProps<typeof MaterialCommunityIcons>['name']
-}[] = [
+    icon: React.ComponentProps<typeof MaterialCommunityIcons>['name'];
+  }[] = [
     {
       component: (
         <GeneralForm
@@ -199,12 +198,12 @@ function EditPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFol
         />
       ),
       step: 0,
-      icon: "file-edit-outline"
+      icon: 'file-edit-outline',
     },
     {
       component: <ImageForm pickImage={pickImage} takeImage={takeImage} saveImage={saveImage} onAddImageChange={onAddImageChange} imageAlbum={imageAlbum} />,
       step: 1,
-      icon: "camera-outline"
+      icon: 'camera-outline',
     },
     {
       component: (
@@ -220,7 +219,7 @@ function EditPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFol
         />
       ),
       step: 2,
-      icon: "calendar-month-outline"
+      icon: 'calendar-month-outline',
     },
     {
       component: (
@@ -233,7 +232,7 @@ function EditPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFol
         />
       ),
       step: 3,
-      icon: "tag-plus-outline"
+      icon: 'tag-plus-outline',
     },
     {
       component: (
@@ -248,20 +247,20 @@ function EditPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFol
         />
       ),
       step: 4,
-      icon: "graph-outline"
+      icon: 'graph-outline',
     },
   ];
 
   const nextStep = () => {
-    let newStep = step.get() + (1 % formSteps.length);
-    step.value = withSpring(newStep)
-    setStepState(newStep)
+    let newStep = (stepState + 1) % formSteps.length;
+    step.value = withSpring(newStep);
+    setStepState(newStep);
   };
 
   return (
     <SafeAreaView style={styles.wrapper as any}>
       <View style={styles.container}>
-        <Pagination.Custom<{component: React.JSX.Element, step:number, icon: React.ComponentProps<typeof MaterialCommunityIcons>['name']}>
+        <Pagination.Custom<{ component: React.JSX.Element; step: number; icon: React.ComponentProps<typeof MaterialCommunityIcons>['name'] }>
           progress={step}
           data={formSteps}
           size={50}
@@ -284,13 +283,9 @@ function EditPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFol
           }}
           horizontal
           onPress={onPressPagination}
-          renderItem={(item,index) => (
-            <CustomIcon name={item.icon} size={30} onPress={() => onPressPagination(index)}/>
-          )}
+          renderItem={(item, index) => <CustomIcon name={item.icon} size={30} onPress={() => onPressPagination(index)} />}
         />
-        <View style={styles.contentContainer}>
-      {renderStep()}
-      </View>
+        <View style={styles.contentContainer}>{renderStep()}</View>
         <Button title="Next" onPress={() => nextStep()} />
       </View>
     </SafeAreaView>
