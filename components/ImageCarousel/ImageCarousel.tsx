@@ -7,6 +7,8 @@ import { Asset } from 'expo-asset';
 
 const defaultDataWith6Colors = ['#B0604D', '#FF9F9C', '#B3C680', '#5C6265', '#F5D399', '#F1F1F1'];
 
+
+
 interface Props {
   images: ImageSourcePropType[];
 }
@@ -46,6 +48,7 @@ const ImageCarousel = ({ images }: Props) => {
           width={430}
           height={258}
           snapEnabled={true}
+          
           pagingEnabled={true}
           autoPlayInterval={2000}
           onProgressChange={progress}
@@ -76,6 +79,7 @@ const ImageCarousel = ({ images }: Props) => {
         dotStyle={{
           borderRadius: 16,
           backgroundColor: '#262626',
+        
         }}
         activeDotStyle={{
           borderRadius: 8,
