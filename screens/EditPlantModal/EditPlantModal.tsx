@@ -177,9 +177,6 @@ function EditPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFol
     setStepState(index);
   };
 
-  console.log("shared",step)
-  console.log("state", stepState)
-
   const formSteps: {
     component: React.JSX.Element;
     step: number;
