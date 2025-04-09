@@ -1,4 +1,3 @@
-
 import { renderItem } from './utils';
 import * as React from 'react';
 import { Image, ImageSourcePropType, View } from 'react-native';
@@ -15,11 +14,11 @@ interface Props {
 const PAGE_WIDTH = 430;
 
 const ImageCarousel = ({ images }: Props) => {
+
   const scrollOffsetValue = useSharedValue<number>(0);
-
   const ref = React.useRef<ICarouselInstance>(null);
-
   const progress = useSharedValue<number>(0);
+  
   const baseOptions = {
     vertical: false,
     width: PAGE_WIDTH,
@@ -41,7 +40,6 @@ const ImageCarousel = ({ images }: Props) => {
     <View id="carousel-component" style={{ gap: 10 }}>
       <View style={{ marginBottom: 10 }}>
         <Carousel
-          testID={'xxx'}
           ref={ref}
           loop={true}
           {...baseOptions}
@@ -66,21 +64,14 @@ const ImageCarousel = ({ images }: Props) => {
           }}
           onSnapToItem={(index: number) => console.log('current index:', index)}
           renderItem={({ index, item }) => {
-            return (
-              <Image
-                style={{ width: '100%', height: '100%', borderRadius: 10 }}
-                source={item}
-                resizeMode="cover"
-              />
-            );
+            return <Image style={{ width: '100%', height: '100%', borderRadius: 10 }} source={item} resizeMode="cover" />;
           }}
         />
       </View>
 
-          
       <Pagination.Custom<ImageSourcePropType>
         progress={progress}
-        data={images}  
+        data={images}
         size={30}
         dotStyle={{
           borderRadius: 16,
@@ -97,8 +88,8 @@ const ImageCarousel = ({ images }: Props) => {
           gap: 5,
           alignItems: 'center',
           height: 10,
-		  flexWrap: "wrap",
-		  justifyContent: 'center'
+          flexWrap: 'wrap',
+          justifyContent: 'center',
         }}
         horizontal
         onPress={onPressPagination}
@@ -107,7 +98,7 @@ const ImageCarousel = ({ images }: Props) => {
             style={{
               width: 40,
               height: 30,
-              borderRadius: 5, 
+              borderRadius: 5,
               marginHorizontal: 5,
               resizeMode: 'contain',
             }}

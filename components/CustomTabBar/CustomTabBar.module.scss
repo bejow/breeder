@@ -1,0 +1,37 @@
+.tabBarContainer {
+  flex-direction: 'row';
+  height: 60px;
+  background-color: '#fff';
+  justify-content: 'center';
+  align-items: 'center';
+  border-top-width: 1px;
+  border-top-color: '#ddd';
+  
+}
+
+.tabButton {
+  flex: 1;
+  align-items: 'center';
+  justify-content: 'center';
+}
+
+.focusedTab {
+  background-color: '#f0f0f0';
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.tabText {
+  color: '#222';
+  font-size: 12px;
+}
+
+.focusedText {
+  color: '#673ab7';
+}
+
+.screenContainer {
+  flex: 1;
+  justify-content: 'center';
+  align-items: 'center';
+}

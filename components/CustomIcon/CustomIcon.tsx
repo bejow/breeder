@@ -7,7 +7,7 @@ interface IconButtonProps {
   name: React.ComponentProps<typeof MaterialCommunityIcons>['name'];
   size?: number;
   color?: string;
-  onPress: () => void;
+  onPress?: () => void;
 }
 
 export const CustomIcon = ({onPress, ...rest}:IconButtonProps) => {

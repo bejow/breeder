@@ -2,8 +2,8 @@ import { SafeAreaView, Text, TextInput } from 'react-native';
 import styles from './EditPlantModal.module.scss';
 import { View } from '../../components/Themed';
 import { Button } from 'react-native';
-import  { DateTimePickerEvent } from '@react-native-community/datetimepicker';
-import { useEffect, useRef, useState } from 'react';
+import { DateTimePickerEvent } from '@react-native-community/datetimepicker';
+import React, { useEffect, useRef, useState } from 'react';
 import { folderState, plantProperty, plantState, rootState, RootTabScreenProps } from '../../types';
 import { setPlant, addPlant, selectPlantById } from '../../redux/reducers/plantReducer';
 import { connect, ConnectedProps, useSelector } from 'react-redux';
@@ -15,13 +15,25 @@ import { Asset } from 'expo-media-library';
 
 import { getPathFromFolder } from '../../helper/folderHelper';
 import uuid from 'react-native-uuid';
-import { imageDirectory} from '../../constants/Image';
+import { imageDirectory } from '../../constants/Image';
 
 import GeneralForm from '../../components/Forms/GeneralForm';
 import ImageForm from '../../components/Forms/ImageForm';
 import DateForm from '../../components/Forms/DateForm';
 import PropertyForm from '../../components/Forms/PropertyForm';
 import ParentForm from '../../components/Forms/ParentForm';
+import Carousel, { ICarouselInstance, Pagination } from 'react-native-reanimated-carousel';
+import { SharedValue, useSharedValue, withSpring } from 'react-native-reanimated';
+import { CustomIcon } from '../../components/CustomIcon/CustomIcon';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+
+
+const PAGE_WIDTH = 430;
+const baseOptions = {
+  vertical: false,
+  width: PAGE_WIDTH,
+  height: PAGE_WIDTH * 0.6,
+} as const;
 
 const defaultState: plantState = {
   title: '',
@@ -71,7 +83,11 @@ function EditPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFol
 
   const [showPropertyModal, setShowPropertyModal] = useState<boolean>(false);
   const [showAncestorModal, setShowAncestorModal] = useState<boolean>(false);
-  const [step, setStep] = useState(0);
+
+  // needed for pagination
+  const step = useSharedValue<number>(0)
+  const [stepState, setStepState] = useState(0)
+  
 
   const strainRef = useRef<TextInput>(null);
   const noteRef = useRef<TextInput>(null);
@@ -145,10 +161,10 @@ function EditPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFol
     setPlantData({ ...plantData, [name]: value });
   };
 
+
   const renderStep = () => {
-    let form = formSteps.find((stepObject) => stepObject.step === step);
-    if (form === undefined) {
-      setStep(0);
+    let form = formSteps.find((stepObject) => stepObject.step == stepState);
+    if (form === undefined) { 
       return formSteps[0].component;
     }
     return form.component;
@@ -159,7 +175,17 @@ function EditPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFol
     navigation.goBack();
   };
 
-  const formSteps = [
+  const onPressPagination = (index: number) => {
+    step.value = withSpring(index)
+    setStepState(index)
+
+  };
+
+  const formSteps: {
+    component: React.JSX.Element;
+    step: number;
+    icon: React.ComponentProps<typeof MaterialCommunityIcons>['name']
+}[] = [
     {
       component: (
         <GeneralForm
@@ -173,10 +199,12 @@ function EditPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFol
         />
       ),
       step: 0,
+      icon: "file-edit-outline"
     },
     {
       component: <ImageForm pickImage={pickImage} takeImage={takeImage} saveImage={saveImage} onAddImageChange={onAddImageChange} imageAlbum={imageAlbum} />,
       step: 1,
+      icon: "camera-outline"
     },
     {
       component: (
@@ -192,6 +220,7 @@ function EditPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFol
         />
       ),
       step: 2,
+      icon: "calendar-month-outline"
     },
     {
       component: (
@@ -204,6 +233,7 @@ function EditPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFol
         />
       ),
       step: 3,
+      icon: "tag-plus-outline"
     },
     {
       component: (
@@ -218,23 +248,51 @@ function EditPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFol
         />
       ),
       step: 4,
+      icon: "graph-outline"
     },
   ];
 
   const nextStep = () => {
-    let newStep = step + (1 % formSteps.length);
-    setStep(newStep);
+    let newStep = step.get() + (1 % formSteps.length);
+    step.value = withSpring(newStep)
+    setStepState(newStep)
   };
 
   return (
-    <SafeAreaView  style={styles.wrapper as any}>
+    <SafeAreaView style={styles.wrapper as any}>
       <View style={styles.container}>
-      <Text>Header</Text>
-      <View style={{flex: 1}}>
+        <Pagination.Custom<{component: React.JSX.Element, step:number, icon: React.ComponentProps<typeof MaterialCommunityIcons>['name']}>
+          progress={step}
+          data={formSteps}
+          size={50}
+          dotStyle={{
+            borderRadius: 16,
+          }}
+          activeDotStyle={{
+            borderRadius: 8,
+
+            overflow: 'hidden',
+            backgroundColor: '#f1f1f1',
+          }}
+          containerStyle={{
+            gap: 10,
+            alignItems: 'center',
+            height: 10,
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            marginVertical: 16,
+          }}
+          horizontal
+          onPress={onPressPagination}
+          renderItem={(item,index) => (
+            <CustomIcon name={item.icon} size={30} onPress={() => onPressPagination(index)}/>
+          )}
+        />
+        <View style={styles.contentContainer}>
       {renderStep()}
       </View>
-      <Button title="Next" onPress={() => nextStep()} />
-        </View>
+        <Button title="Next" onPress={() => nextStep()} />
+      </View>
     </SafeAreaView>
   );
 }
