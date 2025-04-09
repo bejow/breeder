@@ -198,7 +198,7 @@ function EditPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFol
       icon: 'file-edit-outline',
     },
     {
-      component: <ImageForm pickImage={pickImage} takeImage={takeImage} saveImage={saveImage} onAddImageChange={onAddImageChange} imageAlbum={imageAlbum} />,
+      component: <ImageForm images={images} pickImage={pickImage} takeImage={takeImage} saveImage={saveImage} onAddImageChange={onAddImageChange} imageAlbum={imageAlbum} />,
       step: 1,
       icon: 'camera-outline',
     },
@@ -263,6 +263,8 @@ function EditPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFol
           size={50}
           dotStyle={{
             borderRadius: 16,
+            alignItems:"center",
+            justifyContent: "center"
           }}
           activeDotStyle={{
             borderRadius: 8,

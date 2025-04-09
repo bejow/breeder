@@ -37,7 +37,7 @@ const ImageCarousel = ({ images }: Props) => {
   };
 
   return (
-    <View id="carousel-component" style={{ gap: 10 }}>
+    <View id="carousel-component" style={{ gap: 10, paddingBottom:32 }}>
       <View style={{ marginBottom: 10 }}>
         <Carousel
           ref={ref}
