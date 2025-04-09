@@ -26,6 +26,7 @@ import Carousel, { ICarouselInstance, Pagination } from 'react-native-reanimated
 import { SharedValue, useSharedValue, withSpring } from 'react-native-reanimated';
 import { CustomIcon } from '../../components/CustomIcon/CustomIcon';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import StepPagination from '../../components/StepPagination/StepPagination';
 
 const PAGE_WIDTH = 430;
 const baseOptions = {
@@ -257,33 +258,7 @@ function EditPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFol
   return (
     <SafeAreaView style={styles.wrapper as any}>
       <View style={styles.container}>
-        <Pagination.Custom<{ component: React.JSX.Element; step: number; icon: React.ComponentProps<typeof MaterialCommunityIcons>['name'] }>
-          progress={step}
-          data={formSteps}
-          size={50}
-          dotStyle={{
-            borderRadius: 16,
-            alignItems:"center",
-            justifyContent: "center"
-          }}
-          activeDotStyle={{
-            borderRadius: 8,
-
-            overflow: 'hidden',
-            backgroundColor: '#f1f1f1',
-          }}
-          containerStyle={{
-            gap: 10,
-            alignItems: 'center',
-            height: 10,
-            flexWrap: 'wrap',
-            justifyContent: 'center',
-            marginVertical: 16,
-          }}
-          horizontal
-          onPress={onPressPagination}
-          renderItem={(item, index) => <CustomIcon name={item.icon} size={30} onPress={() => onPressPagination(index)} />}
-        />
+        <StepPagination step={step} formSteps={formSteps} onPressPagination={onPressPagination} />
         <View style={styles.contentContainer}>{renderStep()}</View>
         <Button title="Next" onPress={() => nextStep()} />
       </View>
