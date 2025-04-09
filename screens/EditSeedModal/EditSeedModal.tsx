@@ -9,9 +9,9 @@ import { plantProperty, plantState, rootState, RootTabScreenProps, seedState } f
 import { setPlant, addPlant, selectPlantById } from '../../redux/reducers/plantReducer';
 import { setSeed, addSeed } from '../../redux/reducers/seedReducer';
 import { connect, ConnectedProps, useSelector } from 'react-redux';
-import PropertyModal from '../PropertyModal/PropertyModal';
+import PropertyPicker from '../../components/PropertyPicker/PropertyPicker';
 import { PlantPropertiesDisplay } from '../../components/PlantPropertiesDisplay/PlantPropertiesDisplay';
-import { AncestorModal } from '../AncestorModal/AncestorModal';
+import { AncestorPicker } from '../../components/AncestorPicker/AncestorPicker';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { TabBarIcon } from '../../navigation/TabBarIcon';
 import { ParentDisplay } from '../../components/ParentDisplay/ParentDisplay';
@@ -67,8 +67,6 @@ function EditSeedModal({ plants, seeds, setPlant, addPlant, addSeed, setSeed }: 
   const navigation = useNavigation();
   const [seedData, setSeedData] = useState<seedState>(route.params ? (route.params as seedState) : defaultState);
 
-  const [showPropertyModal, setShowPropertyModal] = useState<boolean>(false);
-  const [showAncestorModal, setShowAncestorModal] = useState<boolean>(false);
   const strainRef = useRef<TextInput>(null);
   const noteRef = useRef<TextInput>(null);
   const parentRef = useRef<TextInput>(null);
@@ -146,7 +144,6 @@ function EditSeedModal({ plants, seeds, setPlant, addPlant, addSeed, setSeed }: 
             label="Note"
           />
           <View style={styles.horizontalContainer}>
-            <Button title="Pick Seed Parents" onPress={() => setShowAncestorModal(true)} />
             <Button
               title="Harvest date"
               onPress={() => setDisplayDatepicker({ ...displayDatepicker, harvestDate: true })}
@@ -156,13 +153,12 @@ function EditSeedModal({ plants, seeds, setPlant, addPlant, addSeed, setSeed }: 
 
         <ParentDisplay motherPlant={motherPlant} fatherPlant={fatherPlant} />
       </ScrollView>
-      {showAncestorModal && (
+
         <View style={styles.modal}>
-          <AncestorModal
+          <AncestorPicker
             label="Pick Seed  Parents"
             placeholder="Search or Add Plant"
-            setShowAncestorModal={setShowAncestorModal}
-            showAncestorModal={showAncestorModal}
+
             onSubmit={(search) => addPlant({ ...defaultPlantState, title: search })}
             setMother={(plantId: string) => setSeedData({ ...seedData, mother: plantId })}
             setFather={(plantId: string) => setSeedData({ ...seedData, father: plantId })}
@@ -170,7 +166,7 @@ function EditSeedModal({ plants, seeds, setPlant, addPlant, addSeed, setSeed }: 
             father={fatherPlant}
           />
         </View>
-      )}
+
       <>
         {displayDatepicker.harvestDate && (
           <DateTimePicker value={harvestDate ? harvestDate : new Date()} onChange={onHarvestDateChange} mode="date" />

@@ -7,7 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import { TabBarIcon } from '../../navigation/TabBarIcon';
 import styles from './AddSeedModal.module.scss';
 import { Button, Input } from '@rneui/themed';
-import { AncestorModal } from '../AncestorModal/AncestorModal';
+import { AncestorPicker } from '../../components/AncestorPicker/AncestorPicker';
 import { addPlant, selectPlantById } from '../../redux/reducers/plantReducer';
 import { ParentDisplay } from '../../components/ParentDisplay/ParentDisplay';
 import { createNewPlantData } from '../../helper/plantHelper';
@@ -61,23 +61,10 @@ const AddSeedModal = ({ addSeed, plants, seeds, addPlant }: PropsFromRedux) => {
   const strainRef = useRef<TextInput>(null);
   const noteRef = useRef<TextInput>(null);
   const breederRef = useRef<TextInput>(null);
-  const [showAncestorModal, setShowAncestorModal] = useState<boolean>(false);
 
   const motherPlant = useSelector((state) => selectPlantById(state as rootState, mother));
   const fatherPlant = useSelector((state) => selectPlantById(state as rootState, father));
 
-  useEffect(() => {
-    if (showAncestorModal === false)
-      navigation.setOptions({
-        headerRight: () => <TabBarIcon size={20} name="save" color="black" onPress={() => onSubmit()} />,
-      });
-    return () => {
-      navigation.setOptions({
-        title: undefined,
-        headerRight: () => undefined,
-      });
-    };
-  }, [showAncestorModal, seedData]);
 
   const onSubmit = () => {
     addSeed(seedData);
@@ -136,27 +123,21 @@ const AddSeedModal = ({ addSeed, plants, seeds, addPlant }: PropsFromRedux) => {
             label="Note"
           />
 
-          <View style={styles.horizontalContainer}>
-            <Button style={styles.button} title="Parents" onPress={() => setShowAncestorModal(true)} />
-          </View>
         </View>
         <ParentDisplay motherPlant={motherPlant} fatherPlant={fatherPlant} />
       </ScrollView>
-      {showAncestorModal && (
-        <View style={styles.modal}>
-          <AncestorModal
+
+          <AncestorPicker
             label="Pick Seed Parents"
             placeholder="Search or Add Plant"
-            setShowAncestorModal={setShowAncestorModal}
-            showAncestorModal={showAncestorModal}
             onSubmit={(search) => addPlant({ ...createNewPlantData(), title: search })}
             setMother={(plantId: string) => setSeedData({ ...seedData, mother: plantId })}
             setFather={(plantId: string) => setSeedData({ ...seedData, father: plantId })}
             mother={motherPlant}
             father={fatherPlant}
           />
-        </View>
-      )}
+
+
       <Button buttonStyle={styles.addButton} title="Add" onPress={onSubmit} />
     </View>
   );

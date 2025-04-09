@@ -14,17 +14,13 @@ declare global {
   }
 }
 
-export type PlantPropertyModalParams = {
-  setPlantProperties: (properties: plantProperty[]) => void;
-};
-
 export type RootStackParamList = {
   Root: NavigatorScreenParams<RootTabParamList> | undefined;
   EditPlantModal: plantState | undefined;
   EditSeedModal: seedState | undefined;
   PlantScreen: folderState;
   NotFound: undefined;
-  PropertyModal: NavigatorScreenParams<PlantPropertyModalParams>;
+
   PlantDetailScreen: { id: string };
   SeedDetailScreen: { id: string };
   SeedScreen: undefined;

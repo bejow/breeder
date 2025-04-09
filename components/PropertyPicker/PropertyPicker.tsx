@@ -1,45 +1,25 @@
-import styles from './PropertyModal.module.scss';
+import styles from './PropertyPicker.module.scss';
 
-import {  View } from '../../components/Themed';
+import {  View } from '../Themed';
 
 import {  useEffect } from 'react';
 import { plantProperty, plantState } from '../../types';
 
-import PlantPropertyPicker from '../../components/PlantPropertyPicker/PlantPropertyPicker';
-import { PlantPropertyEdit } from '../../components/PlantPropertyEdit/PlantPropertyEdit';
+import PlantPropertyPicker from '../PlantPropertyPicker/PlantPropertyPicker';
+import { PlantPropertyEdit } from '../PlantPropertyEdit/PlantPropertyEdit';
 import { useNavigation } from '@react-navigation/native';
 import { TabBarIcon } from '../../navigation/TabBarIcon';
 import { HeaderBackButton } from '@react-navigation/elements';
 
-function PropertyModal({
+function PropertyPicker({
   setPlantData,
   plantData,
   properties,
-  showPropertyModal,
-  setShowPropertyModal,
 }: {
   setPlantData: (plant: plantState) => void;
   plantData: plantState;
   properties: Array<plantProperty>;
-  setShowPropertyModal: (shouldShow: boolean) => void;
-  showPropertyModal: Boolean;
 }) {
-  const navigation = useNavigation();
-  useEffect(() => {
-    navigation.setOptions({
-      title: 'Properties',
-      headerLeft: () => <HeaderBackButton onPress={() => setShowPropertyModal(false)} />,
-      headerRight: () => <TabBarIcon size={20} name="save" color="black" onPress={() => setShowPropertyModal(false)} />,
-    });
-    return () => {
-      navigation.setOptions({
-        title: undefined,
-        headerLeft: () => undefined,
-        headerRight: () => undefined,
-      });
-    };
-  }, [showPropertyModal, plantData]);
-
   return (
     <View style={styles.modalContainer}>
       <PlantPropertyPicker
@@ -61,4 +41,4 @@ function PropertyModal({
   );
 }
 
-export default PropertyModal;
+export default PropertyPicker;

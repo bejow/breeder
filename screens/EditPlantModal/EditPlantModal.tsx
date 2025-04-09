@@ -81,9 +81,6 @@ function EditPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFol
     route.params ? (route.params as plantState) : { ...defaultState, folder: getPathFromFolder(currentFolder), uuid: uuid.v4().toString() }
   );
 
-  const [showPropertyModal, setShowPropertyModal] = useState<boolean>(false);
-  const [showAncestorModal, setShowAncestorModal] = useState<boolean>(false);
-
   // needed for pagination
   const step = useSharedValue<number>(0);
   const [stepState, setStepState] = useState(0);
@@ -222,8 +219,6 @@ function EditPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFol
     {
       component: (
         <PropertyForm
-          setShowPropertyModal={setShowPropertyModal}
-          showPropertyModal={showPropertyModal}
           setPlantData={setPlantData}
           plantData={plantData}
           properties={properties}
@@ -235,8 +230,6 @@ function EditPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFol
     {
       component: (
         <ParentForm
-          showAncestorModal={showAncestorModal}
-          setShowAncestorModal={setShowAncestorModal}
           addPlant={addPlant}
           plantData={plantData}
           setPlantData={setPlantData}
