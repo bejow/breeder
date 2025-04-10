@@ -14,7 +14,7 @@ interface Props {
 
 const ParentForm = ({  addPlant, plantData, setPlantData, motherPlant, fatherPlant }: Props) => {
   return (
-    <View>
+    <View style={{paddingHorizontal: 4}}>
           <AncestorPicker
             label="Pick Plant Parents"
             placeholder="Search or Add Plant"

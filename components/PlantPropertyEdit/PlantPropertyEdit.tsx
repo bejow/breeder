@@ -3,6 +3,7 @@ import { FlatList, ListRenderItemInfo, View } from 'react-native';
 import { Text } from '@rneui/themed';
 import { plantProperty } from '../../types';
 import { PlantPropertyWeightEdit } from './PlantPropertyWeightEdit';
+import styles from './PlantPropertyEdit.module.scss'
 
 export const PlantPropertyEdit = ({
   properties,
@@ -38,7 +39,7 @@ export const PlantPropertyEdit = ({
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       <FlatList data={properties} renderItem={(property) => renderPlantWeightEdit(property)} />
       {/* {properties.map((property: plantProperty, index) => {
         return (

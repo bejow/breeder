@@ -27,6 +27,7 @@ import { SharedValue, useSharedValue, withSpring } from 'react-native-reanimated
 import { CustomIcon } from '../../components/CustomIcon/CustomIcon';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import StepPagination from '../../components/StepPagination/StepPagination';
+import { removeItemOnce } from '../../helper/utils';
 
 const PAGE_WIDTH = 430;
 const baseOptions = {
@@ -157,6 +158,11 @@ function EditPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFol
     setPlantData({ ...plantData, [name]: value });
   };
 
+  const onRemoveImage = (image: Asset) => {
+    const newImages = removeItemOnce([...images], image)
+    setPlantData({...plantData, images: newImages})
+  }
+
   const renderStep = () => {
     let form = formSteps.find((stepObject) => stepObject.step == stepState);
     if (form === undefined) {
@@ -196,7 +202,7 @@ function EditPlantModal({ plants, seeds, setPlant, addPlant, folders, currentFol
       icon: 'file-edit-outline',
     },
     {
-      component: <ImageForm images={images} pickImage={pickImage} takeImage={takeImage} saveImage={saveImage} onAddImageChange={onAddImageChange} imageAlbum={imageAlbum} />,
+      component: <ImageForm images={images} pickImage={pickImage} takeImage={takeImage} saveImage={saveImage} onAddImageChange={onAddImageChange} imageAlbum={imageAlbum} removeImage={onRemoveImage} />,
       step: 1,
       icon: 'camera-outline',
     },

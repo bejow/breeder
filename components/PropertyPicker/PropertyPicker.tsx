@@ -21,7 +21,7 @@ function PropertyPicker({
   properties: Array<plantProperty>;
 }) {
   return (
-    <View style={styles.modalContainer}>
+    <View style={styles.container}>
       <PlantPropertyPicker
         setPlantProperties={(properties: plantProperty[]) => setPlantData({ ...plantData, properties: properties })}
         addProperty={(property: plantProperty) =>
@@ -30,7 +30,7 @@ function PropertyPicker({
             properties: [...plantData.properties, property],
           })
         }
-        label="Pick Plant Properties"
+        label="Pick Plant Traits"
         properties={properties}
       />
       <PlantPropertyEdit

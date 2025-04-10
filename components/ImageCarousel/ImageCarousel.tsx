@@ -1,6 +1,6 @@
 import { renderItem } from './utils';
 import * as React from 'react';
-import { Image, ImageSourcePropType, View } from 'react-native';
+import { Image, ImageSourcePropType, Pressable, View } from 'react-native';
 import { useSharedValue } from 'react-native-reanimated';
 import Carousel, { ICarouselInstance, Pagination } from 'react-native-reanimated-carousel';
 import { Asset } from 'expo-asset';
@@ -11,11 +11,15 @@ const defaultDataWith6Colors = ['#B0604D', '#FF9F9C', '#B3C680', '#5C6265', '#F5
 
 interface Props {
   images: ImageSourcePropType[];
+  onSnapToItem?: (index:number) => void
+  onScrollStart?: () => void
+  onScrollEnd?: () => void
+  onImageClick?: () => void
 }
 
 const PAGE_WIDTH = 430;
 
-const ImageCarousel = ({ images }: Props) => {
+const ImageCarousel = ({ images, onSnapToItem=(index:number)=>{}, onScrollStart=()=>{}, onScrollEnd=()=>{}, onImageClick=()=>{} }: Props) => {
 
   const scrollOffsetValue = useSharedValue<number>(0);
   const ref = React.useRef<ICarouselInstance>(null);
@@ -48,27 +52,23 @@ const ImageCarousel = ({ images }: Props) => {
           width={430}
           height={258}
           snapEnabled={true}
-          
           pagingEnabled={true}
           autoPlayInterval={2000}
           onProgressChange={progress}
           data={images}
           defaultScrollOffsetValue={scrollOffsetValue}
           style={{ width: '100%' }}
-          onScrollStart={() => {
-            console.log('Scroll start');
-          }}
-          onScrollEnd={() => {
-            console.log('Scroll end');
-          }}
+          onScrollStart={onScrollStart}
+          onScrollEnd={onScrollEnd}
           onConfigurePanGesture={(g: { enabled: (arg0: boolean) => any }) => {
             'worklet';
             g.enabled(false);
           }}
-          onSnapToItem={(index: number) => console.log('current index:', index)}
+          onSnapToItem={(index: number) => onSnapToItem(index)}
           renderItem={({ index, item }) => {
-            return <Image style={{ width: '100%', height: '100%', borderRadius: 10 }} source={item} resizeMode="cover" />;
+            return <Pressable onPress={onImageClick}><Image style={{ width: '100%', height: '100%', borderRadius: 10 }} source={item} resizeMode="cover" /></Pressable>;
           }}
+          
         />
       </View>
 

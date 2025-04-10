@@ -1,5 +1,7 @@
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import { Button, View } from 'react-native';
+import IconButton from '../IconButton/IconButton';
+import styles from './styles.module.scss'
 
 interface Props {
   startDate?: Date;
@@ -33,9 +35,10 @@ const DateForm = ({
   harvestDate = new Date(),
 }: Props) => (
   <View>
-    <Button title="Start" onPress={() => setDisplayDatepicker({ ...displayDatepicker, startDate: true })} />
-    <Button title="Flower" onPress={() => setDisplayDatepicker({ ...displayDatepicker, flowerDate: true })} />
-    <Button title="Harvest" onPress={() => setDisplayDatepicker({ ...displayDatepicker, harvestDate: true })} />
+
+      <IconButton style={styles.dateButton} icon="seed-outline"  title={`Start - ${startDate.toDateString()}`} onPress={() => setDisplayDatepicker({ ...displayDatepicker, startDate: true })} />
+      <IconButton style={styles.dateButton}  icon="flower-outline" title={`Flower - ${flowerDate.toDateString()}`} onPress={() => setDisplayDatepicker({ ...displayDatepicker, flowerDate: true })} />
+      <IconButton style={styles.dateButton}  icon="fruit-grapes-outline"  title={`Harvest - ${harvestDate.toDateString()}`} onPress={() => setDisplayDatepicker({ ...displayDatepicker, harvestDate: true })} />
     {displayDatepicker.startDate && <DateTimePicker value={startDate ? startDate : new Date()} onChange={onStartDateChange} mode="date" />}
     {displayDatepicker.harvestDate && <DateTimePicker value={harvestDate ? harvestDate : new Date()} onChange={onHarvestDateChange} mode="date" />}
     {displayDatepicker.flowerDate && <DateTimePicker value={flowerDate ? flowerDate : new Date()} onChange={onFlowerDateChange} mode="date" />}

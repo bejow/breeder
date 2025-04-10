@@ -1,6 +1,6 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import styles from './IconButton.module.scss';
-import { StyleProp, StyleSheet, StyleSheetProperties, Text, TouchableOpacity, TouchableOpacityProps, ViewStyle } from 'react-native';
+import {  Text, TouchableOpacity, TouchableOpacityProps, ViewStyle } from 'react-native';
 
 import Colors from '../../constants/Colors';
 import useColorScheme from '../../hooks/useColorScheme';

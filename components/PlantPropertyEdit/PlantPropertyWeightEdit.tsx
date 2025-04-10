@@ -23,7 +23,7 @@ export const PlantPropertyWeightEdit = ({
   const baseColorForProperty = hashStringToColor(property.title);
   const rgba = hexAToRGBA(baseColorForProperty, property.weight > 0 ? property.weight / 10 : 0.05);
   return (
-    <View style={styles.container}>
+    <View style={styles.propertyContainer} >
       {expanded ? (
         <>
           <View style={styles.infoContainer}>
@@ -31,7 +31,7 @@ export const PlantPropertyWeightEdit = ({
               <Text style={styles.propertyTitle}>{property.title}</Text>
             </View>
             <View style={styles.propertyMenuBtnContainer}>
-              <CustomIcon onLongPress={() => removePlantProperty(property)} name="trash-can-outline" color="black" />
+              <CustomIcon onPress={() => removePlantProperty(property)} name="trash-can-outline" color="black" />
               <CustomIcon onPress={() => setExpanded(false)} name="check" color="black" />
             </View>
           </View>
@@ -66,7 +66,7 @@ export const PlantPropertyWeightEdit = ({
           />
         </>
       ) : (
-        <PlantPropertyDisplay onLongPress={() => setExpanded(true)} property={property} />
+        <PlantPropertyDisplay onPress={() => setExpanded(true)} property={property} />
       )}
     </View>
   );

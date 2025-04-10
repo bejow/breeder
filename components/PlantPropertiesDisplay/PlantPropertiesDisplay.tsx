@@ -12,7 +12,7 @@ export const PlantPropertiesDisplay = ({ properties }: { properties: plantProper
       {properties.map((property, index) => {
         return (
           <PlantPropertyDisplay
-            onLongPress={() => console.log('test')}
+            onPress={() => console.log('test')}
             key={'plantProperty' + property.uuid + '-' + index}
             property={property}
           />

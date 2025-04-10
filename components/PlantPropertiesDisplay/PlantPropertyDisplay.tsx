@@ -5,17 +5,17 @@ import { hashStringToColor, hexAToRGBA, rgb2hsv } from '../../helper/colorHash';
 
 const PlantPropertyDisplay = ({
   property,
-  onLongPress,
+  onPress,
 }: {
   property: plantProperty;
-  onLongPress: () => void | undefined;
+  onPress: () => void | undefined;
 }) => {
   const baseColorForProperty = hashStringToColor(property.title);
   const rgba = hexAToRGBA(baseColorForProperty, property.weight > 0 ? property.weight / 10 : 0.05);
   return (
     <Chip
-      onLongPress={onLongPress}
-      buttonStyle={{ backgroundColor: rgba, margin: 8 }}
+    onPress={onPress}
+      buttonStyle={{ backgroundColor: rgba }}
       title={`${property.title}: ${property.weight}`}
     />
   );

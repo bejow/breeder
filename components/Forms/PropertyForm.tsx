@@ -12,15 +12,9 @@ interface Props {
 }
 
 const PropertyForm = ({ properties, setPlantData, plantData }: Props) => (
-  <View>
-    <PlantPropertiesDisplay properties={properties} />
-      <View style={styles.modal}>
-        <PropertyPicker
-          setPlantData={setPlantData}
-          plantData={plantData}
-          properties={properties}
-        />
-      </View>
+  <View style={styles.container}>
+    {/* <PlantPropertiesDisplay properties={properties} /> */}
+      <PropertyPicker setPlantData={setPlantData} plantData={plantData} properties={properties} />
   </View>
 );
 

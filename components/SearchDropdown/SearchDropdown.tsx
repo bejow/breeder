@@ -53,7 +53,7 @@ export const SearchDropdown = ({
         rightIcon={renderSubmitButton(search)}
       />
       {search ? (
-        <>
+        <View style={{paddingLeft: 8}}>
           <Text style={styles.infoText}>{filteredData.length} Search Results:</Text>
           <FlatList
             style={styles.list as any}
@@ -61,7 +61,7 @@ export const SearchDropdown = ({
             renderItem={DropdownItem}
             keyExtractor={(item) => item.id as string}
           />
-        </>
+        </View>
       ) : null}
     </View>
   );
