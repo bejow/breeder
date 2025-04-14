@@ -6,7 +6,7 @@ import { plantProperty } from '../../types';
 import { DropdownItem } from './DropdownItem';
 import styles from './SearchDropdown.module.scss';
 
-import { DropdownItem as DropdownItemType, FlatlistProperty } from '../PlantPropertyPicker/PlantPropertyPicker';
+import { FlatlistProperty } from '../PlantPropertyPicker/PlantPropertyPicker';
 
 export const SearchDropdown = ({
   label,
@@ -16,9 +16,8 @@ export const SearchDropdown = ({
 }: {
   label: String;
   data: { id: String; title: String; onPress: (event: GestureResponderEvent) => void }[];
-  renderSubmitButton: (search: string) => ReactElement | undefined;
+  renderSubmitButton: (search: string, setSearch: (search:string) => void) => ReactElement | undefined;
   placeholder: string;
-  properties?: plantProperty[];
 }) => {
   const [search, setSearch] = useState('');
 
@@ -50,7 +49,7 @@ export const SearchDropdown = ({
         onChangeText={(text) => setFilter(text)}
         label={label}
         value={search}
-        rightIcon={renderSubmitButton(search)}
+        rightIcon={renderSubmitButton(search, setSearch)}
       />
       {search ? (
         <View style={{paddingLeft: 8}}>

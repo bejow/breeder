@@ -2,6 +2,8 @@ import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { GestureResponderEvent } from 'react-native';
 import uuid from 'react-native-uuid';
 import { plantProperty, plantsReducer, plantState, rootState, seedsReducer } from '../../types';
+import { homeFolder } from './folderReducer';
+import { getPathFromFolder } from '../../helper/folderHelper';
 
 const initialState: plantsReducer = [
   {
@@ -32,7 +34,7 @@ const plantSlice = createSlice({
   initialState: initialState,
   reducers: {
     addPlant(state, action: PayloadAction<plantState>) {
-      state.push({ ...action.payload, uuid: action.payload.uuid ? action.payload.uuid : uuid.v4().toString() });
+      state.push({ ...action.payload, folder:getPathFromFolder(homeFolder) ,uuid: action.payload.uuid ? action.payload.uuid : uuid.v4().toString() });
     },
     setPlant(state, action: PayloadAction<plantState>) {
       const plantIndex = state.findIndex((plant) => plant.uuid === action.payload.uuid);

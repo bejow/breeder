@@ -7,6 +7,7 @@ import { Provider } from 'react-redux'
 
 // Modify to add persistor
 import { store, persistor } from './redux/store';
+import Toast from 'react-native-toast-message';
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
@@ -24,6 +25,7 @@ export default function App() {
             <Navigation colorScheme={colorScheme} />
           </SafeAreaProvider>
         </PersistGate>
+        <Toast/>
       </Provider>
     );
   }

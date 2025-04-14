@@ -21,7 +21,7 @@ export const AncestorPicker = ({
 }: {
   label: string;
   placeholder: string;
-  onSubmit: (search: string) => void;
+  onSubmit: (search: string, selectMother: boolean, setSearch: (search:string) => void) => void;
   setFather: (plantId: string) => void;
   setMother: (plantId: string) => void;
   mother: plantState | undefined;
@@ -30,10 +30,19 @@ export const AncestorPicker = ({
   var previousUsedTitles = useSelector((state: rootState) => getAllPlantTitles(state));
   const [selectMother, setSelectMother] = useState(true);
 
-  const renderAddAncestorButton: (search: string) => ReactElement | undefined = (search) => {
+  const renderAddAncestorButton: (search: string, setSearch: (search: string) => void) => ReactElement | undefined = (search, setSearch) => {
     // If property does not exists already: render a button to add this property
-    return <TabBarIcon size={20} color="black" name="plus" onPress={() => onSubmit(search)} />;
-  };
+    if (search){return (
+      <TabBarIcon
+        size={20}
+        color="black"
+        name="plus"
+        onPress={() => {
+          onSubmit(search, selectMother, setSearch);
+          setSearch('');
+        }}
+      />
+    )};  };
 
   var previousUsedTitlesForFlatlist: Array<{
     id: string;

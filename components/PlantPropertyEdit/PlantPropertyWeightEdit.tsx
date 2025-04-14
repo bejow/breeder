@@ -9,6 +9,7 @@ import { TabBarIcon } from '../../navigation/TabBarIcon';
 import { hashStringToColor, hexAToRGBA } from '../../helper/colorHash';
 import PlantPropertyDisplay from '../PlantPropertiesDisplay/PlantPropertyDisplay';
 import { CustomIcon } from '../CustomIcon/CustomIcon';
+import { scaleNumber } from '../../helper/utils';
 
 export const PlantPropertyWeightEdit = ({
   property,
@@ -21,7 +22,7 @@ export const PlantPropertyWeightEdit = ({
 }) => {
   const [expanded, setExpanded] = useState(false);
   const baseColorForProperty = hashStringToColor(property.title);
-  const rgba = hexAToRGBA(baseColorForProperty, property.weight > 0 ? property.weight / 10 : 0.05);
+  const rgba = hexAToRGBA(baseColorForProperty, scaleNumber(property.weight, 0, 10, 0.5,1 ));
   return (
     <View style={styles.propertyContainer} >
       {expanded ? (

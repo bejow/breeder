@@ -1,4 +1,4 @@
-import { Text, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import PropertyPicker from '../PropertyPicker/PropertyPicker';
 import { PlantPropertiesDisplay } from '../PlantPropertiesDisplay/PlantPropertiesDisplay';
 import { plantProperty, plantState } from '../../types';
