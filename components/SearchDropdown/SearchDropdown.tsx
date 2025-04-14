@@ -41,9 +41,8 @@ export const SearchDropdown = ({
   });
 
   return (
-    <View style={styles.container}>
+    <View  >
       <Input
-        style={styles.input as any}
         placeholder={placeholder}
         blurOnSubmit={true}
         onChangeText={(text) => setFilter(text)}
@@ -52,7 +51,7 @@ export const SearchDropdown = ({
         rightIcon={renderSubmitButton(search, setSearch)}
       />
       {search ? (
-        <View style={{paddingLeft: 8}}>
+        <View style={{paddingHorizontal: 8, paddingBottom: 16}}>
           <Text style={styles.infoText}>{filteredData.length} Search Results:</Text>
           <FlatList
             style={styles.list as any}

@@ -12,7 +12,7 @@ export const ParentDisplay = ({
   fatherPlant: plantState | undefined;
 }) => {
   return (
-    <View style={styles.container}>
+    <View style={{paddingHorizontal: 8}} >
       {motherPlant ? (
         <>
           <Text style={styles.title}>Mother:</Text>

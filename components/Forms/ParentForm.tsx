@@ -16,7 +16,7 @@ interface Props {
 const ParentForm = ({ addPlant, plantData, setPlantData, motherPlant, fatherPlant }: Props) => {
   const newUuid = uuid.v4().toString();
   return (
-    <View style={{ paddingHorizontal: 4 }}>
+    <View style={styles.container}>
       <AncestorPicker
         label="Pick Plant Parents"
         placeholder="Search or Add Plant"
