@@ -34,8 +34,7 @@ const DateForm = ({
   flowerDate = new Date(),
   harvestDate = new Date(),
 }: Props) => (
-  <View>
-
+  <View style={styles.container}>
       <IconButton style={styles.dateButton} icon="seed-outline"  title={`Start - ${startDate.toDateString()}`} onPress={() => setDisplayDatepicker({ ...displayDatepicker, startDate: true })} />
       <IconButton style={styles.dateButton}  icon="flower-outline" title={`Flower - ${flowerDate.toDateString()}`} onPress={() => setDisplayDatepicker({ ...displayDatepicker, flowerDate: true })} />
       <IconButton style={styles.dateButton}  icon="fruit-grapes-outline"  title={`Harvest - ${harvestDate.toDateString()}`} onPress={() => setDisplayDatepicker({ ...displayDatepicker, harvestDate: true })} />

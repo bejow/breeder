@@ -21,7 +21,7 @@ const GeneralForm = ({ title = '', strain = '', breeder = '', note = '', folder,
   const breederRef = useRef<TextInput>(null);
 
   return (
-    <View>
+    <View style={styles.container}>
       <Input
         style={styles.input as any}
         onSubmitEditing={() => strainRef.current?.focus()}

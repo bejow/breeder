@@ -37,7 +37,6 @@ export default ({ plant }: { plant: plantState }) => {
       onLongPress={() => setMenuOpen(true)}
       onPress={() => navigation.dispatch(pushOnNavigationStack)}
       bottomDivider
-      style={styles.listItem}
     >
       <Avatar
         size={32}
