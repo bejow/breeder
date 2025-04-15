@@ -12,6 +12,10 @@ import { deletePlant, selectPlantById } from '../../redux/reducers/plantReducer'
 import { ParamList, plantState, rootState } from '../../types';
 import styles from './PlantDetailScreen.module.scss';
 import ImageCarousel from '../../components/ImageCarousel/ImageCarousel';
+import moment from 'moment';
+import { createDateDurationString } from '../../helper/utils';
+
+
 
 const mapStateToProps = (state: rootState) => ({
   state: state,
@@ -109,9 +113,9 @@ const PlantDetailScreen = ({ state, deletePlant }: Props) => {
         <KeyValuePair title="Title" value={plant.title} />
         <KeyValuePair title="Strain" value={plant.strain} />
         <KeyValuePair title="Info" value={plant.note} />
-        <KeyValuePair title="Start Date" value={plant.startDate?.toDateString()} />
-        <KeyValuePair title="Flower Date" value={plant.flowerDate?.toDateString()} />
-        <KeyValuePair title="Harvest Date" value={plant.harvestDate?.toDateString()} />
+        <KeyValuePair title="Start Date" value={createDateDurationString(plant.startDate)} />
+        <KeyValuePair title="Flower Date" value={createDateDurationString(plant.flowerDate)} />
+        <KeyValuePair title="Harvest Date" value={createDateDurationString(plant.harvestDate)} />
         <PlantPropertiesDisplay properties={plant.properties} />
         <ParentDisplay fatherPlant={fatherPlant} motherPlant={motherPlant} />
         {renderImages2()}
