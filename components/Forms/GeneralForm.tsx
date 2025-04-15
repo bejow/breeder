@@ -23,7 +23,7 @@ const GeneralForm = ({ title = '', strain = '', breeder = '', note = '', folder,
   return (
     <View style={styles.container}>
       <Input
-        style={styles.input as any}
+        inputStyle={styles.input as any}
         onSubmitEditing={() => strainRef.current?.focus()}
         placeholder="title"
         blurOnSubmit={false}
@@ -34,7 +34,7 @@ const GeneralForm = ({ title = '', strain = '', breeder = '', note = '', folder,
       <Input
         ref={strainRef}
         onSubmitEditing={() => breederRef.current?.focus()}
-        style={styles.input as any}
+        inputStyle={styles.input as any}
         value={strain}
         placeholder="strain"
         onChangeText={(text) => onTextInputChange('strain', text)}
@@ -43,13 +43,20 @@ const GeneralForm = ({ title = '', strain = '', breeder = '', note = '', folder,
       <Input
         ref={breederRef}
         onSubmitEditing={() => noteRef.current?.focus()}
-        style={styles.input as any}
+        inputStyle={styles.input as any}
         value={breeder}
         placeholder="breeder"
         onChangeText={(text) => onTextInputChange('breeder', text)}
         label="Breeder"
       />
-      <Input ref={noteRef} style={styles.input as any} placeholder="note" value={note} onChangeText={(text) => onTextInputChange('note', text)} label="Note" />
+      <Input
+        ref={noteRef}
+        inputStyle={styles.input as any}
+        placeholder="note"
+        value={note}
+        onChangeText={(text) => onTextInputChange('note', text)}
+        label="Note"
+      />
       <Text style={styles.text}>Folder</Text>
       <SelectFolderButton onFolderSelect={onFolderSelect} selectedFolderPath={folder} />
     </View>
