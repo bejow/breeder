@@ -2,7 +2,7 @@ import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import uuid from 'react-native-uuid';
 import { folderReducer, folderState, rootState } from '../../types';
 
-const homeFolder: folderState = { name: 'Root', id: '614573bd-5053-407b-9fb2-788563a1a451', parent: null };
+const homeFolder: folderState = { name: 'Home', id: '614573bd-5053-407b-9fb2-788563a1a451', parent: null };
 
 const initialState: folderReducer = [homeFolder];
 
