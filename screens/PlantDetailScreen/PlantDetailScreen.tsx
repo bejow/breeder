@@ -91,19 +91,6 @@ const PlantDetailScreen = ({ state, deletePlant }: Props) => {
   }, [plant]);
 
   const renderImages = () => {
-    return plant?.images?.map((asset, index) => {
-      return (
-        <Image
-          style={{ width: 300, height: 300, resizeMode: 'contain', margin: 8 }}
-          onError={(error) => console.log(error.type)}
-          key={`img_${plant?.title}-${asset.uri}-${index}`}
-          source={{ uri: asset.uri }}
-        />
-      );
-    });
-  };
-
-  const renderImages2 = () => {
     return <ImageCarousel images={plant?.images ? plant?.images : []}/>
   };
 
@@ -117,8 +104,10 @@ const PlantDetailScreen = ({ state, deletePlant }: Props) => {
         <KeyValuePair title="Flower Date" value={createDateDurationString(plant.flowerDate)} />
         <KeyValuePair title="Harvest Date" value={createDateDurationString(plant.harvestDate)} />
         <PlantPropertiesDisplay properties={plant.properties} />
+        <View style={{marginBottom: 16}}>
         <ParentDisplay fatherPlant={fatherPlant} motherPlant={motherPlant} />
-        {renderImages2()}
+        </View>
+        {renderImages()}
       </ScrollView>
     );
   } else {

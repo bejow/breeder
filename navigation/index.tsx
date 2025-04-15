@@ -44,7 +44,7 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function PlantStack() {
   return (
-    <Stack.Navigator initialRouteName="PlantScreen">
+    <Stack.Navigator screenOptions={{ contentStyle: {backgroundColor: '#fff', paddingHorizontal: 8}}} initialRouteName="PlantScreen">
       <Stack.Screen
         name="PlantScreen"
         component={PlantScreen}

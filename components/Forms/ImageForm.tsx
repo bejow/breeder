@@ -50,7 +50,7 @@ const ImageForm = ({ images, pickImage, takeImage, saveImage, onAddImageChange, 
   };
 
   return (
-    <View style={{flex:1}}>
+    <View style={{flex:1, }}>
       {renderCarousel()}
     
       <View style={styles.horizontal}>

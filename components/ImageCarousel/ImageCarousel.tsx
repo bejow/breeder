@@ -1,33 +1,30 @@
 import { renderItem } from './utils';
 import * as React from 'react';
-import { Image, ImageSourcePropType, Pressable, View } from 'react-native';
+import { Dimensions, Image, ImageSourcePropType, Pressable, View } from 'react-native';
 import { useSharedValue } from 'react-native-reanimated';
 import Carousel, { ICarouselInstance, Pagination } from 'react-native-reanimated-carousel';
 import { Asset } from 'expo-asset';
 
 const defaultDataWith6Colors = ['#B0604D', '#FF9F9C', '#B3C680', '#5C6265', '#F5D399', '#F1F1F1'];
 
-
-
 interface Props {
   images: ImageSourcePropType[];
-  onSnapToItem?: (index:number) => void
-  onScrollStart?: () => void
-  onScrollEnd?: () => void
-  onImageClick?: () => void
+  onSnapToItem?: (index: number) => void;
+  onScrollStart?: () => void;
+  onScrollEnd?: () => void;
+  onImageClick?: () => void;
 }
 
-const PAGE_WIDTH = 430;
-
-const ImageCarousel = ({ images, onSnapToItem=(index:number)=>{}, onScrollStart=()=>{}, onScrollEnd=()=>{}, onImageClick=()=>{} }: Props) => {
-
+const PAGE_WIDTH = Dimensions.get('window').width;
+const PAGE_HEIGHT = Dimensions.get('window').height;
+const ImageCarousel = ({ images, onSnapToItem = (index: number) => {}, onScrollStart = () => {}, onScrollEnd = () => {}, onImageClick = () => {} }: Props) => {
   const scrollOffsetValue = useSharedValue<number>(0);
   const ref = React.useRef<ICarouselInstance>(null);
   const progress = useSharedValue<number>(0);
-  
+
   const baseOptions = {
     vertical: false,
-    width: PAGE_WIDTH,
+    width: PAGE_WIDTH -32,
     height: PAGE_WIDTH * 0.6,
   } as const;
 
@@ -43,17 +40,16 @@ const ImageCarousel = ({ images, onSnapToItem=(index:number)=>{}, onScrollStart=
   };
 
   return (
-    <View id="carousel-component" style={{ gap: 10, paddingBottom:32 }}>
+    <View id="carousel-component" style={{ gap: 10, paddingBottom: 32 }}>
       <View style={{ marginBottom: 10 }}>
         <Carousel
           ref={ref}
           loop={true}
           {...baseOptions}
-          width={430}
+          width={PAGE_WIDTH}
           height={258}
           snapEnabled={true}
           pagingEnabled={true}
-          autoPlayInterval={2000}
           onProgressChange={progress}
           data={images}
           defaultScrollOffsetValue={scrollOffsetValue}
@@ -66,9 +62,15 @@ const ImageCarousel = ({ images, onSnapToItem=(index:number)=>{}, onScrollStart=
           }}
           onSnapToItem={(index: number) => onSnapToItem(index)}
           renderItem={({ index, item }) => {
-            return <Pressable onPress={onImageClick}><Image style={{ width: '100%', height: '100%', borderRadius: 10 }} source={item} resizeMode="cover" /></Pressable>;
+            return (
+
+ 
+                <Pressable onPress={onImageClick}>
+                  <Image style={{ width: baseOptions.width, height: baseOptions.height }} source={item} resizeMode="contain" />
+                </Pressable>
+
+            );
           }}
-          
         />
       </View>
 
@@ -79,7 +81,6 @@ const ImageCarousel = ({ images, onSnapToItem=(index:number)=>{}, onScrollStart=
         dotStyle={{
           borderRadius: 16,
           backgroundColor: '#262626',
-        
         }}
         activeDotStyle={{
           borderRadius: 8,
