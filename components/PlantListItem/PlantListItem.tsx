@@ -48,8 +48,10 @@ export default ({ plant }: { plant: plantState }) => {
         renderMenu()
       ) : (
         <ListItem.Content>
-          <ListItem.Title>{plant.title}</ListItem.Title>
-          <ListItem.Subtitle>{createPlantInfoString(plant)}</ListItem.Subtitle>
+          <ListItem.Title>{plant.title.slice(0, 34)}</ListItem.Title>
+          <ListItem.Subtitle style={{color: "#777"}}>{plant.strain.slice(0, 40)}</ListItem.Subtitle>
+          {plant.startDate || plant.harvestDate || plant.flowerDate ? <ListItem.Subtitle style={{color: "#777"}}>{createPlantInfoString(plant)}</ListItem.Subtitle> : null}
+
         </ListItem.Content>
       )}
     </ListItem>
