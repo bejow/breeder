@@ -32,7 +32,8 @@ export const AncestorPicker = ({
 
   const renderAddAncestorButton: (search: string, setSearch: (search: string) => void) => ReactElement | undefined = (search, setSearch) => {
     // If property does not exists already: render a button to add this property
-    if (search){return (
+    if (search && !previousUsedTitlesForFlatlist.map((item) => item.title).includes(search)){
+      return (
       <TabBarIcon
         size={20}
         color="black"
