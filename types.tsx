@@ -20,7 +20,7 @@ export type RootStackParamList = {
   EditSeedModal: seedState | undefined;
   PlantScreen: folderState;
   NotFound: undefined;
-
+  ExportScreen: undefined;
   PlantDetailScreen: { id: string };
   SeedDetailScreen: { id: string };
   SeedScreen: undefined;

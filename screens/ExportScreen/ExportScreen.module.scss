@@ -1,0 +1,26 @@
+.container {
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .buttonContainer{
+    margin-bottom: 16px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .infoText {
+    text-align: center;
+    color: #444
+  }
+  .header {
+    font-size: 18;
+    font-weight: 500;
+    margin: 8px 0
+  }
+
+  .subHeader {
+    margin-top: -4px;
+    margin-bottom: 16px;
+  }

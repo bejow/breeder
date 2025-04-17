@@ -112,6 +112,7 @@ export const saveImage = async (tempImageUri: string, callback: (asset: MediaLib
 
     }
   } catch (e) {
-    alert("Error while saving image.")
+    console.log(e)
+    alert("Error while saving image." )
   }
 };

@@ -27,6 +27,7 @@ import SeedDetailScreen from '../screens/SeedDetailScreen/SeedDetailScreen';
 import CreateFolderButton from '../components/CreateFolderButton/CreateFolderButton';
 import SeedlingIcon from '../assets/icons/SeedlingIcon';
 import SeedsIcon from '../assets/icons/SeedsIcon';
+import ExportScreen from '../screens/ExportScreen/ExportScreen';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -63,6 +64,8 @@ function PlantStack() {
       />
       <Stack.Screen name="PlantDetailScreen" component={PlantDetailScreen} initialParams={{ id: '0' }} />
       <Stack.Screen name="EditPlantModal" component={EditPlantModal} />
+      <Stack.Screen name="ExportScreen" component={ExportScreen}   options={({ navigation }) => ({
+          title: 'Export',})}/>
     </Stack.Navigator>
   );
 }
