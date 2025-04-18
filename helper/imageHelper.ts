@@ -86,8 +86,8 @@ export const saveImage = async (tempImageUri: string, callback: (asset: MediaLib
 
   try {
     // Create asset from Camera
+    
     const file = await MediaLibrary.createAssetAsync(tempImageUri);
-
     //check for album existence
     var album = await MediaLibrary.getAlbumAsync(albumName);
 
@@ -107,12 +107,13 @@ export const saveImage = async (tempImageUri: string, callback: (asset: MediaLib
       }
 
       var isAdded = await MediaLibrary.addAssetsToAlbumAsync([file], album.id, true);
+
       callback(file)
       return file
 
     }
-  } catch (e) {
-    console.log(e)
-    alert("Error while saving image." )
+  } catch (e ) {
+    console.log(e.message)
+    alert("Error whilesaving image." )
   }
 };

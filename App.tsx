@@ -8,6 +8,7 @@ import { Provider } from 'react-redux'
 // Modify to add persistor
 import { store, persistor } from './redux/store';
 import Toast from 'react-native-toast-message';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
